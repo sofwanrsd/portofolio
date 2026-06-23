@@ -1,0 +1,232 @@
+# =============================================================================
+# Pipeline_CICD - Build & Deploy Portfolio_Website ke VPS (Apache)
+# -----------------------------------------------------------------------------
+# Alur (lihat design.md - bagian "Pipeline CI/CD"):
+#   push -> checkout -> npm ci -> npm test (gate) -> astro build (gate)
+#        -> rsync Build_Statis ke direktori STAGING/RELEASE di VPS via SSH
+#        -> verifikasi jumlah & ukuran total berkas (sumber vs tujuan)
+#        -> atomic swap (symlink) ke DocumentRoot
+#   Bila build gagal ATAU verifikasi tidak cocok -> deploy dibatalkan,
+#   versi lama tetap dipertahankan (symlink lama tidak diubah).
+#
+# Requirements yang dipenuhi:
+#   - 10.1 Trigger pada push ke branch utama
+#   - 10.2 Salin Build_Statis ke DocumentRoot (job timeout <= 5 menit)
+#   - 10.3 Verifikasi jumlah & ukuran berkas sebelum menandai berhasil
+#   - 10.4 Apache menyajikan versi terbaru dengan cepat (atomic symlink swap)
+#   - 10.5 Build gagal -> hentikan deploy, pertahankan versi lama
+#   - 10.6 Gagal menyalin / verifikasi gagal -> hentikan, pertahankan versi lama
+#   - 10.7 timeout-minutes <= 5
+#
+# -----------------------------------------------------------------------------
+# GitHub Secrets yang WAJIB dikonfigurasi (Settings -> Secrets and variables -> Actions):
+#   VPS_HOST                  Host / Alamat_IP_VPS tujuan deploy
+#   VPS_USER                  Username SSH untuk login ke VPS
+#   SSH_PRIVATE_KEY           Private key SSH (PEM) untuk autentikasi ke VPS
+#   VPS_TARGET_DIR            Path DocumentRoot Apache (berupa symlink yang ditukar atomik)
+#
+# GitHub Secrets OPSIONAL:
+#   VPS_PORT                  Port SSH (default 22)
+#   VPS_KNOWN_HOSTS           Isi known_hosts untuk pinning host key (lebih aman
+#                             daripada ssh-keyscan otomatis)
+#
+# CATATAN KEAMANAN:
+#   - JANGAN PERNAH menaruh kunci rahasia / service-role apa pun di sini maupun
+#     menginjeksinya ke proses build. Situs statis ini tidak membutuhkannya.
+# =============================================================================
+
+name: Build dan Deploy ke VPS
+
+# Req 10.1 - Pipeline berjalan saat ada push ke branch utama.
+on:
+  push:
+    branches:
+      - main
+      - master
+
+# Hindari deploy bertumpuk: batalkan run lama untuk ref yang sama agar tidak
+# terjadi dua atomic swap berbarengan.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    # Req 10.7 - total durasi job dibatasi <= 5 menit. Bila terlampaui, job
+    # dibatalkan sebelum/selama swap sehingga versi lama tetap dipertahankan.
+    timeout-minutes: 5
+
+    steps:
+      # --- 1. Ambil kode sumber -------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # --- 2. Siapkan Node.js 20 + cache npm -----------------------------------
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # --- 3. Install dependency secara deterministik --------------------------
+      - name: Install dependencies (npm ci)
+        run: npm ci
+
+      # --- 4. Gate: jalankan test suite ----------------------------------------
+      # Bila test gagal, langkah berikutnya (build & deploy) tidak dijalankan,
+      # sehingga versi lama di VPS tetap dipertahankan.
+      - name: Run tests
+        run: npm test
+
+      # --- 5. Gate: build statis Astro -----------------------------------------
+      # Req 10.5 - jika build gagal, step ini error dan job berhenti sebelum deploy.
+      # Konten bersumber dari src/data/seed.json (di-bundle saat build) dan proyek
+      # dari GitHub (runtime), sehingga tidak ada secret yang perlu diinjeksi.
+      - name: Build situs (astro build)
+        run: npm run build
+
+      # --- 6. Validasi hasil build ---------------------------------------------
+      # Pastikan direktori dist/ ada dan tidak kosong sebelum mencoba deploy.
+      - name: Verifikasi artefak build ada
+        run: |
+          set -euo pipefail
+          if [ ! -d dist ] || [ -z "$(ls -A dist 2>/dev/null)" ]; then
+            echo "::error::Direktori dist/ tidak ada atau kosong. Deploy dibatalkan."
+            exit 1
+          fi
+
+      # --- 7. Konfigurasikan SSH agent dengan private key ----------------------
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # --- 8. Siapkan known_hosts untuk verifikasi host key VPS ----------------
+      # Gunakan VPS_KNOWN_HOSTS bila tersedia (lebih aman); jika tidak, lakukan
+      # ssh-keyscan terhadap host tujuan.
+      - name: Tambahkan VPS ke known_hosts
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          PORT="${VPS_PORT:-22}"
+          if [ -n "${VPS_KNOWN_HOSTS:-}" ]; then
+            printf '%s\n' "$VPS_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+          else
+            ssh-keyscan -p "$PORT" -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          fi
+          chmod 600 ~/.ssh/known_hosts
+
+      # --- 9. Deploy: rsync ke staging, verifikasi, atomic swap ----------------
+      # Strategi (Req 10.2/10.3/10.4/10.6):
+      #   * Build_Statis dikirim ke direktori RELEASE baru (staging) di VPS,
+      #     terpisah dari DocumentRoot aktif.
+      #   * Hitung jumlah berkas & total byte di sumber (lokal) dan tujuan (VPS),
+      #     lalu bandingkan. Jika tidak cocok -> abort, versi lama dipertahankan.
+      #   * Bila cocok -> tukar symlink DocumentRoot ke release baru secara atomik
+      #     (rename(2) pada symlink), sehingga peralihan versi instan.
+      #   * Release lama disimpan (beberapa terakhir) untuk rollback; symlink lama
+      #     tidak pernah diubah sebelum verifikasi sukses.
+      - name: Deploy ke VPS (rsync + verifikasi + atomic swap)
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          # VPS_TARGET_DIR = path DocumentRoot Apache (akan menjadi/diperlakukan
+          # sebagai symlink menuju release aktif).
+          VPS_TARGET_DIR: ${{ secrets.VPS_TARGET_DIR }}
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          set -euo pipefail
+
+          PORT="${VPS_PORT:-22}"
+          SSH_OPTS="-p ${PORT} -o BatchMode=yes -o StrictHostKeyChecking=yes"
+          REMOTE="${VPS_USER}@${VPS_HOST}"
+
+          # Direktori dasar deploy = parent dari DocumentRoot.
+          # Releases disimpan di <base>/releases/<sha>-<run>, symlink aktif =
+          # VPS_TARGET_DIR itu sendiri.
+          DEPLOY_BASE="$(dirname "${VPS_TARGET_DIR}")"
+          RELEASE_NAME="release-${GITHUB_SHA}-${GITHUB_RUN_NUMBER}"
+          RELEASES_DIR="${DEPLOY_BASE}/releases"
+          RELEASE_DIR="${RELEASES_DIR}/${RELEASE_NAME}"
+
+          echo "==> DocumentRoot (symlink) : ${VPS_TARGET_DIR}"
+          echo "==> Release dir (staging)  : ${RELEASE_DIR}"
+
+          # 9a. Hitung metrik SUMBER (lokal): jumlah berkas & total byte.
+          SRC_COUNT="$(find dist -type f | wc -l | tr -d '[:space:]')"
+          SRC_BYTES="$(find dist -type f -printf '%s\n' | awk '{s+=$1} END {print s+0}')"
+          echo "==> Sumber : ${SRC_COUNT} berkas, ${SRC_BYTES} byte"
+
+          # 9b. Buat direktori release (staging) baru di VPS.
+          ssh ${SSH_OPTS} "${REMOTE}" "mkdir -p '${RELEASE_DIR}'"
+
+          # 9c. rsync Build_Statis ke staging. --delete agar isi staging persis
+          #     sama dengan sumber. Ini TIDAK menyentuh DocumentRoot aktif.
+          #     Req 10.6 - jika rsync gagal (exit != 0), 'set -e' menghentikan
+          #     job sebelum swap, versi lama tetap aktif.
+          rsync -az --delete \
+            -e "ssh ${SSH_OPTS}" \
+            dist/ "${REMOTE}:${RELEASE_DIR}/"
+
+          # 9d. Hitung metrik TUJUAN (VPS) pada release yang baru disalin.
+          DST_METRICS="$(ssh ${SSH_OPTS} "${REMOTE}" \
+            "count=\$(find '${RELEASE_DIR}' -type f | wc -l | tr -d '[:space:]'); \
+             bytes=\$(find '${RELEASE_DIR}' -type f -printf '%s\n' | awk '{s+=\$1} END {print s+0}'); \
+             echo \"\$count \$bytes\"")"
+          DST_COUNT="$(echo "${DST_METRICS}" | awk '{print $1}')"
+          DST_BYTES="$(echo "${DST_METRICS}" | awk '{print $2}')"
+          echo "==> Tujuan : ${DST_COUNT} berkas, ${DST_BYTES} byte"
+
+          # 9e. VERIFIKASI (Req 10.3): jumlah berkas & total byte harus identik.
+          #     Jika tidak cocok -> abort, JANGAN swap, versi lama dipertahankan (Req 10.6).
+          if [ "${SRC_COUNT}" != "${DST_COUNT}" ] || [ "${SRC_BYTES}" != "${DST_BYTES}" ]; then
+            echo "::error::Verifikasi gagal - sumber (${SRC_COUNT} berkas / ${SRC_BYTES} byte) != tujuan (${DST_COUNT} berkas / ${DST_BYTES} byte). Deploy dibatalkan, versi lama dipertahankan."
+            # Bersihkan release yang gagal agar tidak menumpuk.
+            ssh ${SSH_OPTS} "${REMOTE}" "rm -rf '${RELEASE_DIR}'" || true
+            exit 1
+          fi
+          echo "==> Verifikasi cocok. Melakukan atomic swap..."
+
+          # 9f. ATOMIC SWAP (Req 10.4): arahkan symlink DocumentRoot ke release baru.
+          #     Buat symlink sementara lalu 'mv -T' menimpa symlink lama secara
+          #     atomik (rename(2)). Jika VPS_TARGET_DIR saat ini berupa direktori
+          #     biasa (deploy pertama dari layout non-symlink), pindahkan ke backup
+          #     lebih dulu agar dapat dipulihkan.
+          ssh ${SSH_OPTS} "${REMOTE}" bash -s -- "${VPS_TARGET_DIR}" "${RELEASE_DIR}" "${DEPLOY_BASE}" "${RELEASES_DIR}" <<'REMOTE_SCRIPT'
+          set -euo pipefail
+          TARGET="$1"      # DocumentRoot (symlink aktif)
+          RELEASE="$2"     # release dir baru yang sudah terverifikasi
+          BASE="$3"        # direktori dasar deploy
+          RELEASES="$4"    # direktori penyimpanan releases
+
+          TMP_LINK="${BASE}/.current.tmp.$$"
+
+          if [ -e "${TARGET}" ] && [ ! -L "${TARGET}" ]; then
+            # Kasus migrasi: DocumentRoot masih direktori biasa. Simpan sebagai
+            # backup agar versi lama dapat dipulihkan, baru pasang symlink.
+            BACKUP="${TARGET}.backup.$(date +%s)"
+            echo "DocumentRoot adalah direktori biasa; backup ke ${BACKUP}"
+            mv -T "${TARGET}" "${BACKUP}"
+          fi
+
+          # Buat symlink sementara -> release baru, lalu timpa symlink aktif atomik.
+          ln -s "${RELEASE}" "${TMP_LINK}"
+          mv -T "${TMP_LINK}" "${TARGET}"
+          echo "Symlink ${TARGET} -> ${RELEASE}"
+
+          # Simpan hanya 5 release terbaru untuk rollback; sisanya dihapus.
+          if [ -d "${RELEASES}" ]; then
+            ls -1dt "${RELEASES}"/*/ 2>/dev/null | tail -n +6 | xargs -r rm -rf
+          fi
+          REMOTE_SCRIPT
+
+          echo "==> Deploy berhasil. Versi terbaru aktif di ${VPS_TARGET_DIR}."

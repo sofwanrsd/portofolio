@@ -1,0 +1,204 @@
+---
+// Halaman CV (/cv) — versi web dari CV Sofwan Rosidi, gaya neobrutalism.
+// Dipakai oleh tombol "Download CV" (siteConfig.cvUrl = "/cv"). Pengunjung
+// dapat menyimpan sebagai PDF lewat fungsi cetak peramban (Ctrl/Cmd+P).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
+
+const experiences = [
+  {
+    role: 'Staff Ahli Divisi Business & Development',
+    org: 'Himpunan Mahasiswa S1 Teknologi Informasi (HMIT) · Bandung',
+    period: '05/2025 – 01/2026',
+    points: [
+      'Mengembangkan inisiatif bisnis organisasi berdasarkan kebutuhan internal dan koordinasi lintas divisi.',
+      'Menjadi PIC program usaha organisasi (jaket himpunan) dari perencanaan hingga distribusi.',
+      'Berkolaborasi dengan berbagai divisi dalam pelaksanaan program kerja bersama.',
+    ],
+  },
+  {
+    role: 'Anggota Divisi Front-End WebDev',
+    org: 'Central Computer Improvement · Bandung',
+    period: '01/2025 – 12/2025',
+    points: [
+      'Mempelajari dasar pengembangan web (frontend & backend dasar).',
+      'Mengembangkan website sederhana menggunakan HTML, CSS, dan JavaScript.',
+      'Memahami konsep dasar struktur web, logika pemrograman, dan responsive design.',
+    ],
+  },
+  {
+    role: 'Mentor (Mata Kuliah Agama)',
+    org: 'Badan Mentoring · Bandung',
+    period: '09/2024 – 08/2025',
+    points: [
+      'Mendampingi mahasiswa dalam proses pembelajaran mata kuliah agama.',
+      'Membantu mahasiswa memahami materi dan kegiatan perkuliahan.',
+      'Membimbing penyampaian kultum untuk pengembangan soft skill dan public speaking.',
+    ],
+  },
+  {
+    role: 'Public Relation & Sponsorship',
+    org: 'Nihon no Matsuri · Bandung',
+    period: '12/2024 – 07/2025',
+    points: [
+      'Menjalin kerja sama dengan media partner untuk publikasi acara.',
+      'Menghubungi dan berkoordinasi dengan sponsor untuk mendukung kebutuhan event.',
+      'Menyusun dan menyampaikan proposal kerja sama kepada pihak eksternal.',
+    ],
+  },
+  {
+    role: 'Staff Muda Divisi Kewirausahaan',
+    org: 'Himpunan Mahasiswa S1 Teknologi Informasi (HMIT) · Bandung',
+    period: '09/2024 – 01/2025',
+    points: [
+      'Membantu pelaksanaan program kerja Divisi Kewirausahaan (penjualan & acara).',
+      'Mendukung tim membangun hubungan dan kolaborasi dengan pihak eksternal.',
+      'Mengelola administrasi divisi, inventaris, dan laporan keuangan secara teratur.',
+    ],
+  },
+  {
+    role: 'Internship Student',
+    org: 'CV Multimedia Pratama · Malang',
+    period: '11/2021 – 01/2022',
+    points: [
+      'Merakit dan memperbaiki komputer untuk klien.',
+      'Menyiapkan dan menginstal perangkat lunak, router, dan perangkat jaringan lainnya.',
+      'Memberikan saran dan rekomendasi teknis untuk mendukung pengembangan jaringan.',
+    ],
+  },
+];
+
+const education = [
+  {
+    title: 'S1 Teknologi Informasi',
+    org: 'Telkom University · Bandung',
+    period: 'Sekarang',
+    points: ['Mahasiswa aktif (Semester 5).'],
+  },
+  {
+    title: 'Teknik Komputer dan Jaringan',
+    org: 'SMK Budi Utomo Perak · Jombang',
+    period: '— 06/2023',
+    points: [
+      'Menyelesaikan sertifikasi MTCNA untuk konfigurasi jaringan berbasis MikroTik.',
+      'Mengonfigurasi routing, switching, IP addressing, dan basic firewall.',
+      'Menerapkan manajemen jaringan menggunakan MikroTik RouterOS.',
+    ],
+  },
+];
+
+const skills = [
+  'JavaScript', 'Golang', 'C++', 'PHP', 'Java',
+  'MikroTik', 'Routing', 'Switching', 'IP Addressing',
+  'Manajemen waktu', 'Adaptasi lingkungan', 'Penyelesaian masalah',
+];
+
+const card =
+  'border-4 border-light-text bg-light-surface p-5 shadow-brutal dark:border-dark-text dark:bg-dark-surface';
+---
+
+<BaseLayout title="CV - Sofwan Rosidi">
+  <main class="mx-auto w-full max-w-3xl px-4 py-10 text-light-text dark:text-dark-text sm:px-6">
+    <!-- Aksi (disembunyikan saat cetak) -->
+    <div class="mb-8 flex flex-wrap items-center justify-between gap-4 print:hidden">
+      <a
+        href="/"
+        class="inline-flex items-center border-2 border-light-text bg-light-surface px-4 py-2 font-display text-xs uppercase tracking-wider shadow-brutal-sm transition-all hover:-translate-x-px hover:-translate-y-px hover:bg-light-primary hover:text-white dark:border-dark-text dark:bg-dark-surface dark:text-dark-text"
+      >
+        ← Kembali
+      </a>
+      <button
+        type="button"
+        onclick="window.print()"
+        class="inline-flex items-center border-4 border-light-text bg-light-primary px-5 py-2.5 font-display text-xs uppercase tracking-wider text-light-text shadow-brutal transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none dark:border-dark-text dark:bg-dark-primary dark:text-dark-text"
+      >
+        Simpan / Cetak PDF
+      </button>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-8 border-4 border-light-text bg-light-primary p-6 shadow-brutal dark:border-dark-text dark:bg-dark-primary">
+      <h1 class="font-display text-4xl font-black uppercase tracking-tight text-light-text dark:text-dark-text sm:text-5xl">
+        Sofwan Rosidi
+      </h1>
+      <p class="mt-2 font-display text-sm uppercase tracking-wider text-light-text dark:text-dark-text">
+        {siteConfig.role}
+      </p>
+      <p class="mt-3 font-sans text-sm text-light-text dark:text-dark-text">
+        rosyidisofwan@gmail.com · +62 812-3272-9502 · Bandung, Jawa Barat
+      </p>
+    </header>
+
+    <!-- Ringkasan -->
+    <section class={`mb-6 ${card}`}>
+      <h2 class="mb-3 font-display text-h3 uppercase">Ringkasan</h2>
+      <p class="font-sans text-sm leading-relaxed text-light-text-muted dark:text-dark-text-muted">
+        Mahasiswa S1 Teknologi Informasi semester 5 Universitas Telkom dengan pengalaman
+        organisasi lebih dari 1 tahun. Memiliki ketertarikan pada Network Engineering dan
+        Infrastructure Engineering, serta dasar pemrograman Go, C++, PHP, JavaScript, dan Java.
+      </p>
+    </section>
+
+    <!-- Pengalaman -->
+    <section class="mb-6">
+      <h2 class="mb-4 inline-block border-2 border-light-text bg-light-primary px-3 py-1 font-display text-sm uppercase tracking-widest text-light-text shadow-brutal-sm dark:border-dark-text dark:bg-dark-primary dark:text-dark-text">
+        Pengalaman
+      </h2>
+      <div class="flex flex-col gap-4">
+        {experiences.map((e) => (
+          <article class={card}>
+            <div class="flex flex-wrap items-baseline justify-between gap-2">
+              <h3 class="font-display text-lg uppercase">{e.role}</h3>
+              <span class="font-sans text-xs font-bold uppercase tracking-wider text-light-text-muted dark:text-dark-text-muted">{e.period}</span>
+            </div>
+            <p class="mt-1 font-sans text-sm font-bold text-light-text dark:text-dark-text">{e.org}</p>
+            <ul class="mt-3 list-disc space-y-1 pl-5 font-sans text-sm text-light-text-muted dark:text-dark-text-muted">
+              {e.points.map((p) => <li>{p}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Pendidikan -->
+    <section class="mb-6">
+      <h2 class="mb-4 inline-block border-2 border-light-text bg-light-primary px-3 py-1 font-display text-sm uppercase tracking-widest text-light-text shadow-brutal-sm dark:border-dark-text dark:bg-dark-primary dark:text-dark-text">
+        Pendidikan
+      </h2>
+      <div class="flex flex-col gap-4">
+        {education.map((e) => (
+          <article class={card}>
+            <div class="flex flex-wrap items-baseline justify-between gap-2">
+              <h3 class="font-display text-lg uppercase">{e.title}</h3>
+              <span class="font-sans text-xs font-bold uppercase tracking-wider text-light-text-muted dark:text-dark-text-muted">{e.period}</span>
+            </div>
+            <p class="mt-1 font-sans text-sm font-bold text-light-text dark:text-dark-text">{e.org}</p>
+            <ul class="mt-3 list-disc space-y-1 pl-5 font-sans text-sm text-light-text-muted dark:text-dark-text-muted">
+              {e.points.map((p) => <li>{p}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class={`mb-6 ${card}`}>
+      <h2 class="mb-3 font-display text-h3 uppercase">Skills</h2>
+      <ul class="flex flex-wrap gap-2">
+        {skills.map((s) => (
+          <li class="border-2 border-light-text bg-light-surface px-2.5 py-1 font-display text-xs uppercase tracking-wide shadow-brutal-sm dark:border-dark-text dark:bg-dark-surface">
+            {s}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Sertifikat -->
+    <section class={card}>
+      <h2 class="mb-3 font-display text-h3 uppercase">Sertifikat</h2>
+      <p class="font-sans text-sm text-light-text-muted dark:text-dark-text-muted">
+        MTCNA — MikroTik Certified Network Associate · 2305NA3106
+      </p>
+    </section>
+  </main>
+</BaseLayout>

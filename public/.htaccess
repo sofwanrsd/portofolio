@@ -1,0 +1,52 @@
+# ============================================================================
+# .htaccess - Konfigurasi Apache untuk Portfolio_Website (Build_Statis Astro)
+# Berkas ini disalin oleh Astro dari public/ ke direktori build/DocumentRoot.
+# Catatan: agar berkas ini dihormati, vhost harus mengaktifkan "AllowOverride All"
+# pada direktori DocumentRoot (lihat deploy/apache-vhost.conf).
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Halaman kesalahan 404 kustom (Req 8.2)
+# Menyajikan /404.html yang dihasilkan Astro saat sumber daya tidak ditemukan.
+# ----------------------------------------------------------------------------
+ErrorDocument 404 /404.html
+
+# ----------------------------------------------------------------------------
+# Kompresi berkas teks via mod_deflate (Req 8.4)
+# Mengirim HTML, CSS, dan JavaScript dalam bentuk terkompresi kepada klien
+# yang menyatakan dukungan kompresi (Accept-Encoding).
+# ----------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Fallback routing klien untuk Halaman_Admin SPA (/admin)
+# Astro menghasilkan /admin/index.html. Routing admin berbasis state (bukan
+# sub-rute server), sehingga setiap permintaan di bawah /admin yang BUKAN
+# berkas/direktori nyata dilayani oleh /admin/index.html agar refresh pada
+# path dalam tetap berfungsi. (Req 11.1 - mendukung penyajian statis)
+# ----------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Jangan rewrite jika request menunjuk ke berkas nyata
+  RewriteCond %{REQUEST_FILENAME} !-f
+  # Jangan rewrite jika request menunjuk ke direktori nyata
+  RewriteCond %{REQUEST_FILENAME} !-d
+  # Hanya untuk path di bawah /admin
+  RewriteCond %{REQUEST_URI} ^/admin
+  RewriteRule . /admin/index.html [L]
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Fase awal HTTP: TIDAK ada pengalihan ke HTTPS (Req 9.1, 9.2)
+# Situs diakses via Alamat_IP_VPS dengan HTTP. Blok redirect HTTPS sengaja
+# DIHILANGKAN pada fase ini dan akan ditambahkan setelah domain + TLS tersedia
+# (lihat deploy/apache-vhost.conf, Req 9.3).
+# ----------------------------------------------------------------------------

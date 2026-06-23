@@ -1,0 +1,216 @@
+{
+  "profile": {
+    "id": "00000000-0000-0000-0000-000000000001",
+    "name": "Sofwan Rosidi",
+    "photo_url": "https://avatars.githubusercontent.com/u/181095365?v=4",
+    "description": "Mahasiswa S1 Teknologi Informasi semester 5 Universitas Telkom dengan pengalaman organisasi lebih dari 1 tahun. Memiliki ketertarikan pada Network Engineering dan Infrastructure Engineering, serta dasar pemrograman Go, C++, PHP, JavaScript, dan Java. Bersertifikat MTCNA (MikroTik Certified Network Associate).",
+    "is_public": true
+  },
+  "skills": [
+    { "id": "10000000-0000-0000-0000-000000000001", "name": "Golang", "category": "language", "level": 3, "sort_order": 1, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000002", "name": "JavaScript", "category": "language", "level": 3, "sort_order": 2, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000003", "name": "C++", "category": "language", "level": 3, "sort_order": 3, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000004", "name": "PHP", "category": "language", "level": 3, "sort_order": 4, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000005", "name": "Java", "category": "language", "level": 2, "sort_order": 5, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000006", "name": "HTML & CSS", "category": "framework", "level": 3, "sort_order": 6, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000007", "name": "MikroTik RouterOS", "category": "tool", "level": 4, "sort_order": 7, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000008", "name": "Routing", "category": "tool", "level": 4, "sort_order": 8, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000009", "name": "Switching", "category": "tool", "level": 4, "sort_order": 9, "is_public": true },
+    { "id": "10000000-0000-0000-0000-00000000000a", "name": "IP Addressing", "category": "tool", "level": 4, "sort_order": 10, "is_public": true },
+    { "id": "10000000-0000-0000-0000-00000000000b", "name": "Firewall Dasar", "category": "tool", "level": 3, "sort_order": 11, "is_public": true },
+    { "id": "10000000-0000-0000-0000-00000000000c", "name": "Manajemen Waktu", "category": "soft", "level": null, "sort_order": 12, "is_public": true },
+    { "id": "10000000-0000-0000-0000-00000000000d", "name": "Adaptasi Lingkungan", "category": "soft", "level": null, "sort_order": 13, "is_public": true },
+    { "id": "10000000-0000-0000-0000-00000000000e", "name": "Penyelesaian Masalah", "category": "soft", "level": null, "sort_order": 14, "is_public": true }
+  ],
+  "projects": [
+    {
+      "id": "20000000-0000-0000-0000-000000000001",
+      "title": "Binance Pay Personal",
+      "description": "Aplikasi web untuk memudahkan pembayaran personal melalui Binance Pay, dengan antarmuka yang ringkas dan responsif.",
+      "tech_stack": ["JavaScript", "Vercel"],
+      "github_url": "https://github.com/sofwanrsd/binance-pay-personal",
+      "demo_url": "https://binance-pay-personal.vercel.app",
+      "preview_image_url": "https://opengraph.githubassets.com/1/sofwanrsd/binance-pay-personal",
+      "category": "web",
+      "sort_order": 1,
+      "is_public": true
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000002",
+      "title": "Portal Taveve",
+      "description": "Portal web Taveve yang dibangun dengan TypeScript untuk menyajikan informasi dan layanan secara terpusat.",
+      "tech_stack": ["TypeScript", "Vercel"],
+      "github_url": "https://github.com/sofwanrsd/portal-taveve",
+      "demo_url": "https://portal-taveve.vercel.app",
+      "preview_image_url": "https://opengraph.githubassets.com/1/sofwanrsd/portal-taveve",
+      "category": "web",
+      "sort_order": 2,
+      "is_public": true
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000003",
+      "title": "Portal Dede",
+      "description": "Portal web personal Dede dengan TypeScript, menampilkan tautan dan informasi dalam satu halaman yang rapi.",
+      "tech_stack": ["TypeScript", "Vercel"],
+      "github_url": "https://github.com/sofwanrsd/portal-dede",
+      "demo_url": "https://portal-dede.vercel.app",
+      "preview_image_url": "https://opengraph.githubassets.com/1/sofwanrsd/portal-dede",
+      "category": "web",
+      "sort_order": 3,
+      "is_public": true
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000004",
+      "title": "Qrisin",
+      "description": "Aplikasi web untuk membuat dan mengelola pembayaran berbasis QRIS dengan alur yang sederhana.",
+      "tech_stack": ["JavaScript", "Vercel"],
+      "github_url": "https://github.com/sofwanrsd/qrisin",
+      "demo_url": "https://qrisin-three.vercel.app",
+      "preview_image_url": "https://opengraph.githubassets.com/1/sofwanrsd/qrisin",
+      "category": "web",
+      "sort_order": 4,
+      "is_public": true
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000005",
+      "title": "Tavevestore",
+      "description": "Aplikasi web toko premium (Tavevestore v2) dengan katalog produk dan pengalaman belanja yang modern.",
+      "tech_stack": ["JavaScript", "Vercel"],
+      "github_url": "https://github.com/sofwanrsd/tavevestore-v2",
+      "demo_url": "https://web-app-premium.vercel.app",
+      "preview_image_url": "https://opengraph.githubassets.com/1/sofwanrsd/tavevestore-v2",
+      "category": "web",
+      "sort_order": 5,
+      "is_public": true
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000006",
+      "title": "Life Algorithm",
+      "description": "Website belajar HTML, CSS, dan JavaScript dengan teks animasi untuk melatih dasar pemrograman web.",
+      "tech_stack": ["JavaScript", "HTML", "CSS"],
+      "github_url": "https://github.com/sofwanrsd/Life-Algorithm",
+      "demo_url": null,
+      "preview_image_url": "https://opengraph.githubassets.com/1/sofwanrsd/Life-Algorithm",
+      "category": "web",
+      "sort_order": 6,
+      "is_public": true
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000007",
+      "title": "Konfigurasi Jaringan MikroTik",
+      "description": "Implementasi konfigurasi jaringan berbasis MikroTik RouterOS: routing, switching, IP addressing, dan basic firewall. Bagian dari sertifikasi MTCNA.",
+      "tech_stack": ["MikroTik", "RouterOS", "Routing", "Switching", "Firewall"],
+      "github_url": "#",
+      "demo_url": null,
+      "preview_image_url": null,
+      "category": "other",
+      "sort_order": 7,
+      "is_public": true
+    },
+    {
+      "id": "20000000-0000-0000-0000-000000000008",
+      "title": "TUBES Struktur Data — Penyewaan Buku",
+      "description": "Tugas besar mata kuliah Struktur Data: aplikasi penyewaan buku berbasis C++ yang menerapkan struktur data untuk pengelolaan koleksi dan transaksi.",
+      "tech_stack": ["C++"],
+      "github_url": "https://github.com/sofwanrsd/TUBES-STD-Penyewaan-Buku",
+      "demo_url": null,
+      "preview_image_url": "https://opengraph.githubassets.com/1/sofwanrsd/TUBES-STD-Penyewaan-Buku",
+      "category": "desktop",
+      "sort_order": 8,
+      "is_public": true
+    }
+  ],
+  "history": [
+    {
+      "id": "30000000-0000-0000-0000-000000000001",
+      "role_title": "Staff Ahli Divisi Business & Development",
+      "institution": "Himpunan Mahasiswa S1 Teknologi Informasi (HMIT)",
+      "start_date": "2025-05-01",
+      "end_date": "2026-01-01",
+      "description": "Mengembangkan inisiatif bisnis organisasi, menjadi PIC program usaha (jaket himpunan) dari perencanaan hingga distribusi, dan berkolaborasi lintas divisi.",
+      "kind": "experience",
+      "is_public": true
+    },
+    {
+      "id": "30000000-0000-0000-0000-000000000002",
+      "role_title": "Anggota Divisi Front-End WebDev",
+      "institution": "Central Computer Improvement",
+      "start_date": "2025-01-01",
+      "end_date": "2025-12-01",
+      "description": "Mempelajari dasar pengembangan web, membangun website sederhana (HTML, CSS, JavaScript), dan memahami struktur web, logika pemrograman, serta responsive design.",
+      "kind": "experience",
+      "is_public": true
+    },
+    {
+      "id": "30000000-0000-0000-0000-000000000003",
+      "role_title": "Mentor (Mata Kuliah Agama)",
+      "institution": "Badan Mentoring",
+      "start_date": "2024-09-01",
+      "end_date": "2025-08-01",
+      "description": "Mendampingi mahasiswa memahami materi perkuliahan dan membimbing penyampaian kultum untuk pengembangan soft skill dan public speaking.",
+      "kind": "experience",
+      "is_public": true
+    },
+    {
+      "id": "30000000-0000-0000-0000-000000000004",
+      "role_title": "Public Relation & Sponsorship",
+      "institution": "Nihon no Matsuri",
+      "start_date": "2024-12-01",
+      "end_date": "2025-07-01",
+      "description": "Menjalin kerja sama dengan media partner, berkoordinasi dengan sponsor, serta menyusun dan menyampaikan proposal kerja sama kepada pihak eksternal.",
+      "kind": "experience",
+      "is_public": true
+    },
+    {
+      "id": "30000000-0000-0000-0000-000000000005",
+      "role_title": "Staff Muda Divisi Kewirausahaan",
+      "institution": "Himpunan Mahasiswa S1 Teknologi Informasi (HMIT)",
+      "start_date": "2024-09-01",
+      "end_date": "2025-01-01",
+      "description": "Membantu pelaksanaan program kerja kewirausahaan (penjualan & acara), membangun kolaborasi eksternal, serta mengelola administrasi, inventaris, dan laporan keuangan divisi.",
+      "kind": "experience",
+      "is_public": true
+    },
+    {
+      "id": "30000000-0000-0000-0000-000000000006",
+      "role_title": "S1 Teknologi Informasi",
+      "institution": "Universitas Telkom — Bandung",
+      "start_date": "2023-09-01",
+      "end_date": null,
+      "description": "Mahasiswa aktif semester 5, fokus pada teknologi informasi, jaringan, dan infrastruktur.",
+      "kind": "education",
+      "is_public": true
+    },
+    {
+      "id": "30000000-0000-0000-0000-000000000007",
+      "role_title": "Internship Student",
+      "institution": "CV Multimedia Pratama — Malang",
+      "start_date": "2021-11-01",
+      "end_date": "2022-01-01",
+      "description": "Merakit dan memperbaiki komputer klien, menginstal perangkat lunak/router/perangkat jaringan, serta memberikan rekomendasi teknis untuk pengembangan jaringan.",
+      "kind": "experience",
+      "is_public": true
+    },
+    {
+      "id": "30000000-0000-0000-0000-000000000008",
+      "role_title": "Teknik Komputer dan Jaringan (SMK)",
+      "institution": "SMK Budi Utomo Perak — Jombang",
+      "start_date": "2020-07-01",
+      "end_date": "2023-06-01",
+      "description": "Menyelesaikan sertifikasi MTCNA, konfigurasi routing/switching/IP addressing dan basic firewall, serta manajemen jaringan dengan MikroTik RouterOS.",
+      "kind": "education",
+      "is_public": true
+    }
+  ],
+  "certifications": [
+    {
+      "id": "40000000-0000-0000-0000-000000000001",
+      "title": "MTCNA — MikroTik Certified Network Associate",
+      "issuer": "MikroTik · No. 2305NA3106",
+      "year": "2023",
+      "url": null,
+      "sort_order": 1,
+      "is_public": true
+    }
+  ]
+}

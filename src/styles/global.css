@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Lapisan base neobrutalism (Req desain): body memakai font Kadwa, heading
+  memakai Archivo 900 huruf kapital dengan letter-spacing rapat, sudut tajam
+  (radius 0). Warna dasar putih/hitam pada Mode_Tema terang; pada Mode_Tema
+  gelap latar menjadi #151515 dengan teks putih, aksen kuning tetap.
+*/
+@layer base {
+  html {
+    font-family: theme('fontFamily.sans');
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: theme('fontFamily.display');
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  /* Cincin fokus neobrutalism yang konsisten dan kontras tinggi. */
+  :focus-visible {
+    outline: 3px solid theme('colors.accent');
+    outline-offset: 2px;
+  }
+}
+
+/*
+  Komponen utilitas neobrutalism yang dipakai ulang lintas island. Memakai
+  border 4px hitam, sudut 0, dan hard-shadow. Varian gelap membalik warna
+  border/shadow menjadi putih agar tetap terbaca di atas latar #151515.
+*/
+@layer components {
+  .nb-border {
+    @apply border-4 border-black dark:border-white;
+  }
+
+  .nb-card {
+    @apply border-4 border-black bg-white text-black shadow-brutal dark:border-white dark:bg-ink dark:text-white;
+  }
+  /* Pada Mode_Tema gelap, balikkan offset shadow menjadi terang agar terbaca
+     di atas latar gelap (variant dark: untuk box-shadow kustom tidak dapat
+     di-@apply, sehingga ditulis sebagai CSS biasa dengan nilai literal). */
+  :is(.dark .nb-card) {
+    box-shadow: 4px 4px 0 0 theme('colors.dark.text');
+  }
+
+  /* Interaksi hover: geser elemen ke offset shadow lalu hilangkan shadow. */
+  .nb-interactive {
+    @apply transition-[transform,box-shadow] duration-150 ease-out hover:translate-x-[6px] hover:translate-y-[6px] hover:shadow-none;
+  }
+
+  .nb-btn {
+    @apply inline-flex items-center justify-center gap-2 border-4 border-black px-5 py-3 text-sm font-black uppercase tracking-wider shadow-brutal-sm transition-[transform,box-shadow] duration-150 ease-out hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none focus:outline-none focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-accent dark:border-white;
+  }
+  :is(.dark .nb-btn) {
+    box-shadow: 2px 2px 0 0 theme('colors.dark.text');
+  }
+  :is(.dark .nb-btn:hover) {
+    box-shadow: none;
+  }
+
+  .nb-btn-solid {
+    @apply nb-btn bg-black text-white dark:bg-white dark:text-ink;
+  }
+
+  .nb-btn-outline {
+    @apply nb-btn bg-white text-black dark:bg-ink dark:text-white;
+  }
+}

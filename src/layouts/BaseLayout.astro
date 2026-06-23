@@ -1,0 +1,83 @@
+---
+// BaseLayout — kerangka <html>/<head>/<body> bersama untuk seluruh halaman.
+//
+// Tanggung jawab (Req 17, 18):
+//   - Merender <head> statis dari `site.ts` melalui util render Meta_Tag
+//     (`renderMetaTags`): <title>, meta description, Open_Graph, Twitter card,
+//     dan favicon. Tag hanya dirender bila nilainya dikonfigurasi (Req 18.5).
+//   - Menjalankan skrip tema inline blocking sebelum render untuk mencegah
+//     FOUC: menerapkan kelas `dark` pada <html> berdasarkan preferensi
+//     tersimpan lalu `prefers-color-scheme` (Req 17.2, 17.5).
+//   - Menyediakan <slot /> untuk konten halaman.
+//
+// Komponen ini dipakai oleh `index.astro`, `admin/index.astro`, dan `404.astro`.
+
+import '../styles/global.css';
+import { siteConfig } from '../config/site';
+import { renderMetaTags } from '../lib/meta';
+
+export interface Props {
+  /** Override judul halaman; bila tidak diberikan memakai `siteConfig.title`. */
+  title?: string;
+  /** Override deskripsi halaman; bila tidak diberikan memakai konfigurasi. */
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+// Bangun konfigurasi efektif untuk halaman ini lalu hasilkan Meta_Tag.
+// Hanya nilai terisi yang menghasilkan tag (Req 18.5).
+const pageConfig = {
+  ...siteConfig,
+  ...(title ? { title } : {}),
+  ...(description ? { description } : {}),
+};
+
+const metaTags = renderMetaTags(pageConfig);
+---
+
+<!doctype html>
+<html lang="id" class="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {/* Skrip tema anti-FOUC: jalankan sebelum render konten (Req 17.2, 17.5). */}
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = stored === 'light' || stored === 'dark' ? stored : (sysDark ? 'dark' : 'light');
+          document.documentElement.classList.toggle('dark', theme === 'dark');
+        } catch (e) {
+          /* Abaikan: biarkan mode terang default bila localStorage tidak tersedia. */
+        }
+      })();
+    </script>
+
+    {/* Meta_Tag terkonfigurasi dari site.ts (Req 18.1–18.5). */}
+    {metaTags.map((t) =>
+      t.tag === 'title' ? (
+        <title>{t.text}</title>
+      ) : t.tag === 'meta' ? (
+        <meta {...t.attrs} />
+      ) : (
+        <link {...t.attrs} />
+      ),
+    )}
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    {/* Font neobrutalism: Space Grotesk (body) + Archivo Black (heading). */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap"
+    />
+  </head>
+  <body class="min-h-screen bg-light-background font-sans text-light-text antialiased dark:bg-dark-background dark:text-dark-text">
+    <slot />
+  </body>
+</html>

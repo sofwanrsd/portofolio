@@ -1,0 +1,53 @@
+---
+// Halaman Admin (`/admin`) — placeholder statis.
+//
+// Mode data saat ini: JSON (`src/data/seed.json`) sebagai sumber tunggal
+// kebenaran konten, tanpa backend untuk menyimpan perubahan. Karena itu panel
+// admin/editor + login DINONAKTIFKAN sementara dan akan dibangun ulang di atas
+// backend MongoDB dengan login kustom. Rute ini tetap valid agar tautan tidak
+// menghasilkan 404.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Admin">
+  <main class="mx-auto w-full max-w-content px-4 py-16 sm:px-6 lg:px-8">
+    <section
+      aria-labelledby="admin-heading"
+      class="border-4 border-light-text bg-light-surface p-6 text-light-text shadow-brutal dark:border-dark-text dark:bg-dark-surface dark:text-dark-text sm:p-10"
+    >
+      <p
+        class="mb-6 inline-block border-2 border-light-text bg-accent px-3 py-1 font-display text-sm font-black uppercase tracking-widest text-black shadow-brutal dark:border-dark-text dark:text-black"
+      >
+        Admin
+      </p>
+
+      <h1
+        id="admin-heading"
+        class="font-display text-4xl font-black uppercase leading-[0.95] tracking-tight sm:text-6xl"
+      >
+        Editor belum tersedia
+      </h1>
+
+      <p class="mt-6 max-w-2xl font-sans text-base leading-relaxed text-light-text-muted dark:text-dark-text-muted">
+        Saat ini konten situs bersumber dari berkas JSON sebagai sumber tunggal
+        kebenaran, sehingga belum ada backend untuk menyimpan perubahan. Panel
+        admin/editor dan login dinonaktifkan sementara di mode JSON ini.
+      </p>
+
+      <p class="mt-4 max-w-2xl font-sans text-base leading-relaxed text-light-text-muted dark:text-dark-text-muted">
+        Fitur ini akan aktif kembali setelah backend MongoDB dan login kustom
+        tersambung. Untuk sementara, perubahan konten dilakukan langsung pada
+        berkas <code class="font-mono">src/data/seed.json</code>.
+      </p>
+
+      <div class="mt-8">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center border-4 border-light-text bg-accent px-6 py-3 font-display text-sm font-black uppercase tracking-wider text-black shadow-brutal transition-[transform,box-shadow] duration-150 ease-out hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none focus:outline-none focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-light-primary dark:border-dark-text dark:text-black"
+        >
+          Kembali ke Beranda
+        </a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

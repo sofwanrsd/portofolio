@@ -1,0 +1,49 @@
+---
+// Footer — komponen statis (gaya neobrutalism).
+//
+// Menampilkan baris hak cipta "© <tahun> <NAMA>" beserta tautan media
+// profesional Pemilik (siteConfig.socialLinks). Setiap tautan dibuka di tab
+// baru dengan aman menggunakan target="_blank" dan rel="noopener noreferrer".
+//
+// Bersifat sepenuhnya statis (tanpa JS runtime). Mengambil nama, tahun, dan
+// tautan sosial dari konfigurasi situs.
+
+import { siteConfig } from '../../config/site';
+
+const ownerName = siteConfig.ownerName;
+const socialLinks = siteConfig.socialLinks ?? [];
+const currentYear = new Date().getFullYear();
+---
+
+<footer
+  class="border-t-4 border-light-text bg-light-surface dark:border-dark-text dark:bg-dark-surface"
+>
+  <div
+    class="mx-auto flex w-full max-w-content flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row sm:px-6 lg:px-8"
+  >
+    <p
+      class="font-display text-sm uppercase tracking-wider text-light-text dark:text-dark-text"
+    >
+      © {currentYear} {ownerName}
+    </p>
+
+    {
+      socialLinks.length > 0 && (
+        <ul aria-label="Tautan media profesional" class="flex flex-wrap gap-2">
+          {socialLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center border-2 border-light-text bg-light-surface px-3 py-1.5 font-display text-xs uppercase tracking-wider text-light-text shadow-brutal-sm transition-all hover:-translate-x-px hover:-translate-y-px hover:bg-light-primary hover:text-white focus:outline-none focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-light-primary dark:border-dark-text dark:bg-dark-surface dark:text-dark-text dark:hover:text-white"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</footer>

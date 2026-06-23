@@ -1,0 +1,63 @@
+---
+// Halaman utama — merakit seluruh bagian publik (gaya neobrutalism).
+//
+// Urutan kanonik: NavBar -> Hero + Tentang -> Keahlian -> Proyek -> Riwayat ->
+// Kontak (+ Footer). NavBar sudah memuat Kontrol_Tema (ThemeToggle) dan tautan
+// sosial di sisi kanan, sehingga tidak ada ThemeToggle terpisah di halaman ini.
+//
+// Rekonsiliasi id bagian untuk scroll-spy NavBar (CRITICAL): NAV_LINKS
+// (src/lib/nav.ts) memakai id about/skills/projects/history/contact. Setiap
+// island/komponen dibungkus <section> bertanda id tersebut agar
+// document.getElementById(navId) untuk scroll-spy + smooth scroll berfungsi.
+// Contact.astro sudah membawa id="contact" sendiri sehingga tidak dibungkus.
+//
+// Tata letak responsif: <main> dibuat penuh-lebar dengan overflow-x-hidden
+// (mencegah gulir horizontal sejak 320px). Setiap island sudah memusatkan diri
+// dengan `mx-auto max-w-content` dan padding horizontal masing-masing.
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/public/NavBar.tsx';
+import HeroIsland from '../components/public/HeroIsland.tsx';
+import AboutIsland from '../components/public/AboutIsland.tsx';
+import SkillsIsland from '../components/public/SkillsIsland.tsx';
+import ProjectsIsland from '../components/public/ProjectsIsland.tsx';
+import HistoryIsland from '../components/public/HistoryIsland.tsx';
+import CertificationsIsland from '../components/public/CertificationsIsland.tsx';
+import Contact from '../components/public/Contact.astro';
+---
+
+<BaseLayout>
+  {/* Menu_Navigasi sticky (sudah memuat ThemeToggle + ikon sosial). */}
+  <NavBar client:load />
+
+  <main class="w-full overflow-x-hidden">
+    {/* Bagian Tentang: Hero (above the fold) + narasi About. */}
+    <section id="about">
+      <HeroIsland client:load />
+      <AboutIsland client:load />
+    </section>
+
+    {/* Bagian Keahlian / Tools. */}
+    <section id="skills">
+      <SkillsIsland client:load />
+    </section>
+
+    {/* Bagian Proyek (dengan filter kategori). */}
+    <section id="projects">
+      <ProjectsIsland client:load />
+    </section>
+
+    {/* Bagian Riwayat (timeline). */}
+    <section id="history">
+      <HistoryIsland client:load />
+    </section>
+
+    {/* Bagian Sertifikat (island; membawa id="certifications"). */}
+    <section id="certifications">
+      <CertificationsIsland client:load />
+    </section>
+
+    {/* Bagian Kontak (statis; membawa id="contact" dan footer). */}
+    <Contact />
+  </main>
+</BaseLayout>
