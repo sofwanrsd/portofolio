@@ -7,10 +7,10 @@
     "is_public": true
   },
   "skills": [
-    { "id": "10000000-0000-0000-0000-000000000001", "name": "Golang", "category": "language", "level": 3, "sort_order": 1, "is_public": true },
-    { "id": "10000000-0000-0000-0000-000000000002", "name": "JavaScript", "category": "language", "level": 3, "sort_order": 2, "is_public": true },
-    { "id": "10000000-0000-0000-0000-000000000003", "name": "C++", "category": "language", "level": 3, "sort_order": 3, "is_public": true },
-    { "id": "10000000-0000-0000-0000-000000000004", "name": "PHP", "category": "language", "level": 3, "sort_order": 4, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000001", "name": "Golang", "category": "language", "level": 1, "sort_order": 1, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000002", "name": "JavaScript", "category": "language", "level": 1, "sort_order": 2, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000003", "name": "C++", "category": "language", "level": 1, "sort_order": 3, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000004", "name": "PHP", "category": "language", "level": 1, "sort_order": 4, "is_public": true },
     { "id": "10000000-0000-0000-0000-000000000007", "name": "MikroTik", "category": "tool", "level": 4, "sort_order": 5, "is_public": true },
     { "id": "10000000-0000-0000-0000-000000000008", "name": "Routing", "category": "tool", "level": 4, "sort_order": 6, "is_public": true },
     { "id": "10000000-0000-0000-0000-000000000009", "name": "Switching", "category": "tool", "level": 4, "sort_order": 7, "is_public": true },
