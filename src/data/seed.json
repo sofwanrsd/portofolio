@@ -3,7 +3,7 @@
     "id": "00000000-0000-0000-0000-000000000001",
     "name": "Sofwan Rosidi",
     "photo_url": "https://avatars.githubusercontent.com/u/181095365?v=4",
-    "description": "Mahasiswa S1 Teknologi Informasi semester 5 Universitas Telkom dengan pengalaman organisasi lebih dari 1 tahun. Memiliki ketertarikan pada Network Engineering dan Infrastructure Engineering, serta dasar pemrograman Go, C++, PHP, JavaScript, dan Java. Bersertifikat MTCNA (MikroTik Certified Network Associate).",
+    "description": "Mahasiswa S1 Teknologi Informasi semester 6 Universitas Telkom dengan pengalaman organisasi lebih dari 1 tahun. Memiliki ketertarikan pada Network Engineering dan Infrastructure Engineering, serta dasar pemrograman Go, C++, PHP, JavaScript, dan Java.",
     "is_public": true
   },
   "skills": [
@@ -11,16 +11,13 @@
     { "id": "10000000-0000-0000-0000-000000000002", "name": "JavaScript", "category": "language", "level": 3, "sort_order": 2, "is_public": true },
     { "id": "10000000-0000-0000-0000-000000000003", "name": "C++", "category": "language", "level": 3, "sort_order": 3, "is_public": true },
     { "id": "10000000-0000-0000-0000-000000000004", "name": "PHP", "category": "language", "level": 3, "sort_order": 4, "is_public": true },
-    { "id": "10000000-0000-0000-0000-000000000005", "name": "Java", "category": "language", "level": 2, "sort_order": 5, "is_public": true },
-    { "id": "10000000-0000-0000-0000-000000000006", "name": "HTML & CSS", "category": "framework", "level": 3, "sort_order": 6, "is_public": true },
-    { "id": "10000000-0000-0000-0000-000000000007", "name": "MikroTik RouterOS", "category": "tool", "level": 4, "sort_order": 7, "is_public": true },
-    { "id": "10000000-0000-0000-0000-000000000008", "name": "Routing", "category": "tool", "level": 4, "sort_order": 8, "is_public": true },
-    { "id": "10000000-0000-0000-0000-000000000009", "name": "Switching", "category": "tool", "level": 4, "sort_order": 9, "is_public": true },
-    { "id": "10000000-0000-0000-0000-00000000000a", "name": "IP Addressing", "category": "tool", "level": 4, "sort_order": 10, "is_public": true },
-    { "id": "10000000-0000-0000-0000-00000000000b", "name": "Firewall Dasar", "category": "tool", "level": 3, "sort_order": 11, "is_public": true },
-    { "id": "10000000-0000-0000-0000-00000000000c", "name": "Manajemen Waktu", "category": "soft", "level": null, "sort_order": 12, "is_public": true },
-    { "id": "10000000-0000-0000-0000-00000000000d", "name": "Adaptasi Lingkungan", "category": "soft", "level": null, "sort_order": 13, "is_public": true },
-    { "id": "10000000-0000-0000-0000-00000000000e", "name": "Penyelesaian Masalah", "category": "soft", "level": null, "sort_order": 14, "is_public": true }
+    { "id": "10000000-0000-0000-0000-000000000007", "name": "MikroTik", "category": "tool", "level": 4, "sort_order": 5, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000008", "name": "Routing", "category": "tool", "level": 4, "sort_order": 6, "is_public": true },
+    { "id": "10000000-0000-0000-0000-000000000009", "name": "Switching", "category": "tool", "level": 4, "sort_order": 7, "is_public": true },
+    { "id": "10000000-0000-0000-0000-00000000000a", "name": "IP Addressing", "category": "tool", "level": 4, "sort_order": 8, "is_public": true },
+    { "id": "10000000-0000-0000-0000-00000000000c", "name": "Manajemen Waktu", "category": "soft", "level": null, "sort_order": 9, "is_public": true },
+    { "id": "10000000-0000-0000-0000-00000000000d", "name": "Adaptasi Lingkungan", "category": "soft", "level": null, "sort_order": 10, "is_public": true },
+    { "id": "10000000-0000-0000-0000-00000000000e", "name": "Penyelesaian Masalah", "category": "soft", "level": null, "sort_order": 11, "is_public": true }
   ],
   "projects": [
     {
@@ -122,22 +119,22 @@
   ],
   "history": [
     {
+      "id": "30000000-0000-0000-0000-000000000009",
+      "role_title": "Asisten Praktikum Mata Kuliah Jaringan Komputer",
+      "institution": "Informatics Lab Telkom University — Bandung",
+      "start_date": "2026-02-01",
+      "end_date": null,
+      "description": "Mendampingi mahasiswa dalam pelaksanaan praktikum mata kuliah Jaringan Komputer, menyampaikan modul praktikum kepada peserta lab, serta melakukan evaluasi dan penilaian terhadap tugas praktikum mahasiswa.",
+      "kind": "experience",
+      "is_public": true
+    },
+    {
       "id": "30000000-0000-0000-0000-000000000001",
       "role_title": "Staff Ahli Divisi Business & Development",
       "institution": "Himpunan Mahasiswa S1 Teknologi Informasi (HMIT)",
       "start_date": "2025-05-01",
       "end_date": "2026-01-01",
       "description": "Mengembangkan inisiatif bisnis organisasi, menjadi PIC program usaha (jaket himpunan) dari perencanaan hingga distribusi, dan berkolaborasi lintas divisi.",
-      "kind": "experience",
-      "is_public": true
-    },
-    {
-      "id": "30000000-0000-0000-0000-000000000002",
-      "role_title": "Anggota Divisi Front-End WebDev",
-      "institution": "Central Computer Improvement",
-      "start_date": "2025-01-01",
-      "end_date": "2025-12-01",
-      "description": "Mempelajari dasar pengembangan web, membangun website sederhana (HTML, CSS, JavaScript), dan memahami struktur web, logika pemrograman, serta responsive design.",
       "kind": "experience",
       "is_public": true
     },
@@ -177,7 +174,7 @@
       "institution": "Universitas Telkom — Bandung",
       "start_date": "2023-09-01",
       "end_date": null,
-      "description": "Mahasiswa aktif semester 5, fokus pada teknologi informasi, jaringan, dan infrastruktur.",
+      "description": "Mahasiswa aktif semester 6, fokus pada teknologi informasi, jaringan, dan infrastruktur.",
       "kind": "education",
       "is_public": true
     },
