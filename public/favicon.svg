@@ -1,4 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="12" fill="#0f172a" />
-  <text x="50%" y="50%" dy=".35em" text-anchor="middle" font-family="monospace" font-size="34" fill="#38bdf8">P</text>
+  <!-- Bayangan keras khas neobrutalism -->
+  <rect x="10" y="12" width="50" height="50" fill="#1A1A1A" />
+  <!-- Kotak utama: aksen oranye + border tebal -->
+  <rect x="4" y="4" width="50" height="50" fill="#FF6A00" stroke="#1A1A1A" stroke-width="5" />
+  <!-- Inisial "S" tebal -->
+  <text x="29" y="30" dy=".35em" text-anchor="middle"
+        font-family="'Archivo Black', 'Arial Black', system-ui, sans-serif"
+        font-weight="900" font-size="34" fill="#1A1A1A">S</text>
 </svg>
