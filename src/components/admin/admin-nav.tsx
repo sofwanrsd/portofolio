@@ -72,7 +72,7 @@ export function AdminNav({ userName }: { userName: string }) {
             href="/"
             className="block px-3 text-[12.5px] text-[var(--muted)] transition-colors hover:text-[var(--fg)]"
           >
-            Lihat website ↗
+            Lihat website
           </Link>
           <div className="flex items-center justify-between gap-2 px-3">
             <span className="truncate text-[12.5px] text-[var(--muted)]">

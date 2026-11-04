@@ -1,4 +1,4 @@
-# Arsitektur Sistem — Portfolio CMS & Showcase Pribadi
+# Arsitektur Sistem: Portfolio CMS & Showcase Pribadi
 
 | Atribut | Nilai |
 | --- | --- |
@@ -13,13 +13,13 @@
 
 ## 1. Ringkasan Eksekutif
 
-Sistem ini adalah **monorepo satu aplikasi Next.js** yang berjalan sepenuhnya di Vercel dengan database terkelola di Neon. Tidak ada server aplikasi yang harus dioperasikan sendiri: tidak ada VPS, tidak ada container yang di-build manual, tidak ada cron worker terpisah. Seluruh siklus hidup aplikasi — build, preview, edge cache, secrets, database — berada di dua dashboard (Vercel dan Neon).
+Sistem ini adalah **monorepo satu aplikasi Next.js** yang berjalan sepenuhnya di Vercel dengan database terkelola di Neon. Tidak ada server aplikasi yang harus dioperasikan sendiri: tidak ada VPS, tidak ada container yang di-build manual, tidak ada cron worker terpisah. Seluruh siklus hidup aplikasi: build, preview, edge cache, secrets, database: berada di dua dashboard (Vercel dan Neon).
 
 Arsitektur sengaja dipisah menjadi **tiga layer logis** agar perubahan pada satu layer tidak merambat ke layer lain:
 
-1. **Presentation** — RSC/Client Component, Tailwind, komponen UI. Murni soal tampilan.
-2. **Domain** — skema Zod, aturan bisnis (slug, soft-publish, aturan harga), server actions. Tidak tahu bentuk tabel.
-3. **Data** — Skema SQL + query modul raw SQL di atas `@neondatabase/serverless` (HTTP driver). Tidak tahu HTTP, tidak tahu React.
+1. **Presentation**: RSC/Client Component, Tailwind, komponen UI. Murni soal tampilan.
+2. **Domain**: skema Zod, aturan bisnis (slug, soft-publish, aturan harga), server actions. Tidak tahu bentuk tabel.
+3. **Data**: Skema SQL + query modul raw SQL di atas `@neondatabase/serverless` (HTTP driver). Tidak tahu HTTP, tidak tahu React.
 
 Konsekuensi praktis dari pemisahan ini: **konten, konfigurasi visual, dan harga adalah data, bukan kode.** Admin mengubah `settings` dan halaman publik berubah pada request berikutnya tanpa deploy. Ini yang menjawab akar masalah O4 di `problem-statement.md`.
 
@@ -33,7 +33,7 @@ Sifat operasional yang harus dipahami sebelum membaca sisa dokumen:
 
 ## 2. Diagram Arsitektur
 
-### 2.1 Diagram Mermaid — Tinjauan Keseluruhan
+### 2.1 Diagram Mermaid: Tinjauan Keseluruhan
 
 ```mermaid
 flowchart TB
@@ -88,7 +88,7 @@ flowchart TB
     RSC --> VER
 ```
 
-### 2.2 Diagram ASCII — Alur Request
+### 2.2 Diagram ASCII: Alur Request
 
 ```
                          ┌──────────────────────────────┐
@@ -164,7 +164,7 @@ Berisi apa saja yang **tampak** ke pengguna. Tidak melakukan query database seca
 | Styling | Tailwind v4 tokens, dark mode | `app/globals.css` |
 | Client interactivity | Toggle tema, filter tag, preview gambar | `components/**` dengan `"use client"` |
 
-Aturan main: **Server Component secara default.** `"use client"` hanya ditambahkan pada komponen yang butuh event handler, state browser, atau browser API. Tiap `"use client"` adalah tambahan bundle JS ke klien — gunakan sesedikit mungkin.
+Aturan main: **Server Component secara default.** `"use client"` hanya ditambahkan pada komponen yang butuh event handler, state browser, atau browser API. Tiap `"use client"` adalah tambahan bundle JS ke klien: gunakan sesedikit mungkin.
 
 ### 3.2 Layer Domain
 
@@ -173,11 +173,11 @@ Berisi **aturan bisnis**. Layer ini yang membuat aplikasi benar, dan yang harus 
 | Bagian | Tanggung jawab |
 | --- | --- |
 | Skema Zod | Validasi input form, server action, dan route handler. Satu sumber aturan validasi. |
-| Generator slug | `slugify()` — lowercase, strip karakter khusus, dahulukan-judul, suffix numerik bila bentrok |
+| Generator slug | `slugify()`: lowercase, strip karakter khusus, dahulukan-judul, suffix numerik bila bentrok |
 | Aturan soft-publish | `published = true` **dan** (untuk posts) `published_at <= now()` → tampil |
 | Aturan harga | `price_label` + `price_value` + `currency` → format rupiah dengan pemisah ribuan |
 | Aturan section | `settings.sections` menentukan section mana yang dirender di `/` |
-| Otorisasi | `requireAdmin()` — baca cookie, verifikasi JWT, cek role, tolak bila tidak valid |
+| Otorisasi | `requireAdmin()`: baca cookie, verifikasi JWT, cek role, tolak bila tidak valid |
 | Formatting | Tanggal Bahasa Indonesia (`Intl.DateTimeFormat('id-ID')`), excerpt potong 160 karakter |
 
 ### 3.3 Layer Data
@@ -186,7 +186,7 @@ Satu-satunya tempat yang **tahu bentuk tabel**. Tidak mengimpor React, tidak tah
 
 | Bagian | Tanggung jawab |
 | --- | --- |
-| Skema SQL | Definisi kolom, tipe, default, index — persis cerminan `db/schema.sql` |
+| Skema SQL | Definisi kolom, tipe, default, index: persis cerminan `db/schema.sql` |
 | Klien Neon | `neon()` HTTP driver dengan `Pooled Connection String` (WebSocket tidak diperlukan di serverless) |
 | Query modul | Satu file per entitas: `getPublishedProjects()`, `createPost()`, `updateSettings()` |
 | Transaksi | `db.transaction()` untuk operasi multi-tabel (mis. publish post + revalidasi) |
@@ -228,7 +228,7 @@ Aturan main: **tidak ada string SQL mentah.** Semua query ditulis sebagai tagged
 | --- | --- |
 | `middleware.ts` | Penjaga `/admin/*`: verifikasi cookie JWT, tolak / redirect. Jalur paling awal, sebelum render. |
 | `lib/auth.ts` | `signSession()`, `verifySession()`, `requireAdmin()`, `requireEditor()` |
-| `lib/db.ts` | Inisialisasi `neon(DATABASE_URL)` — satu instance, reuse di seluruh request; mengekspor tagged template `sql` |
+| `lib/db.ts` | Inisialisasi `neon(DATABASE_URL)`: satu instance, reuse di seluruh request; mengekspor tagged template `sql` |
 | `lib/validation/*.ts` | Skema Zod per entitas (`projectSchema`, `postSchema`, `messageSchema`, …) |
 | `lib/settings.ts` | Baca/tulis key-value settings + cache per-key |
 | `lib/slug.ts` | `slugify()`, `uniqueSlug()` |
@@ -330,7 +330,7 @@ Semua mutasi melewati **Server Action** (bukan REST API) untuk operasi internal 
 2. Submit → POST ke Server Action (bukan ke URL baru)
 3. Middleware: /admin/* → verifikasi cookie JWT
 4. Server Action:
-   a. requireAdmin()  — pastikan session valid (double-check di dalam action)
+   a. requireAdmin() : pastikan session valid (double-check di dalam action)
    b. parse FormData → validate dengan Zod → return error lebih awal jika invalid
    c. Query modul: INSERT/UPDATE ke Neon (raw SQL via tagged template)
    d. revalidatePath('/projects'); revalidatePath('/')
@@ -386,8 +386,8 @@ Kunci: **email adalah bonus, database adalah sumber kebenaran.** Admin tetap mel
 | `/projects`, `/blog` | Full Route | 3600s | projects / posts |
 | Query DB via `unstable_cache` | Data Cache | 3600s | `revalidateTag` |
 | `settings` | Data Cache (tag: `settings`) | 86400s | revalidateTag('settings') |
-| `/admin/*` | **Tidak ada cache** | — | selalu fresh |
-| `/contact` | `dynamic` | — | form butuh input |
+| `/admin/*` | **Tidak ada cache** |: | selalu fresh |
+| `/contact` | `dynamic` |: | form butuh input |
 | Route handler `/api/*` | header `Cache-Control` manual | 60–300s | manual |
 
 ### 7.2 Tag-based invalidation
@@ -415,7 +415,7 @@ Headers: x-revalidate-secret: <REVALIDATE_SECRET>
 Body: { "paths": ["/", "/projects"], "tags": ["settings"] }
 ```
 
-Secret dibandingkan dengan `crypto.timingSafeEqual` (wajib — bukan `===`).
+Secret dibandingkan dengan `crypto.timingSafeEqual` (wajib: bukan `===`).
 
 ---
 
@@ -438,7 +438,7 @@ Semua env var disimpan di **Vercel → Settings → Environment Variables**, dip
 ### Aturan pengelolaan secret
 
 - Tidak ada secret yang di-bundle ke klien. `NEXT_PUBLIC_*` **hanya** untuk nilai yang memang publik (URL situs).
-- Preview deployments memakai env Production untuk `DATABASE_URL`? **Jangan.** Override ke branch Neon dev — kecuali sengaja, preview akan menulis ke database produksi.
+- Preview deployments memakai env Production untuk `DATABASE_URL`? **Jangan.** Override ke branch Neon dev: kecuali sengaja, preview akan menulis ke database produksi.
 - Catatan: `AUTH_SECRET` di Development boleh berbeda dari Production. Yang penting Production konsisten antar function.
 - Rotasi `AUTH_SECRET`: ubah di Vercel → deploy → semua admin forced re-login. Tidak merusak data.
 
@@ -567,7 +567,7 @@ Ini bagian terpenting dari dokumen ini. Setiap mode kegagalan di bawah memiliki 
 Pola yang dipakai di setiap query layer:
 
 ```ts
-// lib/data/with-fallback.ts — pola generik
+// lib/data/with-fallback.ts: pola generik
 export async function withFallback<T>(
   key: string,
   fetcher: () => Promise<T>,
@@ -587,7 +587,7 @@ Prinsipnya:
 
 1. **Data statis (settings, about, testimonials)**: `unstable_cache` dengan `revalidate: 86400`. Saat DB mati, Next.js menyajikan hasil cache terakhir tanpa menyentuh DB sama sekali.
 2. **Data dinamis (projects, posts)**: `unstable_cache` dengan `revalidate: 3600`. Bila tidak ada cache, komponen mengembalikan array kosong dan halaman tetap render dengan benar (hanya daftar yang kosong).
-3. **Halaman yang wajib tampil**: hero, navigasi, footer, kontak — berasal dari `settings`, jadi hampir selalu punya cache.
+3. **Halaman yang wajib tampil**: hero, navigasi, footer, kontak: berasal dari `settings`, jadi hampir selalu punya cache.
 4. **Admin**: TIDAK ada fallback. Admin harus melihat error yang jujur, bukan data basi. Menampilkan daftar proyek lama sementara simpan gagal adalah lebih berbahaya daripada error.
 
 ### 11.3 Error boundary
@@ -611,7 +611,7 @@ Prinsipnya:
 
 **Admin tidak bisa login**
 1. Cek `AUTH_SECRET` ada & sama antar environment?
-2. Cek baris `users` di Neon: `SELECT email, role FROM users;` — `password_hash` terisi?
+2. Cek baris `users` di Neon: `SELECT email, role FROM users;`: `password_hash` terisi?
 3. Cek log `auth.login.failed` → reason-nya apa (invalid password / JWT error / user not found)?
 4. Rate limit IP yang terlalu agresif? Tunggu 10 menit atau restart function.
 
@@ -630,7 +630,7 @@ Neon menyediakan branch = salinan database lengkap, dan branch **bukan** backup 
 
 | Branch | Sumber | Tujuan | Umur |
 | --- | --- | --- | --- |
-| `main` | — | Produksi | Permanen |
+| `main` |: | Produksi | Permanen |
 | `dev` | `main` | Development lokal, uji migrasi, testing | Permanen, reset dari main sesekali |
 | `staging` | `main` | Preview dengan migrasi realistis | Dihapus setelah merge |
 | `backup-<YYYYMMDD>` | `main` | Snapshot sebelum migrasi berisiko | 7–30 hari, lalu dihapus |
@@ -647,7 +647,7 @@ Branches → New Branch → Name: backup-20261104 → Base: main → Create
 neon branches create --project <project-id> --name backup-20261104 --parent main
 ```
 
-Biaya: branch di luar kuota tetap dihitung pada storage & compute — hapus branch lama secara berkala.
+Biaya: branch di luar kuota tetap dihitung pada storage & compute: hapus branch lama secara berkala.
 
 ### 12.3 Restore
 
@@ -667,7 +667,7 @@ Biaya: branch di luar kuota tetap dihitung pada storage & compute — hapus bran
 | Pemicu | Tindakan |
 | --- | --- |
 | Sebelum migrasi schema | Buat branch `backup-YYYYMMDD` |
-| Sebelum `db:reset` | WAJIB — `db:reset` menghapus seluruh data |
+| Sebelum `db:reset` | WAJIB: `db:reset` menghapus seluruh data |
 | Sekali per minggu (rutin) | Otomatis: scheduled branch via Neon API |
 | Sebelum import data massal | Branch dulu |
 
@@ -761,7 +761,7 @@ Sebelum rilis produksi:
 | Dokumen | Isi |
 | --- | --- |
 | `database-schema.md` | ERD, definisi kolom, indeks, strategi settings, migrasi, seed |
-| `api-specification.yaml` | OpenAPI 3.1 — kontrak endpoint |
+| `api-specification.yaml` | OpenAPI 3.1: kontrak endpoint |
 | `security-design.md` | Threat model, kontrol keamanan, insiden, kepatuhan |
 | `../05-PLANNING/roadmap.md` | Peta fase dan milestone |
 | `../../db/schema.sql` | DDL sumber kebenaran |

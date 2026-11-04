@@ -1,4 +1,4 @@
-# Product Backlog — Website Portofolio Pribadi + CMS Semi-Custom
+# Product Backlog: Website Portofolio Pribadi + CMS Semi-Custom
 
 | Atribut | Nilai |
 | --- | --- |
@@ -7,7 +7,7 @@
 | Owner | Solo developer independen (Indonesia), 1 orang |
 | Referensi | `roadmap.md` (Fase F0–F4) |
 | Jumlah item | 111 (105 dikerjakan + 6 Won't-now/Deferred) |
-| Konvensi ID | `PORT-<huruf epik><nomor dua digit>` — contoh `PORT-C03` |
+| Konvensi ID | `PORT-<huruf epik><nomor dua digit>`: contoh `PORT-C03` |
 | Status | `Backlog` · `Ready` · `In Progress` · `Review` · `Done` · `Deferred` |
 | Capacidad | ±20 story point/minggu (solo developer) |
 
@@ -66,11 +66,11 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 
 ---
 
-### EP-A — Fondasi & Infrastruktur
+### EP-A: Fondasi & Infrastruktur
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| PORT-A01 | Inisialisasi Next.js 15 App Router + TypeScript strict + Tailwind v4 | Must | 3 | 0,5 hari | — | F0 | Backlog | `npm run dev` jalan; `tsconfig` strict aktif; Tailwind v4 terpasang; ESLint jalan |
+| PORT-A01 | Inisialisasi Next.js 15 App Router + TypeScript strict + Tailwind v4 | Must | 3 | 0,5 hari |: | F0 | Backlog | `npm run dev` jalan; `tsconfig` strict aktif; Tailwind v4 terpasang; ESLint jalan |
 | PORT-A02 | Modul DB terpusat: `neon()` HTTP driver + `query()`/`queryOne()`/`execute()` | Must | 5 | 1 hari | PORT-A01 | F1 | Backlog | Query SELECT berhasil dari dev; koneksi dari `DATABASE_URL`; error ditangkap dan di-log, tidak crash |
 | PORT-A03 | Klien DB lazy-init + helper `toStringArray()` untuk kolom JSONB | Must | 3 | 0,5 hari | PORT-A02 | F1 | Backlog | Tanpa `DATABASE_URL` build tetap lolos; JSONB `gallery`/`stack`/`tags` diparse ke `string[]` |
 | PORT-A04 | Skrip `db:setup` (schema + seed idempotent via `ON CONFLICT`) | Must | 2 | 0,5 hari | PORT-A02 | F1 | Backlog | Menjalankan dua kali tidak menghasilkan duplikat; `npm run db:reset` mengosongkan lalu mengisi ulang |
@@ -79,7 +79,7 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 | PORT-A07 | Setup Vercel: import repo, env var per environment, domain | Must | 3 | 1 hari | PORT-A05, PORT-A06 | F1 | Backlog | Preview & Production deploy sukses; HTTPS aktif; env Production & Preview terpisah |
 | PORT-A08 | Route handler `POST /api/revalidate` dengan perbandingan secret timing-safe | Should | 2 | 0,5 hari | PORT-A07 | F2 | Backlog | Request tanpa secret ditolak 401; `crypto.timingSafeEqual` dipakai, bukan `===` |
 | PORT-A09 | Struktur folder feature-based + komponen UI dasar + `next.config.ts` header keamanan | Should | 5 | 1 hari | PORT-A01 | F1 | Backlog | `src/app`, `src/components`, `src/lib` konsisten; header `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy` terpasang |
-### EP-B — Autentikasi & Keamanan
+### EP-B: Autentikasi & Keamanan
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -93,7 +93,7 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 | PORT-B08 | Rate limit pada route login (5 percobaan / 15 menit / IP) | Must | 3 | 0,5 hari | PORT-B02 | F3 | Backlog | Percobaan ke-6 mengembalikan 429 dengan pesan ramah |
 | PORT-B09 | 2FA TOTP (QR, secret base32, recovery code) | Could | 8 | 2 hari | PORT-B02, PORT-L02 | F4 | Backlog | Login butuh kode TOTP bila aktif; recovery code sekali pakai |
 | PORT-B10 | Multi-user dengan role `admin` / `editor` | Could | 8 | 2 hari | PORT-B02 | F4 | Backlog | `editor` tidak bisa ubah settings-role/akun; `admin` bisa |
-### EP-C — CRUD Projects
+### EP-C: CRUD Projects
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -107,7 +107,7 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 | PORT-C08 | Halaman detail `/projects/[slug]` | Must | 5 | 1 hari | PORT-C03, PORT-C07 | F1 | Backlog | Slug tidak ada → 404; gallery, stack, link repo/live tampil |
 | PORT-C09 | Pencarian & filter di list admin projects | Could | 3 | 0,5 hari | PORT-C01 | F4 | Backlog | Filter judul/slug/category/status bekerja; URL menyimpan state filter |
 | PORT-C10 | Bulk action (publish/unpublish/hapus terpilih) | Won't (now) | 5 | 1 hari | PORT-C06 | Deferred | Deferred | Diprioritaskan bila volume project admin menumpuk (> 50) |
-### EP-D — CRUD Posts & Blog
+### EP-D: CRUD Posts & Blog
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -123,7 +123,7 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 | PORT-D10 | Related posts (3 post terbaru dengan tag sama) | Could | 3 | 0,5 hari | PORT-D08 | F4 | Backlog | Ditampilkan di bawah artikel; menyingkirkan artikel itu sendiri |
 | PORT-D11 | RSS feed `/feed.xml` | Should | 3 | 0,5 hari | PORT-D08 | F4 | Backlog | Valid di validator feed; berisi 10 post terbaru |
 | PORT-D12 | Draft autosave di localStorage | Won't (now) | 5 | 1 hari | PORT-D02 | Deferred | Deferred | Menunggu umpan balik utilisasi editor |
-### EP-E — CRUD Services & Harga
+### EP-E: CRUD Services & Harga
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -136,7 +136,7 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 | PORT-E07 | Section `pricing` di beranda (toggle-able) | Must | 3 | 0,5 hari | PORT-E06, PORT-G05 | F3 | Backlog | Section disembunyikan bila `settings.sections.pricing = false` |
 | PORT-E08 | CTA per paket menuju `/contact?service=<slug>` | Should | 3 | 0,5 hari | PORT-E06, PORT-H02 | F3 | Backlog | Parameter `service` terisi otomatis di form kontak |
 | PORT-E09 | Kalkulator harga (estimasi durasi project) | Won't (now) | 8 | 2 hari | PORT-E03 | Deferred | Deferred | Menunggu data historis harga & durasi |
-### EP-F — CRUD Experience, Skills, Testimonials
+### EP-F: CRUD Experience, Skills, Testimonials
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -145,7 +145,7 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 | PORT-F03 | Halaman `/about` (bio, timeline pengalaman, skill bars, testimonial) | Must | 8 | 1,5 hari | PORT-D09, PORT-F01, PORT-F02 | F1 | Backlog | Data diambil dari DB; section yang dimatikan tidak tampil |
 | PORT-F04 | Filter skill per kategori di `/about` | Should | 3 | 0,5 hari | PORT-F01, PORT-F03 | F2 | Backlog | Klik kategori menyaring daftar skill |
 | PORT-F05 | Halaman testimonial terpisah (`/testimonials`) | Won't (now) | 3 | 0,5 hari | PORT-F02 | Deferred | Deferred | Testimonial cukup tampil di beranda + `/about` |
-### EP-G — Settings, Tema & Dark Mode
+### EP-G: Settings, Tema & Dark Mode
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -159,7 +159,7 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 | PORT-G08 | Edit `seo` (metaTitle, metaDescription, ogImage, keywords) | Must | 2 | 0,5 hari | PORT-G01 | F1 | Backlog | Nilai tersimpan dan dipakai `generateMetadata` |
 | PORT-G09 | Edit `features` & `footer` | Must | 2 | 0,5 hari | PORT-G01 | F1 | Backlog | Copy CTA dan copyright dapat diubah |
 | PORT-G10 | Pratinjau perubahan settings sebelum simpan | Won't (now) | 5 | 1 hari | PORT-G01 | Deferred | Deferred | Render real-time sudah memberi umpan balik memadai |
-### EP-H — Pesan & Form Kontak
+### EP-H: Pesan & Form Kontak
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -172,7 +172,7 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 | PORT-H07 | Halaman konfirmasi `/contact?sent=1` | Must | 2 | 0,5 hari | PORT-H02 | F3 | Backlog | Pesan sukses + waktu balas ≤ 24 jam; link "kirim pesan lain" |
 | PORT-H08 | Tombol salin email + tautan WhatsApp | Should | 2 | 0,5 hari | PORT-G03 | F3 | Backlog | Klik menyalin email ke clipboard dengan feedback visual |
 | PORT-H09 | Export pesan ke CSV | Won't (now) | 3 | 0,5 hari | PORT-H05 | Deferred | Deferred | Volume pesan masih rendah |
-### EP-I — Media & Konten
+### EP-I: Media & Konten
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -183,7 +183,7 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 | PORT-I05 | OG image generik via `opengraph-image.tsx` | Should | 3 | 0,5 hari | PORT-G08 | F2 | Backlog | Gambar 1200×630 valid; memuat nama & tagline |
 | PORT-I06 | Favicon + `manifest.webmanifest` + apple-touch-icon | Should | 2 | 0,5 hari | PORT-A09 | F2 | Backlog | Ikon valid; PWA manifest terpasang |
 | PORT-I07 | Optimasi aset: font lokal, SVG inline, lazy loading | Should | 3 | 0,5 hari | PORT-I03 | F2 | Backlog | Tidak ada font shift; gambar di bawah fold lazy |
-### EP-J — SEO & Discoverability
+### EP-J: SEO & Discoverability
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -195,7 +195,7 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 | PORT-J06 | Breadcrumb & prev/next di halaman detail | Could | 3 | 0,5 hari | PORT-C08 | F2 | Backlog | Meningkatkan navigasi dan internal linking |
 | PORT-J07 | Submit sitemap ke Google Search Console | Should | 2 | 0,5 hari | PORT-J03 | F2 | Backlog | Sitemap ter-submit; status "Success" |
 | PORT-J08 | Halaman 404 & 500 kustom + error boundary | Should | 3 | 0,5 hari | PORT-A09 | F2 | Backlog | Copy lokal; link kembali ke beranda; tanpa stack trace |
-### EP-K — Dashboard & Analitik
+### EP-K: Dashboard & Analitik
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -203,10 +203,10 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 | PORT-K02 | Grafik pesan masuk 30 hari | Should | 5 | 1 hari | PORT-K01 | F4 | Backlog | Sumbu tanggal benar; hari tanpa pesan tetap tampil |
 | PORT-K03 | Pelacakan event CTA (klik tombol hubungi, submit form) | Should | 3 | 0,5 hari | PORT-G09 | F3 | Backlog | Event terkirim ke analytics dengan label CTA |
 | PORT-K04 | Integrasi analytics (Umami atau GA4) | Should | 5 | 1 hari | PORT-K03 | F3 | Backlog | Data trafik masuk; cookie consent bila diwajibkan |
-| PORT-K05 | Top project & top post berdasarkan views | Could | 5 | 1 hari | PORT-K02 | F4 | Backlog | Memerlukan pencatatan view — tabel terpisah `page_views` |
+| PORT-K05 | Top project & top post berdasarkan views | Could | 5 | 1 hari | PORT-K02 | F4 | Backlog | Memerlukan pencatatan view: tabel terpisah `page_views` |
 | PORT-K06 | Widget "action needed" (pesan baru, draft, gambar hilang) | Could | 3 | 0,5 hari | PORT-K01 | F4 | Backlog | Menyorot item yang butuh tindakan owner |
 
-### EP-L — Operasional
+### EP-L: Operasional
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -218,7 +218,7 @@ Kolom-kolom tabel: **ID** · **Judul** · **Prioritas** · **SP** · **Estimasi*
 | PORT-L06 | Monitoring & uptime check + alerting | Should | 3 | 0,5 hari | PORT-A07 | F4 | Backlog | Monitor `/` setiap 5 menit; alert ke email bila gagal |
 | PORT-L07 | Route `/api/health` (cek `SELECT 1` ke Neon) | Must | 2 | 0,5 hari | PORT-A02 | F4 | Backlog | 200 bila DB sehat; 503 bila tidak; dipakai uptime monitor |
 | PORT-L08 | Deploy preview per PR dengan branch Neon terisolasi | Could | 8 | 2 hari | PORT-A07, PORT-A06 | F4 | Backlog | PR menghasilkan preview URL; tidak menyentuh data produksi |
-### EP-M — Kualitas & Aksesibilitas
+### EP-M: Kualitas & Aksesibilitas
 
 | ID | Judul | Prioritas | SP | Estimasi | Dependensi | Fase | Status | Acceptance Criteria Ringkas |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -289,11 +289,11 @@ Beban Must-only Fase F1: **48 item / 215 SP** ≈ 11 minggu pada kapasitas 20 SP
 
 **Kesimpulan:** backlog tidak muat penuh dalam 20 minggu pada kapasitas solo developer. Buffer ±15% per fase (risiko TL-2) justru menutup selisih ini, tetapi marginnya tipis. Rencana pengurangan yang direkomendasikan bila buffer terpakai:
 
-1. Hapus seluruh item `Could` (8 item / 41 SP) — paling mudah, dampaknya paling kecil ke nilai produk.
-2. Pindahkan `PORT-B09` (2FA, 8 SP) dan `PORT-B10` (multi-user, 8 SP) ke fase setelah roadmap — keduanya `Could` dan tidak diblokir exit criteria mana pun.
-3. Kunci `Should` non-kritis sebagai buffer sacrificial: `PORT-B07` (ganti password), `PORT-F04` (filter skill), `PORT-J05` (JSON-LD), `PORT-J07` (Search Console) — 11 SP.
+1. Hapus seluruh item `Could` (8 item / 41 SP): paling mudah, dampaknya paling kecil ke nilai produk.
+2. Pindahkan `PORT-B09` (2FA, 8 SP) dan `PORT-B10` (multi-user, 8 SP) ke fase setelah roadmap: keduanya `Could` dan tidak diblokir exit criteria mana pun.
+3. Kunci `Should` non-kritis sebagai buffer sacrificial: `PORT-B07` (ganti password), `PORT-F04` (filter skill), `PORT-J05` (JSON-LD), `PORT-J07` (Search Console): 11 SP.
 
-Kombinasi 1 + 2 menghasilkan 389 SP, menyisakan buffer ±11 SP (±0,5 minggu). Kombinasi 1 + 2 + 3 menghasilkan 378 SP dengan buffer ±22 SP (±1 minggu) — inilah skenario dasar yang dipakai di roadmap.
+Kombinasi 1 + 2 menghasilkan 389 SP, menyisakan buffer ±11 SP (±0,5 minggu). Kombinasi 1 + 2 + 3 menghasilkan 378 SP dengan buffer ±22 SP (±1 minggu): inilah skenario dasar yang dipakai di roadmap.
 
 ### 4.5 Item Kritis Jalur Kritis
 
@@ -315,11 +315,11 @@ Item berikut **wajib** selesai tepat waktu karena memblokir seluruh fase berikut
 
 Saat memilih item untuk dikerjakan, gunakan urutan ini:
 
-1. Semua item **Must** pada fase berjalan (Fase saat ini) — tidak ada pengecualian.
+1. Semua item **Must** pada fase berjalan (Fase saat ini): tidak ada pengecualian.
 2. Item **Should** pada fase berjalan, jika kapasitas fase tersisa ≥ 50%.
 3. Item **Must** pada fase berikutnya, bila ada jalur kritis yang belum tertutup (§4.5).
 4. Item **Could** hanya bila fase berjalan sudah melewati exit criteria.
-5. Item **Won't (now)** tidak pernah masuk sprint — hanya ada di dokumen ini sebagai penanda keputusan.
+5. Item **Won't (now)** tidak pernah masuk sprint: hanya ada di dokumen ini sebagai penanda keputusan.
 
 ### 4.7 Item Deferred ( Won't (now) ) dan Alasannya
 

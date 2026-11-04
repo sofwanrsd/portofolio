@@ -1,5 +1,5 @@
 -- ============================================================
---  PORTFOLIO CMS — DATABASE SCHEMA (PostgreSQL / Neon)
+--  PORTFOLIO CMS: DATABASE SCHEMA (PostgreSQL / Neon)
 --  Jalankan:  npm run db:setup   (otomatis)  atau salin manual ke Neon SQL Editor
 -- ============================================================
 

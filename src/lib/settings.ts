@@ -103,7 +103,7 @@ function mergeSection<T extends object>(base: T, incoming: unknown): T {
 }
 
 /* ------------------------------------------------------------------ *
- *  Cache per-key — settings dibaca di hampir setiap request publik,
+ *  Cache per-key: settings dibaca di hampir setiap request publik,
  *  sementara mutasinya jarang (hanya dari dashboard admin).
  * ------------------------------------------------------------------ */
 

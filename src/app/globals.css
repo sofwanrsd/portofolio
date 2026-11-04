@@ -30,7 +30,7 @@
   --bg: #fbfbfd;
   --fg: #0b0c10;
   --muted: #5b6172;
-  --border: #e6e8ef;
+  --border: #dcdfe9;
   --card: #ffffff;
   --grid-line: rgba(0, 0, 0, 0.04);
   --glass: rgba(0, 0, 0, 0.02);
@@ -199,6 +199,54 @@ body {
 }
 .marquee:hover {
   animation-play-state: paused;
+}
+
+/* Animasi masuk saat halaman dimuat. Hanya opacity dan transform supaya
+   tetap ringan (GPU composited, tanpa layout shift). */
+@keyframes rise {
+  from { opacity: 0; transform: translate3d(0, 14px, 0) }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) }
+}
+@keyframes fade {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+@keyframes pop {
+  0%   { opacity: 0; transform: scale(0.96) }
+  100% { opacity: 1; transform: scale(1) }
+}
+.rise {
+  animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.fade {
+  animation: fade 0.7s ease both;
+}
+.pop {
+  animation: pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+/* Jeda bertingkat, cukup 8 langkah supaya markup tetap bersih */
+.d1 { animation-delay: 0.06s }
+.d2 { animation-delay: 0.12s }
+.d3 { animation-delay: 0.18s }
+.d4 { animation-delay: 0.24s }
+.d5 { animation-delay: 0.3s }
+.d6 { animation-delay: 0.36s }
+.d7 { animation-delay: 0.42s }
+.d8 { animation-delay: 0.48s }
+
+/* Garis aksen yang bergerak pelan pada kartu unggulan */
+@keyframes sheen {
+  0%   { transform: translateX(-120%) }
+  100% { transform: translateX(220%) }
+}
+.sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, color-mix(in oklab, var(--accent) 22%, transparent) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: sheen 8s ease-in-out infinite;
+  pointer-events: none;
 }
 
 /* Prose untuk artikel */

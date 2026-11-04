@@ -1,4 +1,4 @@
-# 05 — Risk Register
+# 05: Risk Register
 
 **Proyek:** Portfolio CMS · **Tanggal:** November 2026 · **Owner:** -
 **Skala Likelihood:** Rendah (1) · Sedang (2) · Tinggi (3)

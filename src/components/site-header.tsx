@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/theme-toggle";
 import type { AppSettings } from "@/lib/types";
 
 const NAV = [
@@ -73,6 +74,8 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
               </Link>
             );
           })}
+          <span className="mx-1.5 h-5 w-px bg-[var(--border)]" />
+          <ThemeToggle />
           <Link
             href="/contact"
             className="accent-gradient ml-2 rounded-full px-4 py-2 text-[13.5px] font-semibold text-white transition-transform hover:-translate-y-0.5"
@@ -81,6 +84,8 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
           </Link>
         </nav>
 
+        <div className="flex items-center gap-2 md:hidden">
+        <ThemeToggle />
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
@@ -90,6 +95,7 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
         >
           {open ? <X size={16} /> : <Menu size={16} />}
         </button>
+        </div>
       </div>
 
       {open && (

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { getSettings } from "@/lib/settings";
@@ -54,7 +55,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#09090b",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#07080c" },
+    { media: "(prefers-color-scheme: light)", color: "#fbfbfd" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
@@ -64,6 +68,12 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const settings = await getSettings();
   const { theme, site } = settings;
+
+  // Preferensi tema pengunjung disimpan di cookie oleh ThemeToggle.
+  // Tanpa cookie, tampilan mengikuti pengaturan di dashboard.
+  const cookieTheme = (await cookies()).get("portfolio_theme")?.value;
+  const mode: "light" | "dark" =
+    cookieTheme === "light" || cookieTheme === "dark" ? cookieTheme : theme.mode;
 
   const themeVars = {
     "--accent": theme.accent,
@@ -79,7 +89,7 @@ export default async function RootLayout({
   return (
     <html
       lang="id"
-      data-theme={theme.mode}
+      data-theme={mode}
       style={themeVars}
       suppressHydrationWarning
     >

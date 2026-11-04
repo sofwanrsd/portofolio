@@ -1,13 +1,13 @@
-# 02 — Acceptance Criteria
+# 02: Acceptance Criteria
 
 **Format:** `AC-<modul>.<nomor>` · **Status setiap AC:** harus **PASS** agar story dianggap selesai.
-Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi). Tidak ada AC yang "dilewati" — jika tidak relevan, tandai **N/A** beserta alasannya di `06-QUALITY/definition-of-done.md`.
+Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi). Tidak ada AC yang "dilewati": jika tidak relevan, tandai **N/A** beserta alasannya di `06-QUALITY/definition-of-done.md`.
 
 > Alias yang dipakai `02-REQUIREMENTS/user-stories.md` dipetakan di bagian 15.
 
 ---
 
-## 1. Publik — Beranda (AC-01.x)
+## 1. Publik: Beranda (AC-01.x)
 
 | ID | Kriteria (Given / When / Then) | Metode Verifikasi |
 |---|---|---|
@@ -20,7 +20,7 @@ Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi).
 | AC-01.7 | Given `settings.features.showPricing = false`, When beranda dimuat, Then section Pricing tidak muncul. | Manual |
 | AC-01.8 | Given `settings.features.hireMeEnabled = true`, When beranda dimuat, Then banner "hire me" tampil dengan tombol menuju `/contact`. | Manual |
 
-## 2. Publik — Project (AC-02.x)
+## 2. Publik: Project (AC-02.x)
 
 | ID | Kriteria | Metode Verifikasi |
 |---|---|---|
@@ -31,16 +31,16 @@ Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi).
 | AC-02.5 | Given daftar project, When visitor memilih filter kategori, Then hanya project kategori tersebut yang tampil tanpa reload penuh. | Manual |
 | AC-02.6 | Given project tanpa cover image, When kartu dirender, Then tampil placeholder yang rapi, bukan gambar rusak. | Manual |
 
-## 3. Publik — Blog (AC-03.x)
+## 3. Publik: Blog (AC-03.x)
 
 | ID | Kriteria | Metode Verifikasi |
 |---|---|---|
 | AC-03.1 | Given 2 artikel published dan 1 draft, When visitor membuka `/blog`, Then hanya 2 artikel published yang tampil, urut `published_at` DESC. | Manual |
-| AC-03.2 | Given artikel published, When visitor membuka `/blog/[slug]`, Then isi artikel ter-render sebagai HTML (heading, list, blockquote, code, bold, link) — bukan teks mentah. | Manual |
+| AC-03.2 | Given artikel published, When visitor membuka `/blog/[slug]`, Then isi artikel ter-render sebagai HTML (heading, list, blockquote, code, bold, link): bukan teks mentah. | Manual |
 | AC-03.3 | Given artikel tanpa `published_at` tetapi `published = true`, When disimpan dari admin, Then `published_at` terisi waktu saat itu dan artikel tampil di daftar. | Manual |
 | AC-03.4 | Given artikel published, When visitor membuka halaman, Then metadata (title, description, keywords) terisi dan tag OG valid. | Inspect |
 
-## 4. Publik — Tentang (AC-04.x)
+## 4. Publik: Tentang (AC-04.x)
 
 | ID | Kriteria | Metode Verifikasi |
 |---|---|---|
@@ -49,7 +49,7 @@ Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi).
 | AC-04.3 | Given testimoni unpublished, When halaman dimuat, Then testimoni tersebut tidak tampil. | Manual |
 | AC-04.4 | Given `settings.site.description` berubah, When `/about` dimuat, Then deskripsi profil memakai nilai baru. | Manual |
 
-## 5. Publik — Layanan & Harga (AC-05.x)
+## 5. Publik: Layanan & Harga (AC-05.x)
 
 | ID | Kriteria | Metode Verifikasi |
 |---|---|---|
@@ -59,7 +59,7 @@ Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi).
 | AC-05.4 | Given `price_value = "nego"`, When dirender, Then teks ditampilkan apa adanya tanpa format angka. | Manual |
 | AC-05.5 | Given setiap paket, When diklik CTA-nya, Then visitor diarahkan ke `/contact`. | Manual |
 
-## 6. Publik — Form Kontak (AC-06.x)
+## 6. Publik: Form Kontak (AC-06.x)
 
 | ID | Kriteria | Metode Verifikasi |
 |---|---|---|
@@ -69,7 +69,7 @@ Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi).
 | AC-06.4 | Given IP yang sudah mengirim 5 pesan dalam 10 menit, When mengirim lagi, Then request ditolak dengan pesan rate limit. | Manual |
 | AC-06.5 | Given pesan tersimpan, When admin membuka `/admin/messages`, Then pesan tampil di posisi teratas berdasarkan `created_at` DESC. | Manual |
 
-## 7. Publik — SEO (AC-07.x)
+## 7. Publik: SEO (AC-07.x)
 
 | ID | Kriteria | Metode Verifikasi |
 |---|---|---|
@@ -78,7 +78,7 @@ Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi).
 | AC-07.3 | Given setiap halaman publik, When di-inspect, Then memiliki satu `<title>` unik dan satu meta description. | Inspect |
 | AC-07.4 | Given halaman 404, When dirender, Then status HTTP 404 dan halaman custom berisi tautan kembali ke beranda. | curl |
 
-## 8. Admin — Autentikasi (AC-08.x)
+## 8. Admin: Autentikasi (AC-08.x)
 
 | ID | Kriteria | Metode Verifikasi |
 |---|---|---|
@@ -91,7 +91,7 @@ Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi).
 | AC-08.7 | Given password di DB, When diperiksa, Then nilainya berupa hash bcrypt, bukan plaintext. | Inspect DB |
 | AC-08.8 | Given satu admin dengan role `admin`, When menjalankan server action mutasi, Then aksi succeeds; role selain `admin` mendapat 403. | Manual |
 
-## 9. Admin — Dashboard (AC-09.x)
+## 9. Admin: Dashboard (AC-09.x)
 
 | ID | Kriteria | Metode Verifikasi |
 |---|---|---|
@@ -99,7 +99,7 @@ Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi).
 | AC-09.2 | Given pesan baru masuk, When dashboard dimuat, Then angka pesan belum terbaca bertambah. | Manual |
 | AC-09.3 | Given admin berada di halaman admin mana pun, When sidebar dibuka, Then item menu halaman aktif ter-highlight dan seluruh 9 menu dapat diakses. | Manual |
 
-## 10. Admin — CRUD Generic (AC-10.x)
+## 10. Admin: CRUD Generic (AC-10.x)
 
 | ID | Kriteria | Metode Verifikasi |
 |---|---|---|
@@ -116,7 +116,7 @@ Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi).
 | AC-10.11 | Given admin menekan tombol publish toggle, When berhasil, Then status berubah dan halaman publik ikut berubah setelah reload. | Manual |
 | AC-10.12 | Given aksi yang sedang berjalan, When waiting, Then tombol menampilkan spinner dan dinonaktifkan (double submit dicegah). | Manual |
 
-## 11. Admin — Inbox Pesan (AC-11.x)
+## 11. Admin: Inbox Pesan (AC-11.x)
 
 | ID | Kriteria | Metode Verifikasi |
 |---|---|---|
@@ -126,7 +126,7 @@ Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi).
 | AC-11.4 | Given pesan, When dihapus, Then konfirmasi tampil dan baris hilang permanen. | Manual |
 | AC-11.5 | Given IP viewer dari `/admin/messages`, Then tidak ada aksi yang bisa dijalankan tanpa sesi valid. | Manual |
 
-## 12. Admin — Pengaturan (AC-12.x)
+## 12. Admin: Pengaturan (AC-12.x)
 
 | ID | Kriteria | Metode Verifikasi |
 |---|---|---|
@@ -140,7 +140,7 @@ Dokumen ini adalah kontrak antara owner (acceptance) dan developer (verifikasi).
 | AC-12.8 | Given key `footer`, When tagline/copyright diubah, Then footer berubah dan bisa disembunyikan. | Manual |
 | AC-12.9 | Given satu key pengaturan gagal disimpan, Then key lain tidak ikut terhapus (upsert per key). | Manual + Inspect DB |
 
-## 13. Platform — Deploy & Operasional (AC-13.x)
+## 13. Platform: Deploy & Operasional (AC-13.x)
 
 | ID | Kriteria | Metode Verifikasi |
 |---|---|---|

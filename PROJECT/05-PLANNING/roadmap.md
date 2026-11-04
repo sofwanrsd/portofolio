@@ -6,7 +6,7 @@ Roadmap ini memecah pembangunan produk menjadi **5 fase** dengan batas keluar (*
 
 | Fase | Nilai yang dihasilkan |
 | --- | --- |
-| F0 Discovery | Kepastian scope — tidak ada lagi "mungkin" |
+| F0 Discovery | Kepastian scope: tidak ada lagi "mungkin" |
 | F1 MVP | Portofolio yang bisa dibagikan lewat link |
 | F2 Polish | Site yang dipercaya HRD & calon klien |
 | F3 Monetize | Lead masuk & tawaran harga yang konkret |
@@ -19,7 +19,7 @@ Prinsip kerja yang dipakai di seluruh roadmap:
 3. **Konten adalah fitur.** Kecepatan admin meng-update konten adalah fitur produk, bukan detail teknis.
 4. **Setiap fase berakhir dengan sesuatu yang bisa dijual.** Tidak ada fase yang hanya menghasilkan "kode yang rapi".
 5. **Risiko dipindah lebih awal.** Integrasi pihak ketiga (Neon, Vercel, Resend) diuji pada Fase 1, bukan Fase 3.
-6. **Raw SQL, bukan ORM.** Sesuai implementasi aktual (`src/lib/db.ts` → `neon()` HTTP driver + `query()`/`queryOne()`/`execute()`). Query tetap wajib ter-parameterisasi (`$1`, `$2`) — tidak ada interpolasi string.
+6. **Raw SQL, bukan ORM.** Sesuai implementasi aktual (`src/lib/db.ts` → `neon()` HTTP driver + `query()`/`queryOne()`/`execute()`). Query tetap wajib ter-parameterisasi (`$1`, `$2`): tidak ada interpolasi string.
 
 ---
 
@@ -47,7 +47,7 @@ Total: **20 minggu** untuk F0–F4, dengan Fase Scale dirancang untuk berlanjut 
 
 ---
 
-## 3. Fase 0 — Discovery (Minggu 1–2)
+## 3. Fase 0: Discovery (Minggu 1–2)
 
 ### Tujuan
 Membuang ambiguitas sebelum kode ditulis: memastikan *apa* yang dibangun dan *mengapa*.
@@ -71,17 +71,17 @@ Membuang ambiguitas sebelum kode ditulis: memastikan *apa* yang dibangun dan *me
 - [ ] `db/seed.sql` mengisi ≥ 1 admin, 4 project, 2 post, 3 service, 3 experience, 10 skill, 3 testimonial.
 - [ ] Requirements fungsional memuat semua 8 rute publik dan 10 rute admin dengan acceptance criteria.
 - [ ] CI GitHub Actions hijau pada branch `main` (lint + typecheck + test + build).
-- [ ] Script `npm run db:setup` idempotent — dijalankan dua kali tidak menduplikasi data.
+- [ ] Script `npm run db:setup` idempotent: dijalankan dua kali tidak menduplikasi data.
 - [ ] `.env.example` memuat variabel wajib: `DATABASE_URL`, `AUTH_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `NEXT_PUBLIC_SITE_URL`.
 - [ ] Domain dan nama proyek dikonfirmasi.
 
 ### Milestone
-**M1** (akhir M1) — Dokumen kebutuhan + ERD draft disetujui.
-**M2** (akhir M2) — Repo + CI + schema + seed siap; Fase 1 dimulai.
+**M1** (akhir M1): Dokumen kebutuhan + ERD draft disetujui.
+**M2** (akhir M2): Repo + CI + schema + seed siap; Fase 1 dimulai.
 
 ---
 
-## 4. Fase 1 — MVP (Minggu 3–7)
+## 4. Fase 1: MVP (Minggu 3–7)
 
 ### Tujuan
 Situs **publik yang hidup** + **panel admin yang bisa dipakai** untuk konten inti. Ini fase paling kritikal: bila fase ini gagal, tidak ada fase berikutnya yang berarti.
@@ -91,7 +91,7 @@ Situs **publik yang hidup** + **panel admin yang bisa dipakai** untuk konten int
 | # | Deliverable | Detail |
 | --- | --- | --- |
 | D1.1 | Setup Next.js 15 App Router | TypeScript strict, Tailwind v4, ESLint, folder `src/app` |
-| D1.2 | Koneksi Neon raw SQL | `src/lib/db.ts` — `neon()` HTTP driver, `query()`/`queryOne()`/`execute()` |
+| D1.2 | Koneksi Neon raw SQL | `src/lib/db.ts`: `neon()` HTTP driver, `query()`/`queryOne()`/`execute()` |
 | D1.3 | Auth admin | Login bcryptjs (cost 10), JWT HS256 via `jose`, cookie `portfolio_session` |
 | D1.4 | Halaman publik | `/`, `/projects`, `/projects/[slug]`, `/blog`, `/blog/[slug]`, `/about`, `/services`, `/contact` |
 | D1.5 | CRUD `projects` | List, form create/edit, delete, publish toggle, featured, sort_order || D1.6 | CRUD `posts` | List, form dengan editor markdown, publish toggle, published_at |
@@ -109,22 +109,22 @@ Situs **publik yang hidup** + **panel admin yang bisa dipakai** untuk konten int
 - [ ] `slug` tidak duplikat; navigasi list → detail → edit → kembali ke list mulut utuh.
 - [ ] Rute `/admin/*` tanpa cookie valid **mengalihkan** ke `/admin/login` (bukan 500, bukan blank).
 - [ ] Password salah menampilkan pesan error generik ("Email atau password salah."); hash dan stack trace tidak pernah muncul di respons.
-- [ ] Timing-constant login: bcrypt dijalankan walau email tidak ditemukan — ada tes yang menutupi ini.
+- [ ] Timing-constant login: bcrypt dijalankan walau email tidak ditemukan: ada tes yang menutupi ini.
 - [ ] Admin dapat mengubah `site.heroTitle` di settings dan perubahan terlihat di beranda **tanpa deploy ulang**.
 - [ ] Section toggle di `settings.sections` benar-benar menyembunyikan section di halaman publik.
-- [ ] Semua query DB ter-parameterisasi (`$1`, `$2`) — diverifikasi lewat review kode, nol interpolasi string.
+- [ ] Semua query DB ter-parameterisasi (`$1`, `$2`): diverifikasi lewat review kode, nol interpolasi string.
 - [ ] Deployment produksi terpasang di domain sendiri dengan HTTPS aktif.
 - [ ] Checklist smoke test di `../06-QUALITY/test-plan.md` (§8) lulus 100%.
 
 ### Milestone
-**M3** (akhir M3) — Next.js + Neon tersambung; seed terbaca di dev.
-**M4** (akhir M4) — Auth admin bekerja; proteksi route terverifikasi.
-**M5** (akhir M5) — 8 halaman publik live dengan data seed.
-**M6** (akhir M6) — CRUD projects, posts, services, settings lengkap.
-**M7** (akhir M7) — **Deploy produksi pertama**; MVP diumumkan ke jaringan.
+**M3** (akhir M3): Next.js + Neon tersambung; seed terbaca di dev.
+**M4** (akhir M4): Auth admin bekerja; proteksi route terverifikasi.
+**M5** (akhir M5): 8 halaman publik live dengan data seed.
+**M6** (akhir M6): CRUD projects, posts, services, settings lengkap.
+**M7** (akhir M7): **Deploy produksi pertama**; MVP diumumkan ke jaringan.
 ---
 
-## 5. Fase 2 — Polish (Minggu 8–10)
+## 5. Fase 2: Polish (Minggu 8–10)
 
 ### Tujuan
 Mengubah "situs yang berfungsi" menjadi "situs yang membuat orang percaya". Fokus: kualitas visual, discoverability, aksesibilitas, dan kecepatan.
@@ -159,13 +159,13 @@ Mengubah "situs yang berfungsi" menjadi "situs yang membuat orang percaya". Foku
 - [ ] 320px hingga 1920px tidak ada horizontal scroll.
 
 ### Milestone
-**M8** (akhir M8) — Design system + komponen publik selesai; beranda direvisi penuh.
-**M9** (akhir M9) — SEO, sitemap, OG image, upload gambar, editor markdown aktif.
-**M10** (akhir M10) — Audit a11y & performa lulus; konten asli menggantikan seed.
+**M8** (akhir M8): Design system + komponen publik selesai; beranda direvisi penuh.
+**M9** (akhir M9): SEO, sitemap, OG image, upload gambar, editor markdown aktif.
+**M10** (akhir M10): Audit a11y & performa lulus; konten asli menggantikan seed.
 
 ---
 
-## 6. Fase 3 — Monetize (Minggu 11–14)
+## 6. Fase 3: Monetize (Minggu 11–14)
 
 ### Tujuan
 Mengubah pengunjung menjadi **lead berbayar**. Fokus: harga transparan, jalur konversi tanpa friksi, dan notifikasi pesan masuk.
@@ -199,13 +199,13 @@ Mengubah pengunjung menjadi **lead berbayar**. Fokus: harga transparan, jalur ko
 - [ ] Funnel event CTA terkirim ke analytics.
 
 ### Milestone
-**M11** (akhir M11) — Halaman harga + copy penjualan selesai.
-**M12** (akhir M12) — Form kontak + spam guard + route API + penyimpanan pesan live.
-**M13** (akhir M13) — Email notifikasi aktif & terverifikasi.
-**M14** (akhir M14) — Funnel terukur; halaman konversi dioptimasi 1 iterasi.
+**M11** (akhir M11): Halaman harga + copy penjualan selesai.
+**M12** (akhir M12): Form kontak + spam guard + route API + penyimpanan pesan live.
+**M13** (akhir M13): Email notifikasi aktif & terverifikasi.
+**M14** (akhir M14): Funnel terukur; halaman konversi dioptimasi 1 iterasi.
 ---
 
-## 7. Fase 4 — Scale (Minggu 15–20+)
+## 7. Fase 4: Scale (Minggu 15–20+)
 
 ### Tujuan
 Menjadikan situs sebagai **aset jangka panjang**: aman, terukur, bisa dipulihkan, dan punya kedalaman konten yang bisa diindeks mesin pencari.
@@ -240,12 +240,12 @@ Menjadikan situs sebagai **aset jangka panjang**: aman, terukur, bisa dipulihkan
 - [ ] Biaya bulanan tetap di bawah ambang yang disepakati (lihat `../07-DEPLOYMENT/deployment-plan.md` §10).
 
 ### Milestone
-**M15** (akhir M15) — Blog matang + RSS + dashboard statistik v1.
-**M16** (akhir M16) — Search/filter admin + audit log + multi-role.
-**M17** (akhir M17) — Rate limit + 2FA + hardening keamanan.
-**M18** (akhir M18) — Export/import + backup otomatis + restore teruji.
-**M19** (akhir M19) — Monitoring + uptime + alerting aktif.
-**M20** (akhir M20) — Preview deploy + CI budget gate; fase masuk mode operasional.
+**M15** (akhir M15): Blog matang + RSS + dashboard statistik v1.
+**M16** (akhir M16): Search/filter admin + audit log + multi-role.
+**M17** (akhir M17): Rate limit + 2FA + hardening keamanan.
+**M18** (akhir M18): Export/import + backup otomatis + restore teruji.
+**M19** (akhir M19): Monitoring + uptime + alerting aktif.
+**M20** (akhir M20): Preview deploy + CI budget gate; fase masuk mode operasional.
 
 ---
 
@@ -278,7 +278,7 @@ Menjadikan situs sebagai **aset jangka panjang**: aman, terukur, bisa dipulihkan
 
 | Extern | Dibutuhkan oleh | Risiko bila terlambat |
 | --- | --- | --- |
-| Akun Neon (free tier) | F1.D1.2 | Blokir total — tidak ada data |
+| Akun Neon (free tier) | F1.D1.2 | Blokir total: tidak ada data |
 | Akun Vercel | F1.D1.12 | Blokir deploy |
 | Domain (`.id`/`.com`) | F1.D1.12 | Deploy tetap jalan di URL `*.vercel.app` |
 | Resend + domain terverifikasi | F3.D3.6 | Email masuk spam; fallback ke notifikasi in-app |
@@ -305,7 +305,7 @@ Risiko timeline adalah risiko yang terutama memengaruhi **jadwal**, bukan teknis
 
 | # | Risiko Timeline | Dampak | Mitigasi | Contingency |
 | --- | --- | --- | --- | --- |
-| TL-1 | Scope creep dari permintaan klien/pelanggan | +2–4 minggu | Whitelist backlog di `product-backlog.md`; fitur baru masuk backlog, bukan langsung dikerjakan | Tunda Fase 4 (Scale) — fase 1–3 tetap utuh |
+| TL-1 | Scope creep dari permintaan klien/pelanggan | +2–4 minggu | Whitelist backlog di `product-backlog.md`; fitur baru masuk backlog, bukan langsung dikerjakan | Tunda Fase 4 (Scale): fase 1–3 tetap utuh |
 | TL-2 | Solo developer, sakit atau downtime 1–2 minggu | Mundur 2 minggu | Time-boxing fase, buffer 15% di tiap fase | Kompres Fase 2 (Polish) menjadi 2 minggu, tunda D2.14 |
 | TL-3 | Estimasi halaman admin CRUD (10 rute) underestimated | +1 minggu F1 | Validasi dengan 1 CRUD penuh lebih dulu (projects) sebagai prototype | Fase 1 Must-have untuk CRUD `projects` + `settings` saja; sisanya ke Fase 2 |
 | TL-4 | Integrasi Neon/Vercel bermasalah (env var, region, SSL) | +1 minggu | Sudah diuji di F0/M1 dengan branch percobaan | Pindah ke direct connection string sementara, atau deploy manual |

@@ -1,4 +1,4 @@
-# Skema Database — Portfolio CMS & Showcase Pribadi
+# Skema Database: Portfolio CMS & Showcase Pribadi
 
 | Atribut | Nilai |
 | --- | --- |
@@ -27,7 +27,7 @@ Prinsip desain yang konsisten di seluruh skema:
 1. **`id` bertipe `UUID` dengan `gen_random_uuid()`.** ID dibuat database, bukan aplikasi. Tidak ada auto-increment yang bisa bocor jumlah baris.
 2. **`TEXT` mendominasi, bukan `VARCHAR(n)`.** Batas panjang ditegakkan di layer validasi Zod, bukan di database. Ini menjaga migrasi masa depan bebas hambat.
 3. **`JSONB` untuk data semi-terstruktur** (`gallery`, `stack`, `tags`, `features`, dan seluruh `settings.value`) yang bentuknya berubah-ubah dan tidak butuh query relasional.
-4. **`published BOOLEAN` sebagai soft-publish.** Tidak ada hard delete di tabel konten — menggantung konten achieved dengan flag.
+4. **`published BOOLEAN` sebagai soft-publish.** Tidak ada hard delete di tabel konten: menggantung konten achieved dengan flag.
 5. **`created_at` / `updated_at` default `now()`.** Di-update trigger aplikasi (bukan trigger DB) agar konsisten dengan `updated_at` pada `settings`.
 6. **Tanpa foreign key antar tabel konten.** Ditulis eksplisit di `database-schema.md` §4.
 
@@ -179,16 +179,16 @@ Tidak ada garis foreign key di ERD karena seluruh tabel konten berdiri sendiri (
 
 ## 3. Definisi Tabel
 
-### 3.1 `users` — Akun admin
+### 3.1 `users`: Akun admin
 
 Menyimpan akun yang bisa masuk ke panel admin. Satu-satunya tabel dengan data rahasia (`password_hash`).
 
 | Kolom | Tipe | Null | Default | Deskripsi |
 | --- | --- | --- | --- | --- |
 | `id` | `uuid` | NOT NULL | `gen_random_uuid()` | PK |
-| `email` | `text` | NOT NULL | — | UNIQUE. Email login, lowercase, divalidasi format |
+| `email` | `text` | NOT NULL |: | UNIQUE. Email login, lowercase, divalidasi format |
 | `name` | `text` | NOT NULL | `'Admin'` | Nama tampilan di sidebar admin & label audit log |
-| `password_hash` | `text` | NOT NULL | — | Hash bcrypt (cost 10). **Tidak pernah** menyimpan plaintext |
+| `password_hash` | `text` | NOT NULL |: | Hash bcrypt (cost 10). **Tidak pernah** menyimpan plaintext |
 | `role` | `text` | NOT NULL | `'admin'` | CHECK `role IN ('admin','editor')` |
 | `created_at` | `timestamptz` | NOT NULL | `now()` | Waktu pembuatan akun |
 | `updated_at` | `timestamptz` | NOT NULL | `now()` | Waktu perubahan profil/password |
@@ -211,14 +211,14 @@ Catatan: `email` unik bersifat *case-sensitive* di PostgreSQL secara default. No
 
 ---
 
-### 3.2 `settings` — Konfigurasi key-value
+### 3.2 `settings`: Konfigurasi key-value
 
 Menyimpan seluruh konfigurasi situs yang bisa diubah admin tanpa deploy: nama, tagline, warna aksen, urutan section, tautan sosial, metadata SEO, harga default, teks tombol.
 
 | Kolom | Tipe | Null | Default | Deskripsi |
 | --- | --- | --- | --- | --- |
-| `key` | `text` | NOT NULL | — | PK. Nama key, snake_case (lihat daftar di §5) |
-| `value` | `jsonb` | NOT NULL | — | Isi konfigurasi, bentuk bebas per key |
+| `key` | `text` | NOT NULL |: | PK. Nama key, snake_case (lihat daftar di §5) |
+| `value` | `jsonb` | NOT NULL |: | Isi konfigurasi, bentuk bebas per key |
 | `updated_at` | `timestamptz` | NOT NULL | `now()` | Waktu perubahan terakhir |
 
 Sifat penting:
@@ -230,13 +230,13 @@ Sifat penting:
 
 ---
 
-### 3.3 `projects` — Portofolio karya
+### 3.3 `projects`: Portofolio karya
 
 | Kolom | Tipe | Null | Default | Deskripsi |
 | --- | --- | --- | --- | --- |
 | `id` | `uuid` | NOT NULL | `gen_random_uuid()` | PK |
-| `slug` | `text` | NOT NULL | — | UNIQUE. URL: `/projects/[slug]` |
-| `title` | `text` | NOT NULL | — | Nama proyek |
+| `slug` | `text` | NOT NULL |: | UNIQUE. URL: `/projects/[slug]` |
+| `title` | `text` | NOT NULL |: | Nama proyek |
 | `summary` | `text` | NOT NULL | `''` | Ringkasan 1–2 kalimat, dipakai di card grid |
 | `description` | `text` | NOT NULL | `''` | Deskripsi lengkap, bisa Markdown |
 | `category` | `text` | NOT NULL | `'web'` | Kategori: `web`, `ui`, `automation`, `mobile`, `api`, `other` |
@@ -250,42 +250,42 @@ Sifat penting:
 | `featured` | `boolean` | NOT NULL | `false` | Tampil di section unggulan halaman depan |
 | `published` | `boolean` | NOT NULL | `true` | Soft-publish, lihat §6 |
 | `sort_order` | `integer` | NOT NULL | `0` | Urutan tampil. Makin kecil makin atas |
-| `created_at` | `timestamptz` | NOT NULL | `now()` | — |
-| `updated_at` | `timestamptz` | NOT NULL | `now()` | — |
+| `created_at` | `timestamptz` | NOT NULL | `now()` |: |
+| `updated_at` | `timestamptz` | NOT NULL | `now()` |: |
 
 Catatan desain:
 
-- **`year` sebagai `text`, bukan `integer`.** Rentang tahun dalam portofolio sering expressed sebagai rentang (`"2023 — sekarang"`), dan kolom ini tidak pernah di-aritmetika.
+- **`year` sebagai `text`, bukan `integer`.** Rentang tahun dalam portofolio sering expressed sebagai rentang (`"2023: sekarang"`), dan kolom ini tidak pernah di-aritmetika.
 - **`gallery` dan `stack` selalu JSON array, tidak pernah `null`.** Query publik tidak perlu memeriksa null-ness.
 - **`featured` + `published` independen.** Proyek featured tapi belum published tidak tampil di mana pun.
 
 ---
 
-### 3.4 `posts` — Tulisan blog
+### 3.4 `posts`: Tulisan blog
 
 | Kolom | Tipe | Null | Default | Deskripsi |
 | --- | --- | --- | --- | --- |
 | `id` | `uuid` | NOT NULL | `gen_random_uuid()` | PK |
-| `slug` | `text` | NOT NULL | — | UNIQUE. URL: `/blog/[slug]` |
-| `title` | `text` | NOT NULL | — | Judul artikel |
+| `slug` | `text` | NOT NULL |: | UNIQUE. URL: `/blog/[slug]` |
+| `title` | `text` | NOT NULL |: | Judul artikel |
 | `excerpt` | `text` | NOT NULL | `''` | Ringkasan untuk meta description & daftar artikel |
 | `content` | `text` | NOT NULL | `''` | Isi artikel dalam Markdown |
 | `cover_image` | `text` | NOT NULL | `''` | URL cover untuk card & Open Graph |
 | `tags` | `jsonb` | NOT NULL | `'[]'` | Array string label: `["Next.js","Vercel","Neon"]` |
 | `published` | `boolean` | NOT NULL | `true` | Soft-publish |
 | `published_at` | `timestamptz` | **NULL** | `NULL` | Tanggal terbit. NULL = draft terjadwal |
-| `created_at` | `timestamptz` | NOT NULL | `now()` | — |
-| `updated_at` | `timestamptz` | NOT NULL | `now()` | — |
+| `created_at` | `timestamptz` | NOT NULL | `now()` |: |
+| `updated_at` | `timestamptz` | NOT NULL | `now()` |: |
 
 **`published_at` NULL adalah makna, bukan kelalaian:**
 
 | `published` | `published_at` | Tampil publik? |
 | --- | --- | --- |
-| `false` | `NULL` | Tidak — draft |
-| `false` | terisi | Tidak — sengaja disembunyikan (unpublish) |
-| `true` | `NULL` | **Ya** — publish seketika, `published_at` diisi otomatis `now()` |
+| `false` | `NULL` | Tidak: draft |
+| `false` | terisi | Tidak: sengaja disembunyikan (unpublish) |
+| `true` | `NULL` | **Ya**: publish seketika, `published_at` diisi otomatis `now()` |
 | `true` | masa lalu | Ya |
-| `true` | masa depan | **Tidak** — terjadwal, tampil saat waktunya tiba |
+| `true` | masa depan | **Tidak**: terjadwal, tampil saat waktunya tiba |
 
 Query publik untuk posts:
 
@@ -300,13 +300,13 @@ LIMIT $1 OFFSET $2;
 
 ---
 
-### 3.5 `services` — Paket layanan berbayar
+### 3.5 `services`: Paket layanan berbayar
 
 | Kolom | Tipe | Null | Default | Deskripsi |
 | --- | --- | --- | --- | --- |
 | `id` | `uuid` | NOT NULL | `gen_random_uuid()` | PK |
-| `slug` | `text` | NOT NULL | — | UNIQUE. Untuk anchor & URL anchor di halaman harga |
-| `title` | `text` | NOT NULL | — | Nama paket |
+| `slug` | `text` | NOT NULL |: | UNIQUE. Untuk anchor & URL anchor di halaman harga |
+| `title` | `text` | NOT NULL |: | Nama paket |
 | `description` | `text` | NOT NULL | `''` | Deskripsi singkat |
 | `price_label` | `text` | NOT NULL | `''` | Teks sebelum angka: `"mulai dari"`, `"per proyek"` |
 | `price_value` | `text` | NOT NULL | `''` | Angka harga **tanpa** pemisah: `"2500000"` |
@@ -316,8 +316,8 @@ LIMIT $1 OFFSET $2;
 | `popular` | `boolean` | NOT NULL | `false` | Tandai paket paling direkomendasikan (disorot) |
 | `published` | `boolean` | NOT NULL | `true` | Soft-publish |
 | `sort_order` | `integer` | NOT NULL | `0` | Urutan tampil di halaman harga |
-| `created_at` | `timestamptz` | NOT NULL | `now()` | — |
-| `updated_at` | `timestamptz` | NOT NULL | `now()` | — |
+| `created_at` | `timestamptz` | NOT NULL | `now()` |: |
+| `updated_at` | `timestamptz` | NOT NULL | `now()` |: |
 
 **Kenapa harga dipecah tiga kolom?**
 
@@ -331,32 +331,32 @@ Aturan formatting (bukan aturan database): `price_value` diparse dengan `Number(
 
 ---
 
-### 3.6 `experiences` — Linimasa kerja
+### 3.6 `experiences`: Linimasa kerja
 
 | Kolom | Tipe | Null | Default | Deskripsi |
 | --- | --- | --- | --- | --- |
 | `id` | `uuid` | NOT NULL | `gen_random_uuid()` | PK |
-| `company` | `text` | NOT NULL | — | Nama perusahaan/org |
-| `role` | `text` | NOT NULL | — | Jabatan |
-| `period` | `text` | NOT NULL | `''` | Rentang periode bebas: `"2023 — sekarang"` |
+| `company` | `text` | NOT NULL |: | Nama perusahaan/org |
+| `role` | `text` | NOT NULL |: | Jabatan |
+| `period` | `text` | NOT NULL | `''` | Rentang periode bebas: `"2023: sekarang"` |
 | `description` | `text` | NOT NULL | `''` | Ringkasan Achievements |
 | `url` | `text` | NOT NULL | `''` | URL perusahaan (opsional) |
 | `sort_order` | `integer` | NOT NULL | `0` | Urutan (terbaru di atas) |
 | `created_at` | `timestamptz` | NOT NULL | `now()` | Waktu dibuat |
 | `updated_at` | `timestamptz` | NOT NULL | `now()` | Di-update oleh aplikasi setiap mutasi |
 
-Tidak ada `published` di tabel ini — seluruh isi tampil publik. Jika diperlukan mechanism hide, tambahkan kolom `published` di migrasi berikutnya (expand-contract, lihat §8).
+Tidak ada `published` di tabel ini: seluruh isi tampil publik. Jika diperlukan mechanism hide, tambahkan kolom `published` di migrasi berikutnya (expand-contract, lihat §8).
 
-`period` disimpan sebagai `text` karena formatnya human-readable (`"2021 — 2023"`, `"2023 — sekarang"`) dan tidak pernah difilter secara programatik.
+`period` disimpan sebagai `text` karena formatnya human-readable (`"2021: 2023"`, `"2023: sekarang"`) dan tidak pernah difilter secara programatik.
 
 ---
 
-### 3.7 `skills` — Keahlian
+### 3.7 `skills`: Keahlian
 
 | Kolom | Tipe | Null | Default | Deskripsi |
 | --- | --- | --- | --- | --- |
 | `id` | `uuid` | NOT NULL | `gen_random_uuid()` | PK |
-| `name` | `text` | NOT NULL | — | Nama skill: `"TypeScript"` |
+| `name` | `text` | NOT NULL |: | Nama skill: `"TypeScript"` |
 | `category` | `text` | NOT NULL | `'Tools'` | Kategori: `Languages`, `Frameworks`, `Database`, `Styling`, `Design`, `Tools` |
 | `level` | `integer` | NOT NULL | `80` | Persentase 0–100 (bar progress) |
 | `sort_order` | `integer` | NOT NULL | `0` | Urutan dalam kategori |
@@ -369,16 +369,16 @@ Constraint yang **dianjurkan** (tidak wajib di DDL agar tetap konsisten dengan `
 ALTER TABLE skills ADD CONSTRAINT skills_level_check CHECK (level BETWEEN 0 AND 100);
 ```
 
-Tidak ada unique constraint pada `(name, category)` — skilleduplikasi diperbolehkan karena relevan: skill yang sama bisa punya level berbeda di dua kategori (mis. `Design` vs `Tools`).
+Tidak ada unique constraint pada `(name, category)`: skilleduplikasi diperbolehkan karena relevan: skill yang sama bisa punya level berbeda di dua kategori (mis. `Design` vs `Tools`).
 
 ---
 
-### 3.8 `testimonials` — Testimoni klien
+### 3.8 `testimonials`: Testimoni klien
 
 | Kolom | Tipe | Null | Default | Deskripsi |
 | --- | --- | --- | --- | --- |
 | `id` | `uuid` | NOT NULL | `gen_random_uuid()` | PK |
-| `name` | `text` | NOT NULL | — | Nama orang |
+| `name` | `text` | NOT NULL |: | Nama orang |
 | `role` | `text` | NOT NULL | `''` | Jabatan: `"Product Owner"` |
 | `company` | `text` | NOT NULL | `''` | Perusahaan: `"Nusantara Labs"` |
 | `content` | `text` | NOT NULL | `''` | Isi testimoni |
@@ -399,16 +399,16 @@ ALTER TABLE testimonials ADD CONSTRAINT testimonials_rating_check CHECK (rating 
 
 ---
 
-### 3.9 `messages` — Pesan dari form kontak
+### 3.9 `messages`: Pesan dari form kontak
 
 | Kolom | Tipe | Null | Default | Deskripsi |
 | --- | --- | --- | --- | --- |
 | `id` | `uuid` | NOT NULL | `gen_random_uuid()` | PK |
-| `name` | `text` | NOT NULL | — | Nama pengirim |
-| `email` | `text` | NOT NULL | — | Email balasan |
+| `name` | `text` | NOT NULL |: | Nama pengirim |
+| `email` | `text` | NOT NULL |: | Email balasan |
 | `subject` | `text` | NOT NULL | `''` | Subjek/topik |
 | `budget` | `text` | NOT NULL | `''` | Estimasi budget (opsional, teks bebas) |
-| `message` | `text` | NOT NULL | — | Isi pesan |
+| `message` | `text` | NOT NULL |: | Isi pesan |
 | `status` | `text` | NOT NULL | `'new'` | CHECK `status IN ('new','read','archived')` |
 | `created_at` | `timestamptz` | NOT NULL | `now()` | Waktu masuk |
 
@@ -422,7 +422,7 @@ new ──> read ──> archived
  └──────────────────┘   (archived → new: belum dibaca)
 ```
 
-Penghapusan tidak dilakukan di aplikasi — pesan di-`archived` dan tetap disimpan (lihat §9 retention).
+Penghapusan tidak dilakukan di aplikasi: pesan di-`archived` dan tetap disimpan (lihat §9 retention).
 
 ---
 
@@ -439,10 +439,10 @@ Alasannya:
 | **Tidak ada relasi substantif** | Tidak ada kolom yang menunjuk entitas lain. `projects.client` adalah teks bebas, bukan referensi ke tabel klien (tabel klien memang tidak ada) |
 | **Kurasi independen** | Menghapus sebuah proyek tidak boleh otomatis menghapus atau invalidasi apa pun. Admin bebas mengedit tiap daftar secara terpisah |
 | **Skema CMS yang bisa dievolusikan** | Menambah kolom baru (mis. `projects.category_id` menuju tabel `categories`) lebih mudah tanpa mengubah constraint yang sudah ada |
-| **Performa** | Setiap FK menambah index overhead pada INSERT/UPDATE. Pada tabel kecil, ini tidak signifikan — tapi juga tidak ada keuntungan dari FK di sini |
+| **Performa** | Setiap FK menambah index overhead pada INSERT/UPDATE. Pada tabel kecil, ini tidak signifikan: tapi juga tidak ada keuntungan dari FK di sini |
 | **Menghindari cascading delete yang berbahaya** | FK dengan `ON DELETE CASCADE` adalah bom waktu di sistem CMS. Tanpa FK, penghapusan selalu eksplisit di aplikasi |
 
-**Konsekuensi yang harus diterima:** integritas referensial **tidak** dijamin database. Untuk tabel ini tidak ada yang perlu dijamin referensialnya. Namun bila di masa depan dibutuhkan (mis. `settings` dengan `owner_id`), tambahkan FK **dengan `ON DELETE RESTRICT`** — bukan `CASCADE`.
+**Konsekuensi yang harus diterima:** integritas referensial **tidak** dijamin database. Untuk tabel ini tidak ada yang perlu dijamin referensialnya. Namun bila di masa depan dibutuhkan (mis. `settings` dengan `owner_id`), tambahkan FK **dengan `ON DELETE RESTRICT`**: bukan `CASCADE`.
 
 Relasi yang **ada** bersifat logis dan ditegakkan di aplikasi:
 
@@ -458,9 +458,9 @@ Relasi yang **ada** bersifat logis dan ditegakkan di aplikasi:
 
 ### 5.1 Kenapa key-value, bukan tabel kolom
 
-Kebutuhan konfigurasi situs berubah cepat (warna aksen, urutan section, teks tombol, harga default), sementara tabel kolom tetap berarti **migrasi database setiap kali** menambah satu field pengaturan. Dengan `settings` JSONB, menambah field = menambah satu baris di `value` — **tanpa migrasi**.
+Kebutuhan konfigurasi situs berubah cepat (warna aksen, urutan section, teks tombol, harga default), sementara tabel kolom tetap berarti **migrasi database setiap kali** menambah satu field pengaturan. Dengan `settings` JSONB, menambah field = menambah satu baris di `value`: **tanpa migrasi**.
 
-Trade-off yang disadari: tidak ada validasi skema di level database untuk isi `settings`. Mitigasinya — daftar key bersifat **tertutup** (closed list) dan divalidasi di aplikasi.
+Trade-off yang disadari: tidak ada validasi skema di level database untuk isi `settings`. Mitigasinya: daftar key bersifat **tertutup** (closed list) dan divalidasi di aplikasi.
 
 ### 5.2 Daftar key
 
@@ -483,7 +483,7 @@ Aturan: **hanya 7 key ini yang boleh ada.** Kode aplikasi memvalidasi key yang b
 {
   "name": "Nama Kamu",
   "tagline": "Full-Stack Developer & Designer",
-  "description": "Portfolio pribadi saya — saya bangun produk web yang cepat, rapi, dan layak dipamerkan.",
+  "description": "Portfolio pribadi saya: saya bangun produk web yang cepat, rapi, dan layak dipamerkan.",
   "logoText": "NK",
   "email": "hello@domainmu.com",
   "phone": "+62 812-3456-7890",
@@ -546,7 +546,7 @@ Nilai kosong = tautan disembunyikan. `whatsapp`expects format `6281234567890` (t
 **`seo`**
 ```json
 {
-  "metaTitle": "Portfolio — Nama Kamu",
+  "metaTitle": "Portfolio: Nama Kamu",
   "metaDescription": "Portfolio pribadi developer: project, blog, dan layanan freelance.",
   "ogImage": "",
   "keywords": "portfolio, web developer, freelance"
@@ -559,14 +559,14 @@ Nilai kosong = tautan disembunyikan. `whatsapp`expects format `6281234567890` (t
 {
   "hireMeEnabled": true,
   "hireMeTitle": "Punya ide project?",
-  "hireMeText": "Ceritakan kebutuhan Anda — saya balas dalam 1x24 jam dengan estimasi harga dan timeline.",
+  "hireMeText": "Ceritakan kebutuhan Anda: saya balas dalam 1x24 jam dengan estimasi harga dan timeline.",
   "hireMeButtonText": "Mulai Diskusi",
   "hireMeButtonLink": "/contact",
   "showPricing": true,
   "pricingTitle": "Paket Layanan",
   "pricingSubtitle": "Harga transparan, tanpa biaya tersembunyi.",
   "ctaTitle": "Mari kerjakan project Anda",
-  "ctaText": "Punya sesuatu yang ingin dibahas? Langsung saja — konsultasi gratis untuk project pertama.",
+  "ctaText": "Punya sesuatu yang ingin dibahas? Langsung saja: konsultasi gratis untuk project pertama.",
   "ctaButtonText": "Kontak Sekarang"
 }
 ```
@@ -597,7 +597,7 @@ Nilai kosong = tautan disembunyikan. `whatsapp`expects format `6281234567890` (t
 
 ### 6.1 Slug unik
 
-Slug adalah identifier URL, harus unik per tabel, dan harus **stabil** (tidak berubah saat konten diedit) — karena tautan eksternal sudah tersebar.
+Slug adalah identifier URL, harus unik per tabel, dan harus **stabil** (tidak berubah saat konten diedit): karena tautan eksternal sudah tersebar.
 
 **Aturan pembentukan:**
 
@@ -621,9 +621,9 @@ Contoh: `"Belajar Deploy Next.js ke Vercel!"` → `belajar-deploy-nextjs-ke-verc
 | Create dengan slug kosong / auto dari judul | Generate slug lalu tack suffix `-2`, `-3`, … bila bentrok |
 | Update tanpa mengubah slug | Slug lama dipertahankan |
 | Update dengan slug baru yang bentrok | Tolak |
-| Ingin ganti slug | Update manual di field slug, dengan konfirmasi — karena URL lama akan rusak |
+| Ingin ganti slug | Update manual di field slug, dengan konfirmasi: karena URL lama akan rusak |
 
-Setiap tabel yang punya slug punya **unique constraint** di database — validasi Zod hanya lapisan UX, database adalah penegak terakhirnya.
+Setiap tabel yang punya slug punya **unique constraint** di database: validasi Zod hanya lapisan UX, database adalah penegak terakhirnya.
 
 ### 6.2 Soft-publish semantics
 
@@ -718,17 +718,17 @@ ORDER BY idx_scan DESC;
 | Tool | Peran |
 | --- | --- |
 | `db/migrations/*.sql` | Migrasi SQL bernomor, ditulis manual, dibaca berurutan oleh runner |
-| `scripts/migrate.ts` | `npm run db:migrate` — mencatat versi di `schema_migrations`, menjalankan file SQL baru dalam satu transaksi |
+| `scripts/migrate.ts` | `npm run db:migrate`: mencatat versi di `schema_migrations`, menjalankan file SQL baru dalam satu transaksi |
 | `db/schema.sql` | DDL kanonik (referensi manusia; hasil migrasi harus cocok) |
-| `scripts/setup.ts` | `npm run db:setup` — jalankan migrasi + seed bila kosong |
-| `scripts/seed.ts` | `npm run db:seed` — isi data awal |
+| `scripts/setup.ts` | `npm run db:setup`: jalankan migrasi + seed bila kosong |
+| `scripts/seed.ts` | `npm run db:seed`: isi data awal |
 
 ### 8.2 Alur migrasi
 
 ```
 1. Ubah db/schema.sql (DDL kanonik)
-2. Tulis db/migrations/00XX_nama.sql secara manual — satu perubahan logis per berkas
-3. Review SQL manual — WAJIB
+2. Tulis db/migrations/00XX_nama.sql secara manual: satu perubahan logis per berkas
+3. Review SQL manual: WAJIB
 4. Jalankan di branch Neon 'dev' / 'staging' dulu
 5. Uji aplikasi terhadap branch tersebut
 6. Apply ke branch 'main'
@@ -741,7 +741,7 @@ ORDER BY idx_scan DESC;
 **Wajib:**
 
 1. **Satu perubahan logis per migrasi.** Don't mix unrelated changes.
-2. **Selalu review SQL migrasi sebelum dijalankan.** SQL ditulis manual — kesalahan tidakcaught oleh tooling.
+2. **Selalu review SQL migrasi sebelum dijalankan.** SQL ditulis manual: kesalahan tidakcaught oleh tooling.
 3. **Expand → Migrate → Contract**, tiga tahap terpisah untuk perubahan kolom berisiko:
 
    ```
@@ -770,23 +770,23 @@ ORDER BY idx_scan DESC;
 
 Riwayat migrasi disimpan di tabel `schema_migrations` (`version text primary key`, `applied_at timestamptz not null default now()`) di dalam database itu sendiri. Urutan eksekusi ditentukan oleh nama file bernomor (`0000_init.sql`, `0001_add_...sql`, dst).
 
-Runner `npm run db:migrate` bersifat **idempoten** — migrasi yang versinya sudah tercatat di `schema_migrations` dilewati. Setiap file dijalankan di dalam satu transaksi: jika gagal di tengah, seluruh file rollback dan versi tidak tercatat. Terapkan migrasi baru **sebelum** deploy kode baru yang bergantung padanya.
+Runner `npm run db:migrate` bersifat **idempoten**: migrasi yang versinya sudah tercatat di `schema_migrations` dilewati. Setiap file dijalankan di dalam satu transaksi: jika gagal di tengah, seluruh file rollback dan versi tidak tercatat. Terapkan migrasi baru **sebelum** deploy kode baru yang bergantung padanya.
 
 ### 8.5 Contoh migrasi
 
-**Contoh A — menambah kolom (`projects.technologies`):**
+**Contoh A: menambah kolom (`projects.technologies`):**
 ```sql
 -- 0002_add_technologies.sql
 ALTER TABLE projects ADD COLUMN technologies jsonb NOT NULL DEFAULT '[]'::jsonb;
 ```
 
-**Contoh B — menambah index komposit:**
+**Contoh B: menambah index komposit:**
 ```sql
 -- 0003_posts_published_idx.sql
 CREATE INDEX IF NOT EXISTS idx_posts_published ON posts (published, published_at DESC);
 ```
 
-**Contoh C — menambah kolom nullable laluisi (backfill) lalu constraint:**
+**Contoh C: menambah kolom nullable laluisi (backfill) lalu constraint:**
 ```sql
 -- 0004_add_message_ip.sql
 ALTER TABLE messages ADD COLUMN ip text;
@@ -806,7 +806,7 @@ ALTER TABLE messages ALTER COLUMN ip SET DEFAULT 'unknown';
 | --- | --- |
 | `npm run db:setup` | Buat tabel (kalau belum ada) + jalankan migrasi + seed **bila tabel kosong** |
 | `npm run db:seed` | Seed idempoten (`ON CONFLICT DO NOTHING`) |
-| `npm run db:reset` | **HANCURKAN** — drop semua tabel, lalu setup + seed. Selalu buat branch backup dulu |
+| `npm run db:reset` | **HANCURKAN**: drop semua tabel, lalu setup + seed. Selalu buat branch backup dulu |
 
 ### 9.2 Isi seed
 
@@ -827,7 +827,7 @@ ALTER TABLE messages ALTER COLUMN ip SET DEFAULT 'unknown';
 1. **Idempoten.** Semua insert memakai `ON CONFLICT (key) DO NOTHING` / `ON CONFLICT (slug) DO NOTHING`. Menjalankan seed dua kali tidak menggandakan data.
 2. **Tidak pernah overwrite.** Seed hanya mengisi yang kosong. Jalankan `db:seed` setelah admin mengedit konten **tidak akan** menghapus editan tersebut.
 3. **Aman untuk produksi.** Seed aman dijalankan di produksi (untuk mengisi tabel yang belum terisi).
-4. **Password di-hash.** `users.password_hash` diisi oleh `scripts/seed.ts` dengan `bcrypt.hash(password, 10)` — bukan hash yang di-hardcode.
+4. **Password di-hash.** `users.password_hash` diisi oleh `scripts/seed.ts` dengan `bcrypt.hash(password, 10)`: bukan hash yang di-hardcode.
 5. **Email admin lowercase.** Dinormalisasi sebelum insert.
 
 ### 9.4 Seed akun admin
@@ -848,7 +848,7 @@ DELETE FROM posts WHERE slug = 'kenapa-pakai-neon-postgres';
 DELETE FROM projects WHERE slug = 'dashboard-analytics';
 ```
 
-Alternatif yang lebih aman: ubah `published = false` pada data contoh, biarkan sebagai bahan demo. Datalogi yang bisa dihapus bersih adalah proyek dan post contoh, bukan settings — settings berisi konfigurasi yang mungkin sudah disesuaikan.
+Alternatif yang lebih aman: ubah `published = false` pada data contoh, biarkan sebagai bahan demo. Datalogi yang bisa dihapus bersih adalah proyek dan post contoh, bukan settings: settings berisi konfigurasi yang mungkin sudah disesuaikan.
 
 ---
 
@@ -867,7 +867,7 @@ Pesan kontak berisi data personal orang. Ada kewajiban hukum (UU PDP) dan kewaji
 
 ### 10.2 Mekanisme
 
-**Opsi A — cron di aplikasi** (route handler + Vercel Cron, harian pada Hobby):
+**Opsi A: cron di aplikasi** (route handler + Vercel Cron, harian pada Hobby):
 
 ```ts
 // app/api/cron/cleanup-messages/route.ts
@@ -880,7 +880,7 @@ export async function GET(req: Request) {
 }
 ```
 
-**Opsi B — cron eksternal** (GitHub Actions, pg_cron di Neon, atau Cronitor):
+**Opsi B: cron eksternal** (GitHub Actions, pg_cron di Neon, atau Cronitor):
 
 ```sql
 -- pg_cron di Neon (branch main)
@@ -942,11 +942,11 @@ Tanpa ORM, definisi tipe kolom berada di DDL (`db/schema.sql`) dan di lapisan Ty
 | Konvensi | Aturan |
 | --- | --- |
 | Nama kolom | `snake_case` di database (`sort_order`, `cover_image`, `published_at`) |
-| Alias di query | `AS "sortOrder"` — alias `camelCase` dipakai agar hasil query langsung bisa dipakai di komponen tanpa mapping manual |
+| Alias di query | `AS "sortOrder"`: alias `camelCase` dipakai agar hasil query langsung bisa dipakai di komponen tanpa mapping manual |
 | Tipe UUID | `uuid` dengan default `gen_random_uuid()` |
-| Tipe waktu | `timestamptz` (bukan `timestamp` tanpa zona) — default `now()` |
+| Tipe waktu | `timestamptz` (bukan `timestamp` tanpa zona): default `now()` |
 | JSONB | `jsonb` dengan default `'[]'::jsonb`; selalu berupa array/object, tidak pernah `NULL` |
-| Parameter | Semua nilai dinamis lewat placeholder tagged template `sql` — tidak ada interpolasi string |
+| Parameter | Semua nilai dinamis lewat placeholder tagged template `sql`: tidak ada interpolasi string |
 
 ```ts
 // db/queries/projects.ts
@@ -982,12 +982,12 @@ Pola penting:
 
 | Pola | Kegunaan |
 | --- | --- |
-| Tagged template `sql\`...\`` | Meng-escape parameter secara otomatis — inilah fondasi "no raw SQL string interpolation" |
+| Tagged template `sql\`...\`` | Meng-escape parameter secara otomatis: inilah fondasi "no raw SQL string interpolation" |
 | Alias `AS "camelCase"` | Menghilangkan lapisan mapping manual baris → objek domain |
-| `LIMIT ${limit}` | Parameter bertipe number — selalu dari kode, bukan input mentah user tanpa validasi |
+| `LIMIT ${limit}` | Parameter bertipe number: selalu dari kode, bukan input mentah user tanpa validasi |
 | `sql.transaction([...])` | Beberapa statement dalam satu transaksi & satu round-trip HTTP (HTTP driver tidak mendukung transaksi interaktif) |
 | `timestamptz` | Selalu pakai `timestamp with time zone` untuk kolom waktu |
-| Default `gen_random_uuid()` | ID dibuat database, bukan aplikasi — tidak ada auto-increment yang membocorkan jumlah baris |
+| Default `gen_random_uuid()` | ID dibuat database, bukan aplikasi: tidak ada auto-increment yang membocorkan jumlah baris |
 
 ### 11.3 Parse JSONB
 
@@ -996,15 +996,15 @@ Pola penting:
 const stack: string[] = Array.isArray(row.stack) ? row.stack : [];
 ```
 
-Jangan pernah melakukan `JSON.parse(row.gallery)` — kolomnya sudah JSONB, driver sudah meng-parse-nya.
+Jangan pernah melakukan `JSON.parse(row.gallery)`: kolomnya sudah JSONB, driver sudah meng-parse-nya.
 
 ---
 
 ## 12. Query Referensi
 
-Query yang benar-benar dijalankan aplikasi — daftar ini adalah dasar justify index di §7.
+Query yang benar-benar dijalankan aplikasi: daftar ini adalah dasar justify index di §7.
 
-### 12.1 Publik — daftar project
+### 12.1 Publik: daftar project
 
 ```sql
 SELECT id, slug, title, summary, cover_image, stack, featured, sort_order
@@ -1014,7 +1014,7 @@ ORDER BY sort_order ASC, created_at DESC
 LIMIT 24;
 ```
 
-### 12.2 Publik — detail project
+### 12.2 Publik: detail project
 
 ```sql
 SELECT id, slug, title, summary, description, category, cover_image,
@@ -1024,7 +1024,7 @@ WHERE slug = $1 AND published = true
 LIMIT 1;
 ```
 
-### 12.3 Publik — daftar post
+### 12.3 Publik: daftar post
 
 ```sql
 SELECT id, slug, title, excerpt, cover_image, tags, published_at
@@ -1034,7 +1034,7 @@ ORDER BY published_at DESC NULLS LAST
 LIMIT 12 OFFSET $1;
 ```
 
-### 12.4 Publik — daftar service
+### 12.4 Publik: daftar service
 
 ```sql
 SELECT id, slug, title, description, price_label, price_value,
@@ -1045,13 +1045,13 @@ ORDER BY sort_order ASC
 LIMIT 12;
 ```
 
-### 12.5 Publik — ambil seluruh settings
+### 12.5 Publik: ambil seluruh settings
 
 ```sql
 SELECT key, value FROM settings;
 ```
 
-### 12.6 Admin — inbox pesan
+### 12.6 Admin: inbox pesan
 
 ```sql
 SELECT id, name, email, subject, budget, message, status, created_at
@@ -1061,7 +1061,7 @@ ORDER BY created_at DESC
 LIMIT 50 OFFSET $2;
 ```
 
-### 12.7 Admin — daftar draft
+### 12.7 Admin: daftar draft
 
 ```sql
 SELECT id, slug, title, published, published_at, updated_at
@@ -1070,7 +1070,7 @@ ORDER BY created_at DESC
 LIMIT 50;
 ```
 
-### 12.8 Tulis — upsert settings
+### 12.8 Tulis: upsert settings
 
 ```sql
 INSERT INTO settings (key, value, updated_at)

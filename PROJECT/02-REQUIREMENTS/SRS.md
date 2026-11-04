@@ -1,4 +1,4 @@
-# 02 — Software Requirements Specification (SRS)
+# 02: Software Requirements Specification (SRS)
 
 ## 1. Pendahuluan
 
@@ -27,7 +27,7 @@ SRS ini menerjemahkan PRD (`02-REQUIREMENTS/PRD.md`) menjadi spesifikasi teknis 
 
 ---
 
-## 2. Persyaratan Fungsional — Publik
+## 2. Persyaratan Fungsional: Publik
 
 ### SRS-PUB-01 Halaman Beranda
 **Sistem shall** merender beranda yang terdiri dari section: hero, layanan, project, about, skill, pengalaman, testimoni, pricing, artikel terbaru, dan CTA.
@@ -73,7 +73,7 @@ SRS ini menerjemahkan PRD (`02-REQUIREMENTS/PRD.md`) menjadi spesifikasi teknis 
 
 ---
 
-## 3. Persyaratan Fungsional — Admin
+## 3. Persyaratan Fungsional: Admin
 
 ### SRS-ADM-01 Login
 **Sistem shall** menerima email dan password pada `/admin/login`.
@@ -175,7 +175,7 @@ Berlaku untuk `projects`, `posts`, `services`, `experience`, `skills`, `testimon
 |---|---|
 | SRS-NFR-03a | Error database tidak menyebabkan blank page; fallback ke default/empty list |
 | SRS-NFR-03b | Kegagalan email notifikasi tidak menggagalkan penyimpanan pesan |
-| SRS-NFR-03c | `npm run db:setup` idempoten — dapat dijalankan ulang tanpa merusak data |
+| SRS-NFR-03c | `npm run db:setup` idempoten: dapat dijalankan ulang tanpa merusak data |
 | SRS-NFR-03d | Kegagalan build halting pada type error (`tsc --noEmit` bersih) |
 
 ### SRS-NFR-04 Maintainability
@@ -248,12 +248,12 @@ Detail lengkap di `04-ARCHITECTURE/api-specification.yaml`.
 
 | ID | Requirement |
 |---|---|
-| SRS-API-01 | `GET /api/projects` — list project published |
-| SRS-API-02 | `GET /api/posts` — list artikel published |
-| SRS-API-03 | `GET /api/services` — list paket published |
-| SRS-API-04 | `GET /api/settings/public` — settings tanpa data sensitif |
-| SRS-API-05 | `POST /api/messages` — kirim pesan, validasi Zod, rate limit |
-| SRS-API-06 | `POST /api/revalidate` — revalidasi cache, butuh header rahasia |
+| SRS-API-01 | `GET /api/projects`: list project published |
+| SRS-API-02 | `GET /api/posts`: list artikel published |
+| SRS-API-03 | `GET /api/services`: list paket published |
+| SRS-API-04 | `GET /api/settings/public`: settings tanpa data sensitif |
+| SRS-API-05 | `POST /api/messages`: kirim pesan, validasi Zod, rate limit |
+| SRS-API-06 | `POST /api/revalidate`: revalidasi cache, butuh header rahasia |
 | SRS-API-07 | Seluruh response JSON konsisten: `{ data, count? }` atau `{ error, details? }` |
 | SRS-API-08 | Status code: 200 sukses, 201 dibuat, 400 JSON salah, 422 validasi gagal, 401 tidak sah |
 

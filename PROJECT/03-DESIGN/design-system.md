@@ -1,13 +1,13 @@
-# Design System — Website Portofolio Pribadi & CMS Semi-Custom
+# Design System: Website Portofolio Pribadi & CMS Semi-Custom
 
 | Atribut | Nilai |
 | --- | --- |
 | Produk | Website portofolio pribadi + CMS semi-custom |
 | Versi dokumen | 1.0 |
-| Status | Draft untuk review (Fase 0 — Discovery) |
+| Status | Draft untuk review (Fase 0: Discovery) |
 | Tanggal | 4 November 2026 |
 | Owner | Developer independen (Indonesia), 1 orang |
-| Aesthetic | Vercel × Linear — clean, lots of whitespace, subtle borders, grid background halus, satu accent color |
+| Aesthetic | Vercel × Linear: clean, lots of whitespace, subtle borders, grid background halus, satu accent color |
 | Implementasi | Tailwind CSS v4 (CSS-first, `@theme`), Next.js 15 App Router, `next/font` Geist |
 | Sumber token | `src/app/globals.css` (sudah terimplementasi) · `src/lib/utils.ts` · `db/seed.sql` |
 | Dokumen terkait | `PROJECT/03-DESIGN/user-flow.md` · `PROJECT/03-DESIGN/wireframes/README.md` |
@@ -23,7 +23,7 @@ Sistem ini dibangun di atas empat prinsip. Setiap keputusan token di bawah dapat
 Tema gelap adalah **tema asli**. Tema terang adalah adaptasi, bukan kebalikan. Konsekuensinya:
 
 - Canonical component styling ditulis untuk surface gelap (`#09090b`).
-- Border gelap tidak pernah "hitam di atas hitam" — selalu ada luminance step minimal 1 tingkat.
+- Border gelap tidak pernah "hitam di atas hitam": selalu ada luminance step minimal 1 tingkat.
 - Prioritas kontras: teks utama ≥ 7:1 (AAA), teks sekunder ≥ 4.5:1 (AA), border non-tekst ≥ 3:1.
 - Light mode bukan sekadar `invert()`; surface, border, dan shadow punya token sendiri.
 
@@ -34,7 +34,7 @@ Default: **Indigo `#6366f1`** (accent) + **Cyan `#22d3ee`** (secondary).
 Aturan}:
 - Accent hanya untuk: CTA utama, link aktif, link di dalam teks, focus ring, indikator "featured", gradient aksen.
 - Accent **tidak** untuk: border semua card, heading, ikon dekoratif, background halaman.
-- Jika owner mengubah accent lewat admin (`settings.theme.accent`), seluruh komponen mengikuti karena semuanya memakai CSS variable — tidak ada class hardcoded warna.
+- Jika owner mengubah accent lewat admin (`settings.theme.accent`), seluruh komponen mengikuti karena semuanya memakai CSS variable: tidak ada class hardcoded warna.
 - Accent-2 (`#22d3ee`) hanya untuk: gradient aksen, sparkline/glow, highlight sekunder pada pricing "popular". Tidak pernah sebagai warna teks body.
 
 ### 1.3 Whitespace sebagai alat, bukan sisa
@@ -140,7 +140,7 @@ Preset accent yang disediakan di admin (berdasarkan seed `#6366f1`):
 
 ### 2.4 Warna status
 
-Warna status hanya boleh muncul sebagai **badge kecil**, **ikon**, atau **border tipis** — tidak pernah sebagai background besar.
+Warna status hanya boleh muncul sebagai **badge kecil**, **ikon**, atau **border tipis**: tidak pernah sebagai background besar.
 
 | Status | Dark | Light | Pemakaian |
 | --- | --- | --- | --- |
@@ -157,18 +157,18 @@ Semua warna status dark-mode harus dipakai dengan background transparan + border
 
 | Kombinasi | Rasio dark | Rasio light | Verdict |
 | --- | --- | --- | --- |
-| `#fafafa` on `#09090b` | 18.4:1 | — | AAA ✓ |
-| `#a1a1aa` on `#09090b` | 7.6:1 | — | AAA ✓ |
-| `#fafafa` on `#111113` | 17.2:1 | — | AAA ✓ |
-| `#a1a1aa` on `#111113` | 7.1:1 | — | AAA ✓ |
-| `#09090b` on `#ffffff` | — | 19.3:1 | AAA ✓ |
-| `#52525b` on `#ffffff` | — | 7.5:1 | AAA ✓ |
-| `#6366f1` on `#09090b` | 4.6:1 | — | AA ✓ (large text AA) |
+| `#fafafa` on `#09090b` | 18.4:1 |: | AAA ✓ |
+| `#a1a1aa` on `#09090b` | 7.6:1 |: | AAA ✓ |
+| `#fafafa` on `#111113` | 17.2:1 |: | AAA ✓ |
+| `#a1a1aa` on `#111113` | 7.1:1 |: | AAA ✓ |
+| `#09090b` on `#ffffff` |: | 19.3:1 | AAA ✓ |
+| `#52525b` on `#ffffff` |: | 7.5:1 | AAA ✓ |
+| `#6366f1` on `#09090b` | 4.6:1 |: | AA ✓ (large text AA) |
 | `#ffffff` on `#6366f1` | 4.6:1 | 4.6:1 | AA ✓ |
-| `#e4e4e7` on `#ffffff` | — | 1.3:1 | ✗ non-text, jangan dipakai |
-| `#27272a` on `#09090b` | 1.4:1 | — | ✗ non-text, jangan dipakai |
+| `#e4e4e7` on `#ffffff` |: | 1.3:1 | ✗ non-text, jangan dipakai |
+| `#27272a` on `#09090b` | 1.4:1 |: | ✗ non-text, jangan dipakai |
 
-> **Aturan**: `#27272a` (dark) dan `#e4e4e7` (light) **hanya boleh** sebagai border/divider, tidak pernah menjadi tempat bagi teks. Border dekoratif tidak wajib mencapai 3:1; border yang merupakan satu-satunya pembawa makna (mis. checkbox, toggle off, input field) **wajib** ≥ 3:1 — untuk itu gunakan `--border-strong` atau warna accent.
+> **Aturan**: `#27272a` (dark) dan `#e4e4e7` (light) **hanya boleh** sebagai border/divider, tidak pernah menjadi tempat bagi teks. Border dekoratif tidak wajib mencapai 3:1; border yang merupakan satu-satunya pembawa makna (mis. checkbox, toggle off, input field) **wajib** ≥ 3:1: untuk itu gunakan `--border-strong` atau warna accent.
 
 ---
 
@@ -203,16 +203,16 @@ Semua ukuran memakai rem agar konsisten dengan setting zoom browser. `font-size`
 | H3 | `text-xl` | 20px | 600 | 1.3 | `-0.015em` | Judul card |
 | Body L | `text-lg` | 18px | 400 | 1.7 | `-0.01em` | Lead / deskripsi section |
 | Body | `text-base` | 16px | 400 | 1.7 | `-0.005em` | Body utama |
-| Body S | `text-sm` | 14px | 400 | 1.6 | — | Copy sekunder, deskripsi card |
+| Body S | `text-sm` | 14px | 400 | 1.6 |: | Copy sekunder, deskripsi card |
 | Caption | `text-xs` | 12px | 500 | 1.5 | `0.01em` | Metadata, label form |
 | Overline | `text-xs uppercase` | 12px | 600 | 1.4 | `0.08em` | Label seksi, "01 / PROJECTS" |
-| Mono | `font-mono text-sm` | 14px | 400 | 1.6 | — | Kode, slug |
+| Mono | `font-mono text-sm` | 14px | 400 | 1.6 |: | Kode, slug |
 | Price | `text-4xl` | 36px | 600 | 1.1 | `-0.02em` | Harga paket |
 | Metric | `text-3xl` | 30px | 600 | 1.1 | `-0.02em` | Angka dashboard |
 
 ### 3.3 Aturan tipografi
 
-1. **Tiga bobot saja**: 400 (baca), 500 (UI/interaktif), 600 (judul/tekanan). Tidak ada 700 di halaman publik — `font-bold` hanya untuk badge "Paling Populer" di admin.
+1. **Tiga bobot saja**: 400 (baca), 500 (UI/interaktif), 600 (judul/tekanan). Tidak ada 700 di halaman publik: `font-bold` hanya untuk badge "Paling Populer" di admin.
 2. **Tracking negatif di ukuran besar**: Geist became lebih rapat di display. `-0.03em` untuk display, `-0.02em` untuk H1/H2. Ukuran ≤ 14px memakai tracking normal.
 3. **Jumlah baris dibatasi**: Hero headline maksimal 3 baris (`line-clamp-3`), card title 2 baris (`line-clamp-2`), excerpt 3 baris (`line-clamp-3`).
 4. **Ukuran minimum teks**: 12px. Tidak ada teks di bawah 12px di halaman publik. Di admin, 12px untuk label form, 11px hanya untuk badge status.
@@ -250,19 +250,19 @@ Base 4px. Hanya nilai berikut yang boleh dipakai:
 
 | Token | Nilai | Padding | Gap | Ukuran |
 | --- | --- | --- | --- | --- |
-| `space-1` | 4px | — | — | Icon ke teks |
-| `space-2` | 8px | — | `gap-2` | Badge group |
+| `space-1` | 4px |: |: | Icon ke teks |
+| `space-2` | 8px |: | `gap-2` | Badge group |
 | `space-3` | 12px | `p-3` | `gap-3` | Chip, tag input |
 | `space-4` | 16px | `p-4` | `gap-4` | Card kecil, form field |
 | `space-5` | 20px | `p-5` | `gap-5` | Card standar |
 | `space-6` | 24px | `p-6` | `gap-6` | Card besar, section mobile |
 | `space-8` | 32px | `p-8` | `gap-8` | Section desktop |
-| `space-10` | 40px | — | — | Block besar |
-| `space-12` | 48px | `p-12` | — | Form panel |
-| `space-16` | 64px | — | — | Section gap |
-| `space-20` | 80px | `py-20` | — | Section py mobile |
-| `space-24` | 96px | `py-24` | — | Section py tablet |
-| `space-32` | 128px | `py-32` | — | Section py desktop |
+| `space-10` | 40px |: |: | Block besar |
+| `space-12` | 48px | `p-12` |: | Form panel |
+| `space-16` | 64px |: |: | Section gap |
+| `space-20` | 80px | `py-20` |: | Section py mobile |
+| `space-24` | 96px | `py-24` |: | Section py tablet |
+| `space-32` | 128px | `py-32` |: | Section py desktop |
 
 ### 4.2 Container & grid
 
@@ -274,7 +274,7 @@ Base 4px. Hanya nilai berikut yang boleh dipakai:
 | Container form | `max-w-xl` (36rem / 576px) | Form kontak, login |
 | Gutter | `px-4 md:px-6 lg:px-8` | Sisi kiri-kanan container |
 
-**Grid 12 kolom** — pola yang dipakai:
+**Grid 12 kolom**: pola yang dipakai:
 
 | Pola | Tailwind | Pemakaian |
 | --- | --- | --- |
@@ -296,7 +296,7 @@ Base 4px. Hanya nilai berikut yang boleh dipakai:
 | `xl` | 1280px | Sidebar admin tetap, konten max-w-6xl aktif penuh |
 | `2xl` | 1536px | Sidebar admin tetap, konten max-w-7xl aktif penuh |
 
-**Minimum 320px** — tidak boleh ada horizontal scroll dari 320px sampai 1920px.
+**Minimum 320px**: tidak boleh ada horizontal scroll dari 320px sampai 1920px.
 
 ### 4.4 Breakpoint admin
 
@@ -307,7 +307,7 @@ Admin behaviorobile-friendly, tetapi **desktop-first**:
 | < 1024px | Hidden, diganti top bar + drawer | Full width, padding 16px |
 | ≥ 1024px | Fixed 260px, sticky, scroll sendiri | `max-w-5xl`, padding 32px |
 
-Tabel admin pada < 768px: ubah menjadi **kartu** (stacked card per baris), bukan horizontal scroll. Ini wajib — horizontal scroll tabel di ponsel adalah pola yang paling sering dipakai buruk.
+Tabel admin pada < 768px: ubah menjadi **kartu** (stacked card per baris), bukan horizontal scroll. Ini wajib: horizontal scroll tabel di ponsel adalah pola yang paling sering dipakai buruk.
 
 ---
 
@@ -337,7 +337,7 @@ Aturan implementasi:
 | Input | bg `#111113`, border `#27272a`, text `#fafafa` | bg `#ffffff`, border `#e4e4e7`, text `#09090b` |
 | Input placeholder | `#71717a` | `#a1a1aa` |
 | Teks sekunder | `#a1a1aa` | `#52525b` |
-| Code block | `color-mix(border 55%, bg)` | `color-mix(border 55%, bg)` — sudah adaptif |
+| Code block | `color-mix(border 55%, bg)` | `color-mix(border 55%, bg)`: sudah adaptif |
 | Grid line | `rgba(255,255,255,0.045)` | `rgba(0,0,0,0.045)` |
 | Shadow | minimal (hampir tak terlihat di gelap) | `0 1px 2px rgba(0,0,0,0.05)` |
 | Scrollbar thumb | `border/90` | `border/90` |
@@ -352,7 +352,7 @@ Aturan implementasi:
 | `sharp` | `4px` | Technical, dense, brutalis |
 | `round` | `22px` | Friendly, playful |
 
-Semua komponen yang memakai radius variabel harus merujuk `var(--radius-base)` — **jangan** hardcode `rounded-xl` di komponen yang ikut berubah. Komponen kecil (button, input, badge) boleh punya radius tetap yang lebih kecil dari `--radius-base` (lihat §6).
+Semua komponen yang memakai radius variabel harus merujuk `var(--radius-base)`: **jangan** hardcode `rounded-xl` di komponen yang ikut berubah. Komponen kecil (button, input, badge) boleh punya radius tetap yang lebih kecil dari `--radius-base` (lihat §6).
 
 ---
 
@@ -379,7 +379,7 @@ Semua komponen yang memakai radius variabel harus merujuk `var(--radius-base)` �
 | `shadow-sm` | `0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)` | Hover card, popover |
 | `shadow-md` | `0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)` | Modal, dialog |
 | `shadow-lg` | `0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)` | Toast |
-| `shadow-accent` | `0 0 0 1px accent/22%, 0 18px 60px -20px accent/45%` | `.glow` — CTA accent, featured card |
+| `shadow-accent` | `0 0 0 1px accent/22%, 0 18px 60px -20px accent/45%` | `.glow`: CTA accent, featured card |
 
 **Prinsip elevasi (mengikuti Linear):** di permukaan gelap, drop shadow hampir tak terlihat. Elevasi ditentukan oleh **langkah luminansi** (bg → card → elevated), bukan olehINTS shadow. Shadow hanya dipakai untuk elemen yang benar-benar mengambang di atas permukaan (dropdown, modal, toast, sticky header).
 
@@ -494,7 +494,7 @@ Tab item: px-3.5 py-2.5 text-sm font-medium text-[var(--muted)] border-b-2 borde
           → active: border-[var(--accent)] text-[var(--fg)]
 ```
 
-- Aktif ditandai oleh **underline 2px accent** (bukan hanya perubahan warna) — wajib, dan tetap sertakan perubahan warna.
+- Aktif ditandai oleh **underline 2px accent** (bukan hanya perubahan warna): wajib, dan tetap sertakan perubahan warna.
 - Panah kiri/kanan memindahkan fokus antar tab (WAI-ARIA Authoring Practices).
 - Di mobile, tabs berupa horizontal scroll dengan `scrollbar-hide`, bukan wrapping.
 
@@ -575,13 +575,13 @@ Active:  bg-[var(--accent)]/10 text-[var(--accent)] font-medium
 ```
 
 Struktur:
-1. Logo + nama situs (dari `settings.site.logoText`) — link ke `/`.
+1. Logo + nama situs (dari `settings.site.logoText`): link ke `/`.
 2. Group "Konten": Projects, Posts, Services, Experience, Skills, Testimonials.
 3. Group "Interaksi": Messages (dengan badge jumlah `new`).
 4. Group "Situs": Settings.
 5. Footer sidebar: nama user + email + tombol logout.
 
-Ikon: `lucide-react` size 16–18, stroke 1.75 (bukan 2 — lebih ringan secara visual).
+Ikon: `lucide-react` size 16–18, stroke 1.75 (bukan 2: lebih ringan secara visual).
 
 ### 8.11 Pagination
 
@@ -655,7 +655,7 @@ Content: max-w-3xl mx-auto text-center
 Order:   [availability badge] → h1 (display) → p (body-lg, muted) → [CTA primary] [CTA secondary] → [social links row]
 ```
 
-- H1: `text-5xl md:text-6xl font-semibold tracking-tight` + `.text-gradient` (opsional — gradient subtle dari fg ke accent).
+- H1: `text-5xl md:text-6xl font-semibold tracking-tight` + `.text-gradient` (opsional: gradient subtle dari fg ke accent).
 - Subtitle: `text-lg text-[var(--muted)] max-w-xl mx-auto`.
 - CTA: primary accent + secondary outline, `gap-3`, wrap di mobile.
 - CTA link dapat diatur owner: `heroCtaText` + `heroCtaLink` (default `/projects`), `heroSecondaryText` + `heroSecondaryLink` (default `/contact`).
@@ -781,7 +781,7 @@ Footer: sticky bottom-0 border-t bg-[var(--bg)]/90 backdrop-blur py-3 px-0
         → flex justify-between: [status hint "Perubahan belum disimpan"] [Batal] [Simpan]
 ```
 
-- **Sticky action bar** di bawah — owner tidak perlu scroll ke atas untuk menyimpan.
+- **Sticky action bar** di bawah: owner tidak perlu scroll ke atas untuk menyimpan.
 - Tombol simpan: `variant="primary"`, disabled + `isSubmitting` selama request.
 - Indikator "Perubahan belum disimpan": `text-xs text-amber-400` dengan titik amber, muncul bila form dirty.
 
@@ -805,7 +805,7 @@ Preview memakai state lokal form, **bukan** data server, sehingga respons < 100m
 - Library: `lucide-react` (sudah jadi dependency).
 - Ukuran: 14 (inline badge), 16 (default UI), 18 (nav sidebar), 20 (card), 24+ (empty state / fitur).
 - Stroke width default `2`; gunakan `1.75` untuk ikon besar agar lebih halus.
-- Ikon tidak pernah berdiri sendiri sebagai aksi tanpa label — button icon-only wajib `aria-label`.
+- Ikon tidak pernah berdiri sendiri sebagai aksi tanpa label: button icon-only wajib `aria-label`.
 - Ikon dekoratif (panah di card overlay) → `aria-hidden="true"`.
 
 ### 11.2 Gambar
@@ -816,7 +816,7 @@ Preview memakai state lokal form, **bukan** data server, sehingga respons < 100m
 | Gallery project | 16:9 | `lazy` | `rounded-lg` |
 | Post cover | 16:9 | `priority` | `rounded-t-[var(--radius-base)]` |
 | Avatar testimonial | 1:1 | `lazy` | `rounded-full` |
-| OG image | 1200×630 | — | — |
+| OG image | 1200×630 |: |: |
 
 Aturan:
 - Selalu pakai `next/image` dengan `width`/`height` eksplisit atau `fill` + `sizes` → mencegah CLS.
@@ -916,7 +916,7 @@ Aturan headline hero: **maks 12 kata**, berisi hasil atau ketersediaan, bukan de
 
 ### 15.1 Review halaman publik
 
-- [ ] Tidak ada warna hex hardcoded di komponen — semuanya lewat `var(--token)`.
+- [ ] Tidak ada warna hex hardcoded di komponen: semuanya lewat `var(--token)`.
 - [ ] Semua section toggle benar-benar conditionally render, bukan `display:none`.
 - [ ] Tombol ikon-only punya `aria-label`.
 - [ ] Heading hierarchy benar (satu `h1`, lalu `h2` per section).

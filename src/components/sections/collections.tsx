@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  ArrowRight,
   Braces,
   Briefcase,
   Code,
@@ -89,7 +88,7 @@ export function ServicesSection({ services }: { services: Service[] }) {
                     href="/services"
                     className="mt-5 inline-flex items-center gap-1.5 text-[13px] font-medium text-[var(--accent)] hover:underline"
                   >
-                    Lihat paket &amp; harga <ArrowRight size={14} />
+                    Lihat paket &amp; harga
                   </Link>
                 </div>
               </Card>

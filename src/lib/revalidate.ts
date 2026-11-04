@@ -38,7 +38,7 @@ export function revalidateResource(key: string): void {
 }
 
 /**
- * Refresh seluruh layout publik — dipakai saat pengaturan situs berubah,
+ * Refresh seluruh layout publik: dipakai saat pengaturan situs berubah,
  * karena tema, warna, dan section impacting seluruh halaman.
  */
 export function revalidateSite(): void {

@@ -1,22 +1,22 @@
-# 00 — Project Overview
+# 00: Project Overview
 
 ## 1. Identitas Proyek
 
 | Item | Nilai |
 |---|---|
-| Nama Proyek | Portfolio CMS — Website Portofolio Pribadi & Showcase Jualan |
+| Nama Proyek | Portfolio CMS: Website Portofolio Pribadi & Showcase Jualan |
 | Versi Dokumen | 1.0 |
 | Tanggal | November 2026 |
 | Stack | Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · Neon Postgres (serverless HTTP) · Vercel |
 | Auth | JWT HS256 (JOSE) pada HTTP-only cookie + bcryptjs |
-| Sumber Konten | Postgres (Neon) — 9 tabel, settings disimpan sebagai JSONB per key |
+| Sumber Konten | Postgres (Neon): 9 tabel, settings disimpan sebagai JSONB per key |
 
 ## 2. Ringkasan
 
 Sebuah website portofolio pribadi yang berfungsi ganda:
 
-1. **Showcase** — memamerkan karya, pengalaman, skill, testimoni, dan artikel.
-2. **Etalase jualan** — menampilkan paket layanan + harga, banner "hire me", dan form inquiry yang masuk ke inbox admin.
+1. **Showcase**: memamerkan karya, pengalaman, skill, testimoni, dan artikel.
+2. **Etalase jualan**: menampilkan paket layanan + harga, banner "hire me", dan form inquiry yang masuk ke inbox admin.
 
 Pemilik situs (**owner**) melakukan seluruh perubahan lewat **panel admin** yang dilindungi login: tambah/edit/hapus project, artikel, paket layanan, pengalaman, skill, testimoni, pesan masuk, plus **pengaturan semi-custom** (identitas, warna tema, section mana yang tampil, teks CTA, harga, SEO, social media).
 
@@ -108,10 +108,10 @@ Prinsip: **server-side everything**. Tidak ada database client di browser. Form 
 
 | Fase | Durasi | Output |
 |---|---|---|
-| 0 — Discovery | 1–2 minggu | dokumen `01-`, `02-` |
-| 1 — MVP | 3–5 minggu | situs publik + admin CRUD inti |
-| 2 — Polish & Jualan | 2 minggu | pricing, CTA, SEO, polish visual |
-| 3 — Launch | 1 minggu | deploy Vercel + Neon, monitoring |
+| 0: Discovery | 1–2 minggu | dokumen `01-`, `02-` |
+| 1: MVP | 3–5 minggu | situs publik + admin CRUD inti |
+| 2: Polish & Jualan | 2 minggu | pricing, CTA, SEO, polish visual |
+| 3: Launch | 1 minggu | deploy Vercel + Neon, monitoring |
 
 Detail: `05-PLANNING/roadmap.md`.
 

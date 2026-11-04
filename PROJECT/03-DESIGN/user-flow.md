@@ -1,10 +1,10 @@
-# User Flow — Website Portofolio Pribadi & CMS Semi-Custom
+# User Flow: Website Portofolio Pribadi & CMS Semi-Custom
 
 | Atribut | Nilai |
 | --- | --- |
 | Produk | Website portofolio pribadi + CMS semi-custom |
 | Versi dokumen | 1.0 |
-| Status | Draft untuk review (Fase 0 — Discovery) |
+| Status | Draft untuk review (Fase 0: Discovery) |
 | Tanggal | 4 November 2026 |
 | Owner | Developer independen (Indonesia), 1 orang |
 | Stack acuan | Next.js 15 App Router · Tailwind v4 · Neon Postgres · Vercel |
@@ -36,7 +36,7 @@ Prinsip yang mengikat seluruh flow di dokumen ini:
 **Publik (8 rute)**
 
 ```
-/                     Beranda — komposisi section toggleable
+/                     Beranda: komposisi section toggleable
 /projects             Daftar project + filter kategori + paginasi
 /projects/[slug]      Detail project (gallery, stack, tautan)
 /blog                 Daftar artikel + filter tag
@@ -133,7 +133,7 @@ flowchart TD
 
 ---
 
-## 3. Flow A — Visitor menjelajah Beranda (`/`)
+## 3. Flow A: Visitor menjelajah Beranda (`/`)
 
 | Field | Isi |
 | --- | --- |
@@ -215,7 +215,7 @@ flowchart TD
 
 ---
 
-## 4. Flow B — Visitor membuka Detail Project (`/projects/[slug]`)
+## 4. Flow B: Visitor membuka Detail Project (`/projects/[slug]`)
 
 | Field | Isi |
 | --- | --- |
@@ -308,7 +308,7 @@ flowchart TD
 
 ---
 
-## 5. Flow C — Visitor mengirim Form Kontak / Inquiry (`/contact`)
+## 5. Flow C: Visitor mengirim Form Kontak / Inquiry (`/contact`)
 
 | Field | Isi |
 | --- | --- |
@@ -326,7 +326,7 @@ flowchart TD
 | Subjek | text | Tidak | max 150 | `messages.subject` |
 | Budget | select | Tidak | salah satu dari preset (lihat §5.4) | `messages.budget` |
 | Pesan | textarea | Ya | min 20, max 5000 | `messages.message` |
-| Honeypot | text (hidden) | — | harus kosong | ditolak server bila terisi |
+| Honeypot | text (hidden) |: | harus kosong | ditolak server bila terisi |
 | `startedAt` | hidden | Ya | selisih ≥ 3 detik sejak render | anti-bot |
 | `ref` | hidden | Tidak | sumber CTA (`?ref=`) | untuk pelacakan |
 
@@ -343,7 +343,7 @@ flowchart TD
 9. Server mengirim email notifikasi (Resend) ke `CONTACT_TO_EMAIL` berisi ringkasan pesan + tautan `/admin/messages/[id]`.
 10. Server return `{ ok: true }`. Client menampilkan state sukses (ikon centang + "Pesan terkirim" + tombol "Kirim pesan lain"), dan history.replaceState ke `/contact?sent=1`.
 11. Toast sukses muncul di pojok kanan bawah (variant `success`).
-12. Owner menerima email notifikasi; pesan baru muncul di badge `/admin/messages` (belum di-count bila polling belum aktif —^*\ see §5.6).
+12. Owner menerima email notifikasi; pesan baru muncul di badge `/admin/messages` (belum di-count bila polling belum aktif -^*\ see §5.6).
 
 ### 5.3 Diagram alur
 
@@ -394,7 +394,7 @@ honeypot terisi    honeypot kosong
 
 | Kasus | Penanganan |
 | --- | --- |
-| Budget tidak dipilih | Boleh — field opsional, tersimpan sebagai `''` |
+| Budget tidak dipilih | Boleh: field opsional, tersimpan sebagai `''` |
 | Budget "Custom / Lainnya" dipilih | Tampilkan textarea opsional "Estimasi budget (IDR)" (client-side reveal), tetap aman bila kosong |
 | Pengunjung mengisi sangat cepat (< 3 detik, bot) | Ditolak 422 dengan pesan generik; tidak ada baris tersimpan |
 | Honeypot terisi (bot) | Ditolak diam-diam; respons tetap "terima kasih" agar bot tidak terdeteksi; **tidak ada** baris baru di `messages` |
@@ -411,7 +411,7 @@ honeypot terisi    honeypot kosong
 | --- | --- | --- | --- |
 | Validasi gagal | 422 | "Periksa kembali field yang ditandai merah" | Fokus otomatis ke field pertama yang error |
 | Rate limit | 429 | "Terlalu banyak pesan dari perangkat ini. Coba lagi nanti atau hubungi via WhatsApp." | Tampilkan link WhatsApp |
-| Bot terdeteksi (honeypot/time) | 422 / 200 palsu | "Pesan terkirim." (tidak perlu detail) | — |
+| Bot terdeteksi (honeypot/time) | 422 / 200 palsu | "Pesan terkirim." (tidak perlu detail) |: |
 | DB down | 500 | "Gagal menyimpan. Coba lagi atau hubungi langsung via WhatsApp." | Tombol "Coba lagi" + link WhatsApp |
 | Server timeout | 504 | "Server sedang sibuk. Coba lagi sebentar." | Auto-retry 1x lalu manual |
 
@@ -422,7 +422,7 @@ honeypot terisi    honeypot kosong
 
 ---
 
-## 6. Flow D — Visitor Klik CTA "Hire Me" / Inquiry menuju Paket Harga (`/services`)
+## 6. Flow D: Visitor Klik CTA "Hire Me" / Inquiry menuju Paket Harga (`/services`)
 
 | Field | Isi |
 | --- | --- |
@@ -437,7 +437,7 @@ honeypot terisi    honeypot kosong
 2. Link diarahkan ke `/services` (atau `/services#pricing`) bila `showPricing = true`; bila pricing dimatikan → link diarahkan ke `/contact`.
 3. Halaman `/services` merender daftar paket dari `services WHERE published = true ORDER BY sort_order ASC`.
 4. Setiap paket menampilkan: `title`, `description`, `price_label` ("mulai dari"), `price_value` + `currency` (diformat `formatPrice()`), daftar `features` (JSONB array) sebagai checklist, dan ikon `icon` (lucide-react).
-5. Paket dengan `popular = true` mendapat badge "Paling Populer" + border accent + slight scale-up (1.02) — **maksimal 1 paket** (edge case §6.3).
+5. Paket dengan `popular = true` mendapat badge "Paling Populer" + border accent + slight scale-up (1.02): **maksimal 1 paket** (edge case §6.3).
 6. Setiap kartu punya tombol "Pilih Paket" yang menuju `/contact?package=[slug]&ref=pricing`.
 7. Di `/contact`, query `package` memunculkan baris ringkasan paket terpilih (judul + harga) di atas form, dan field budget dipreselect ke rentang harga paket tersebut.
 8. Visitor melengkapi form dan mengirim → Flow C.
@@ -481,7 +481,7 @@ honeypot terisi    honeypot kosong
               │ ringkasan paket + budget │
               └───────────┬──────────────┘
                           ▼
-                   [Flow C — kirim pesan]
+                   [Flow C: kirim pesan]
 ```
 
 ### 6.3 Edge case
@@ -508,7 +508,7 @@ honeypot terisi    honeypot kosong
 
 ---
 
-## 7. Flow E — Owner Login Admin (`/admin/login`)
+## 7. Flow E: Owner Login Admin (`/admin/login`)
 
 | Field | Isi |
 | --- | --- |
@@ -606,7 +606,7 @@ honeypot terisi    honeypot kosong
 
 ---
 
-## 8. Flow F — Owner Membuat / Edit Project (`/admin/projects`)
+## 8. Flow F: Owner Membuat / Edit Project (`/admin/projects`)
 
 | Field | Isi |
 | --- | --- |
@@ -707,7 +707,7 @@ honeypot terisi    honeypot kosong
 | Owner menghapus featured pada project featured terakhir | Boleh; halaman publik otomatis mengambil project berikutnya |
 | List admin melebihi 20 baris | Pagination server-side (`?page=2`), default 20/halaman |
 | Owner membuka form edit lalu admin lain mengubah data | `updated_at` berbeda → saat simpan, versi terakhir menang (last-write-wins) dan toast "Data sudah diubah oleh lain" (Fase 4: audit log + optimistic lock) |
-| Upload cover berhasil tapi INSERT gagal | File yatim di storage; dibersihkan oleh cron (Fase 4) — tidak memblokir user |
+| Upload cover berhasil tapi INSERT gagal | File yatim di storage; dibersihkan oleh cron (Fase 4): tidak memblokir user |
 
 ### 8.5 Error state
 
@@ -721,7 +721,7 @@ honeypot terisi    honeypot kosong
 
 ---
 
-## 9. Flow G — Owner Edit Post / Artikel (`/admin/posts`)
+## 9. Flow G: Owner Edit Post / Artikel (`/admin/posts`)
 
 | Field | Isi |
 | --- | --- |
@@ -763,7 +763,7 @@ honeypot terisi    honeypot kosong
 | Preview menampilkan XSS dari markdown | Sanitasi: HTML mentah dibuang/encoded; hanya output markdown renderer yang diizinkan |
 | Markdown tanpa heading | TOC di halaman artikel kosong disembunyikan, bukan menampilkan daftar kosong |
 | Slug bentrok | 409 + inline error |
-| Artikel lama tanpa `published_at` (data legacy) | Ditampilkan sebagai "—" pada tabel; publish kedua kali tidak mengubah tanggal awal |
+| Artikel lama tanpa `published_at` (data legacy) | Ditampilkan sebagai "-" pada tabel; publish kedua kali tidak mengubah tanggal awal |
 | Owner mempublish ulang artikel yang di-archive | `published_at` tidak di-overwrite (tanggal asli dipertahankan) |
 | Tag duplikat / mengandung spasi | Di-normalisasi: lowercase, spasi → `-`, duplikat dibuang |
 | Konten > 20.000 karakter | Ditolak dengan pesan "Konten terlalu panjang"; batas ditampilkan di counter |
@@ -781,12 +781,12 @@ honeypot terisi    honeypot kosong
 
 ---
 
-## 10. Flow H — Owner Ubah Pengaturan Tampilan (`/admin/settings`)
+## 10. Flow H: Owner Ubah Pengaturan Tampilan (`/admin/settings`)
 
 | Field | Isi |
 | --- | --- |
 | **Trigger** | Owner membuka `/admin/settings` dan mengubah tab (Situs / Tema / Section / Sosial / SEO / Fitur / Footer) |
-| **Actor** | Owner (role `admin`; role `editor` tidak boleh — lihat §10.4) |
+| **Actor** | Owner (role `admin`; role `editor` tidak boleh: lihat §10.4) |
 | **Precondition** | Sudah login; 7 key `settings` tersedia |
 | **Post-condition** | `settings.value` (JSONB) diperbarui; `<html data-theme>` dan CSS variable berubah; section homepage ikut berubah; toast "Pengaturan disimpan" |
 
@@ -817,25 +817,25 @@ honeypot terisi    honeypot kosong
 | Kelompok | Edge case | Error state |
 | --- | --- | --- |
 | **Tema** | Accent diisi hex invalid (`#zzzzzz`) → color picker fallback ke `#6366f1` + toast peringatan "Format warna tidak valid" | Nilai disimpan tapi fallback, bukan crash |
-| | Mode diubah ke Light → border & surface light harus tetap kontras (lihat `design-system.md` §5) | — |
+| | Mode diubah ke Light → border & surface light harus tetap kontras (lihat `design-system.md` §5) |: |
 | | Font diganti ke `Inter` → `--font-sans` berubah, `--font-mono` tetap Geist Mono | Font gagal dimuat → fallback ke system font, halaman tidak blank |
-| **Section** | Semua section dimatikan → beranda hanya menampilkan header + footer + pesan "Konten sedang disiapkan" | — |
-| | `pricing` dinyalakan tapi tidak ada paket published → empty state | — |
+| **Section** | Semua section dimatikan → beranda hanya menampilkan header + footer + pesan "Konten sedang disiapkan" |: |
+| | `pricing` dinyalakan tapi tidak ada paket published → empty state |: |
 | **Situs / Hero** | `heroCtaLink` kosong → default `/projects` | 422 bila `heroTitle` kosong |
 | | `heroTitle` > 120 karakter → dipotong visual dengan line-clamp 2 | Disimpan utuh, ada indikator "terlalu panjang" |
-| | `showAvailability = false` → badge "Tersedia untuk project baru" hilang | — |
-| **Sosial** | Semua link kosong → seluruh baris ikon disembunyikan, tanpa menyisakan ruang kosong | — |
+| | `showAvailability = false` → badge "Tersedia untuk project baru" hilang |: |
+| **Sosial** | Semua link kosong → seluruh baris ikon disembunyikan, tanpa menyisakan ruang kosong |: |
 | | URL sosial tidak diawali `http` → otomatis diprefix `https://` | Disimpan sebagai `https://...` |
 | **SEO** | `metaDescription` > 160 karakter → peringatan "Ideal 150–160 karakter" | Disimpan; hanya peringatan |
-| | `ogImage` kosong → fallback ke cover image project terbaru | — |
-| **Footer** | `showCopyright = false` → baris copyright hilang | — |
+| | `ogImage` kosong → fallback ke cover image project terbaru |: |
+| **Footer** | `showCopyright = false` → baris copyright hilang |: |
 
 ### 10.4 Akses
 
 | Role | Akses `/admin/settings` |
 | --- | --- |
 | `admin` | Buka, ubah semua key |
-| `editor` | 403 — read-only saja (Fase 1: editor belum ada; Fase 4: pembatasan role) |
+| `editor` | 403: read-only saja (Fase 1: editor belum ada; Fase 4: pembatasan role) |
 
 ### 10.5 Diagram alur (tab tema)
 
@@ -872,7 +872,7 @@ honeypot terisi    honeypot kosong
 
 ---
 
-## 11. Flow I — Owner Kelola Pesan (`/admin/messages`)
+## 11. Flow I: Owner Kelola Pesan (`/admin/messages`)
 
 | Field | Isi |
 | --- | --- |
@@ -941,7 +941,7 @@ mailto:   status=     confirm →    status=new (untuk
 | Filter + search + pagination digabung | Query parameter URL (`?status=new&q=...&page=2`) → state dapat dibagikan/di-bookmark |
 | Owner menekan refresh browser | Filter dan posisi scroll dipertahankan (URL sebagai state) |
 | Banyak pesan (500+) | Pagination server-side 20/halaman + index `idx_messages_status` |
-| Pesan tanpa budget (form lama) | Badge budget menampilkan "—" (bukan string kosong) |
+| Pesan tanpa budget (form lama) | Badge budget menampilkan "-" (bukan string kosong) |
 | Dua admin membuka pesan berbeda | Tidak ada konflik; update last-write-wins |
 | Hapus pesan yang tanpa sengaja | Tidak ada undo di Fase 1 → confirm dialog wajib dengan penjelasan konsekuensi ("Pesan tidak dapat dipulihkan") |
 
@@ -949,19 +949,19 @@ mailto:   status=     confirm →    status=new (untuk
 
 | Error | HTTP | Pesan | Recuperasi |
 | --- | --- | --- | --- |
-| Session habis | 401 | Redirect login | — |
+| Session habis | 401 | Redirect login |: |
 | Gagal load list | 500 | "Pesan gagal dimuat" + tombol retry | Auto-retry saat kembali ke tab |
 | Gagal update status | 500 | Toast "Gagal mengubah status" | Status di UI dikembalikan ke nilai lama (revert) |
 | Gagal hapus | 500 | "Pesan tidak terhapus" | Item tetap di list, dapat dicoba lagi |
 
 ---
 
-## 12. Flow J — Owner Manage Paket Harga (`/admin/services`)
+## 12. Flow J: Owner Manage Paket Harga (`/admin/services`)
 
 | Field | Isi |
 | --- | --- |
 | **Trigger** | Owner membuka `/admin/services` dan menambah/mengubah paket |
-| **Actor** | Owner (role `admin`; `editor` boleh menulis konten paket tetapi perubahan harga idealnya oleh `admin` — aturan final ditetapkan di Fase 4) |
+| **Actor** | Owner (role `admin`; `editor` boleh menulis konten paket tetapi perubahan harga idealnya oleh `admin`: aturan final ditetapkan di Fase 4) |
 | **Precondition** | Sudah login; `price_value` numerik atau teks bebas; `currency` dari daftar `IDR`/`USD`/`EUR` |
 | **Post-condition** | Paket tersimpan, harga tampil benar di `/services` dan section pricing homepage |
 
@@ -1197,7 +1197,7 @@ sequenceDiagram
 
 ---
 
-## 14. State Diagram — Status Publish Konten
+## 14. State Diagram: Status Publish Konten
 
 ### 14.1 Konsep
 
@@ -1237,12 +1237,12 @@ stateDiagram-v2
 
 | Dari | Ke | Aksi UI | Endpoint | Efek samping | Peran yang boleh |
 | --- | --- | --- | --- | --- | --- |
-| — | Draft | "Simpan Draft" / "Tulis" | `POST /api/admin/{modul}` | Row dibuat, `published=false` | admin, editor |
+|: | Draft | "Simpan Draft" / "Tulis" | `POST /api/admin/{modul}` | Row dibuat, `published=false` | admin, editor |
 | Draft | Published | "Terbitkan" | `PATCH` `{published:true}` | `published_at = now()` bila NULL; revalidate | admin, editor |
 | Published | Draft | "Turunkan ke Draft" | `PATCH` `{published:false}` | `published_at` **dipertahankan**; revalidate | admin, editor |
 | Published | Archived | "Arsipkan" | `PATCH` `{published:false, archived:true}` | Row tetap ada, disembunyikan | admin |
 | Archived | Published | "Publikasikan lagi" | `PATCH` `{published:true}` | `published_at` tidak berubah | admin |
-| Draft/Published/Archived | — | "Hapus" | `DELETE` | Dialog konfirmasi wajib | admin |
+| Draft/Published/Archived |: | "Hapus" | `DELETE` | Dialog konfirmasi wajib | admin |
 
 ### 14.3 Aturan tampilan per state
 
@@ -1264,12 +1264,12 @@ Artinya state `archived` **belum punya kolom sendiri**. Agar state machine di at
 
 | Opsi | Perubahan | Dampak |
 | --- | --- | --- |
-| **A — Kolom `status` eksplisit** (disarankan) | Tambah kolom `status TEXT CHECK (status IN ('draft','published','archived')) DEFAULT 'draft'` pada `projects`, `posts`, `services`, `testimonials`; `published` dipertahankan sebagai kolom kompatibilitas (generated/sinkron) | Migration jelas, query jadi `WHERE status='published'`; ada risiko dua sumber kebenaran bila `published` tidak konsisten |
-| **B — Turunkan ke boolean** | Tanpa migration; `archived` disimulasikan sebagai `published=false` + field tambahan `archived_at` | Migration kecil; namun `draft` vs `archived` tidak bisa dibedakan tanpa kolom tambahan, jadi tetap butuh `archived_at` |
+| **A: Kolom `status` eksplisit** (disarankan) | Tambah kolom `status TEXT CHECK (status IN ('draft','published','archived')) DEFAULT 'draft'` pada `projects`, `posts`, `services`, `testimonials`; `published` dipertahankan sebagai kolom kompatibilitas (generated/sinkron) | Migration jelas, query jadi `WHERE status='published'`; ada risiko dua sumber kebenaran bila `published` tidak konsisten |
+| **B: Turunkan ke boolean** | Tanpa migration; `archived` disimulasikan sebagai `published=false` + field tambahan `archived_at` | Migration kecil; namun `draft` vs `archived` tidak bisa dibedakan tanpa kolom tambahan, jadi tetap butuh `archived_at` |
 
 **Rekomendasi: Opsi A** dengan `published` diperlakukan sebagai kolom yang selalu mengikuti `status = 'published'`, atau bahkan dihapus seluruhnya setelah migrasi. Selama opsi belum Decide, implementasi admin dapat menyederhanakan dengan hanya memakai `published` boolean dan menunda `archived` ke Fase 4.
 
-Catatan serupa berlaku untuk `messages`, yang **sudah** punya enum status `new`/`read`/`archived` sendiri — tidak boleh disamakan dengan state machine konten.
+Catatan serupa berlaku untuk `messages`, yang **sudah** punya enum status `new`/`read`/`archived` sendiri: tidak boleh disamakan dengan state machine konten.
 
 ---
 
@@ -1299,16 +1299,16 @@ Catatan serupa berlaku untuk `messages`, yang **sudah** punya enum status `new`/
 
 | Flow | Kriteria lulus (ringkas) |
 | --- | --- |
-| A — Beranda | Section yang dimatikan tidak muncul di DOM; section yang dinyalakan tampil sesuai urutan; CTA hero menuju rute valid; halaman tetap 200 saat satu query gagal |
-| B — Detail project | Project unpublished → 404; URL lama yang diubah slug → 404; gambar lazy-loaded; CTA menuju `/contact` |
-| C — Inquiry | Pesan valid → baris baru di `messages` dengan `status='new'`; honeypot terisi → **0 baris**; > 5 pesan / 10 menit → 429; email tidak valid → 422 tanpa stack trace |
-| D — Hire me → pricing | `hireMeEnabled=false` → tidak ada banner; `showPricing=false` → CTA menuju `/contact`; klik "Pilih Paket" → `/contact?package=<slug>` dengan ringkasan paket |
-| E — Login | Password salah → pesan generik (email & password dibedakan); tanpa cookie, `/admin/*` → redirect `/admin/login`, bukan 500; cookie `httpOnly` |
-| F — Project | Slug duplikat ditolak; "Terbitkan" → project langsung tampil di `/` tanpa deploy; gambar > 5 MB ditolak |
-| G — Artikel | Save draft tidak membocorkan ke publik; publish mengisi `published_at` sekali; preview markdown aman dari XSS |
-| H — Settings | Mengubah accent langsung terlihat di seluruh halaman publik tanpa deploy; section toggle benar-benar menyembunyikan section; role `editor` tidak bisa menyimpan settings |
-| I — Pesan | Membuka pesan mengubah `new`→`read`; arsipkan menyembunyikan dari filter default; hapus meminta konfirmasi; email difilter aman |
-| J — Paket harga | Harga "2.500.000" tampil "Rp2.500.000"; perubahan langsung terlihat di `/services`; maksimal 1 paket `popular` |
+| A: Beranda | Section yang dimatikan tidak muncul di DOM; section yang dinyalakan tampil sesuai urutan; CTA hero menuju rute valid; halaman tetap 200 saat satu query gagal |
+| B: Detail project | Project unpublished → 404; URL lama yang diubah slug → 404; gambar lazy-loaded; CTA menuju `/contact` |
+| C: Inquiry | Pesan valid → baris baru di `messages` dengan `status='new'`; honeypot terisi → **0 baris**; > 5 pesan / 10 menit → 429; email tidak valid → 422 tanpa stack trace |
+| D: Hire me → pricing | `hireMeEnabled=false` → tidak ada banner; `showPricing=false` → CTA menuju `/contact`; klik "Pilih Paket" → `/contact?package=<slug>` dengan ringkasan paket |
+| E: Login | Password salah → pesan generik (email & password dibedakan); tanpa cookie, `/admin/*` → redirect `/admin/login`, bukan 500; cookie `httpOnly` |
+| F: Project | Slug duplikat ditolak; "Terbitkan" → project langsung tampil di `/` tanpa deploy; gambar > 5 MB ditolak |
+| G: Artikel | Save draft tidak membocorkan ke publik; publish mengisi `published_at` sekali; preview markdown aman dari XSS |
+| H: Settings | Mengubah accent langsung terlihat di seluruh halaman publik tanpa deploy; section toggle benar-benar menyembunyikan section; role `editor` tidak bisa menyimpan settings |
+| I: Pesan | Membuka pesan mengubah `new`→`read`; arsipkan menyembunyikan dari filter default; hapus meminta konfirmasi; email difilter aman |
+| J: Paket harga | Harga "2.500.000" tampil "Rp2.500.000"; perubahan langsung terlihat di `/services`; maksimal 1 paket `popular` |
 
 ---
 

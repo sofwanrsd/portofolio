@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Quote, Star } from "lucide-react";
+import { Quote, Star } from "lucide-react";
 import { Button, Card, Container, Section, SectionHeading } from "@/components/ui";
 import { formatDate, readingTime } from "@/lib/utils";
 import type { AppSettings, Post, Testimonial } from "@/lib/types";
@@ -73,7 +73,7 @@ export function BlogSection({ posts }: { posts: Post[] }) {
           align="split"
           action={
             <Button href="/blog" variant="outline" size="sm">
-              Semua artikel <ArrowRight size={14} />
+              Semua artikel
             </Button>
           }
         />
@@ -148,7 +148,6 @@ export function CtaSection({ features }: { features: AppSettings["features"] }) 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Button href={features.hireMeButtonLink || "/contact"} size="lg">
                 {features.ctaButtonText}
-                <ArrowRight size={16} />
               </Button>
             </div>
           </div>

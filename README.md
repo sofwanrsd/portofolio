@@ -1,6 +1,6 @@
 # Portfolio CMS
 
-Website portofolio pribadi lengkap dengan Content Management System (CMS) semi-kustom. Dibangun dengan **Next.js 15 (App Router)**, **TypeScript**, **Tailwind CSS v4**, dan **PostgreSQL Neon** — siap deploy ke **Vercel**.
+Website portofolio pribadi lengkap dengan Content Management System (CMS) semi-kustom. Dibangun dengan **Next.js 15 (App Router)**, **TypeScript**, **Tailwind CSS v4**, dan **PostgreSQL Neon**: siap deploy ke **Vercel**.
 
 Dokumentasi lengkap ada di direktori [`PROJECT/`](./PROJECT/README.md).
 
@@ -9,22 +9,22 @@ Dokumentasi lengkap ada di direktori [`PROJECT/`](./PROJECT/README.md).
 ## Fitur
 
 ### Situs Publik
-- **Beranda** — hero, project unggulan, koleksi, layanan, dan konten, semuanya bisa dimatikan lewat pengaturan.
-- **Katalog Project** — filter kategori, pencarian, pagination.
-- **Detail Project** — deskripsi, stack teknologi, screenshot, tautan demo & repo.
-- **Blog** — daftar artikel, tag, dan pembacaan artikel (markdown + GFM).
-- **Layanan** — paket layanan dengan harga dan fitur.
-- **Tentang** — profil, pengalaman, skill, testimoni.
-- **Kontak** — form pesan dengan validasi Zod, honeypot, dan rate limiting.
-- **Tema dinamis** — mode terang/gelap + warna aksen diatur dari dashboard.
-- **SEO** — sitemap.xml, robots.txt, Open Graph, metadata per halaman.
+- **Beranda**: hero, project unggulan, koleksi, layanan, dan konten, semuanya bisa dimatikan lewat pengaturan.
+- **Katalog Project**: filter kategori, pencarian, pagination.
+- **Detail Project**: deskripsi, stack teknologi, screenshot, tautan demo & repo.
+- **Blog**: daftar artikel, tag, dan pembacaan artikel (markdown + GFM).
+- **Layanan**: paket layanan dengan harga dan fitur.
+- **Tentang**: profil, pengalaman, skill, testimoni.
+- **Kontak**: form pesan dengan validasi Zod, honeypot, dan rate limiting.
+- **Tema dinamis**: mode terang/gelap + warna aksen diatur dari dashboard.
+- **SEO**: sitemap.xml, robots.txt, Open Graph, metadata per halaman.
 
 ### Dashboard Admin (`/admin`)
 - Login dengan email + password (bcrypt + JWT di cookie HTTP-only).
 - Dashboard statistik: jumlah project, artikel, layanan, pesan baru.
-- **CRUD generik** untuk project, artikel, layanan, pengalaman, skill, testimoni — satu resource manager generik, bukan halaman terpisah.
+- **CRUD generik** untuk project, artikel, layanan, pengalaman, skill, testimoni: satu resource manager generik, bukan halaman terpisah.
 - **Inbox pesan** dengan tandai sudah dibaca / belum.
-- **Pengaturan situs** — identitas, tema, section on/off, socials, SEO, fitur, footer.
+- **Pengaturan situs**: identitas, tema, section on/off, socials, SEO, fitur, footer.
 - **Halaman 404** kustom.
 
 ### API REST
@@ -98,7 +98,7 @@ openssl rand -hex 32      # REVALIDATE_SECRET
 > Gunakan **pooled** connection string (mengandung `-pooler.`), bukan direct connection.
 
 > **Postgres lokal?** Driver `@neondatabase/serverless` hanya bicara HTTP/HTTPS ke
-> `https://<host>/sql` — tidak ada koneksi TCP seperti driver `pg`. Jadi `DATABASE_URL`
+> `https://<host>/sql`: tidak ada koneksi TCP seperti driver `pg`. Jadi `DATABASE_URL`
 > harus menunjuk endpoint Neon (atau Postgres ber-protokol HTTP seperti Neon Local).
 > Menembak Postgres biasa dari `docker run` butuh jembatan HTTP tambahan di port 443
 > plus `NODE_TLS_REJECT_UNAUTHORIZED=0` bila sertifikatnya self-signed.
@@ -117,7 +117,7 @@ Jalankan development server:
 npm run dev
 ```
 
-Buka http://localhost:3000 — admin tersedia di http://localhost:3000/admin/login.
+Buka http://localhost:3000: admin tersedia di http://localhost:3000/admin/login.
 
 ---
 
@@ -231,9 +231,9 @@ Rincian kolom, index, dan relasi: [`PROJECT/04-ARCHITECTURE/database-schema.md`]
 
 1. Admin login melalui `/admin/login` → password diverifikasi dengan **bcrypt**.
 2. Server membuat **JWT HS256** (JOSE) berisi `userId`, `email`, `role`, `exp` 7 hari.
-3. Token disimpan di cookie **`portfolio_session`** — `HttpOnly`, `SameSite=Lax`, `Secure` (production).
+3. Token disimpan di cookie **`portfolio_session`**: `HttpOnly`, `SameSite=Lax`, `Secure` (production).
 4. `src/middleware.ts` memverifikasi JWT untuk seluruh rute `/admin/*` dan mengarahkan ke login bila tidak valid.
-5. Server action admin selalu memanggil `requireAdmin()` — proteksi berlapis, bukan hanya di middleware.
+5. Server action admin selalu memanggil `requireAdmin()`: proteksi berlapis, bukan hanya di middleware.
 
 ---
 

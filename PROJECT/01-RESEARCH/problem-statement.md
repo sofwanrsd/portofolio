@@ -1,4 +1,4 @@
-# Problem Statement — Website Portofolio Pribadi + CMS Semi-Custom
+# Problem Statement: Website Portofolio Pribadi + CMS Semi-Custom
 
 | Atribut | Nilai |
 | --- | --- |
@@ -15,11 +15,11 @@
 
 Ada satu orang di balik produk ini: seorang developer Indonesia yang sudah bisa membuat website untuk orang lain, tetapi belum punya satu tempat yang **(a) memamerkan karyanya secara profesional** dan **(b) menjual jasanya**. Dua kebutuhan itu sering dianggap satu hal, padahal sebenarnya dua produk yang kebetulan berbagi satu basis data.
 
-Yang dibangun saat ini — jika ada — biasanya berupa portofolio statis yang dirancang untuk *dipuji*, bukan untuk *dibeli*. Ia mengabaikan hal-hal yang justru menentukan keputusan klien: berapa harga pakasnya, apakah ada bukti kerja yang relevan, berapa lama pengerjaannya, dan bagaimana cara menghubungi. Klien yang tidak mendapat jawaban atas pertanyaan-pertanyaan itu pergi — dan yang tidak tercatat, sehingga owner bahkan tidak tahu berapa banyak peluang yang hilang.
+Yang dibangun saat ini: jika ada: biasanya berupa portofolio statis yang dirancang untuk *dipuji*, bukan untuk *dibeli*. Ia mengabaikan hal-hal yang justru menentukan keputusan klien: berapa harga pakasnya, apakah ada bukti kerja yang relevan, berapa lama pengerjaannya, dan bagaimana cara menghubungi. Klien yang tidak mendapat jawaban atas pertanyaan-pertanyaan itu pergi: dan yang tidak tercatat, sehingga owner bahkan tidak tahu berapa banyak peluang yang hilang.
 
-Sebaliknya, sisi operasional bocor. Setiap kali owner ingin menambah satu project atau mengubah satu harga, ia harus menyunting file, commit, push, dan menunggu build. Perubahan yang seharusnya butuh dua menit menghabiskan satu siklus deploy penuh. Akibatnya konten membeku: portofolio terakhir mencerminkan kemampuan developer tiga tahun lalu, bukan yang dikuasai sekarang. Portofolio yang usang justru merusak kredibilitas — prospective klien menyimpulkan skills owner sudah rusty.
+Sebaliknya, sisi operasional bocor. Setiap kali owner ingin menambah satu project atau mengubah satu harga, ia harus menyunting file, commit, push, dan menunggu build. Perubahan yang seharusnya butuh dua menit menghabiskan satu siklus deploy penuh. Akibatnya konten membeku: portofolio terakhir mencerminkan kemampuan developer tiga tahun lalu, bukan yang dikuasai sekarang. Portofolio yang usang justru merusak kredibilitas: prospective klien menyimpulkan skills owner sudah rusty.
 
-Maka masalah inti bukan "tidak punya website". Masalahnya adalah **tidak punya satu sistem yang bisa sekaligus dipercaya sebagai alat jualan dan dijaga selalu mutakhir tanpa biaya**. Solusinya: satu aplikasi dengan dua area — area publik yang menjual, dan area admin yang menjaga. Konten dan konfigurasi dipindahkan dari source code ke database, sehingga "mengubah portofolio" berubah dari tugas engineering menjadi tugas admin.
+Maka masalah inti bukan "tidak punya website". Masalahnya adalah **tidak punya satu sistem yang bisa sekaligus dipercaya sebagai alat jualan dan dijaga selalu mutakhir tanpa biaya**. Solusinya: satu aplikasi dengan dua area: area publik yang menjual, dan area admin yang menjaga. Konten dan konfigurasi dipindahkan dari source code ke database, sehingga "mengubah portofolio" berubah dari tugas engineering menjadi tugas admin.
 
 ---
 
@@ -29,7 +29,7 @@ Maka masalah inti bukan "tidak punya website". Masalahnya adalah **tidak punya s
 
 > **Ketika** saya atau tim saya butuh website/aplikasi dikerjakan, **maka** saya ingin melihat bukti kerja, paket layanan, harga, dan cara menghubungi yang jelas dalam satu halaman, **supaya** saya dapat menilai kelayakan dan timeline tanpa harus menawar atau melakukan riset panjang, **dan** agar saya bisa langsung memulai percakapan dengan brief yang cukup konkret.
 
-Job ini bukan "mencari developer", melainkan **menyingkirkan ketidakpastian**. Orang yang punya anggaran sudah punya kandidat; yang belum adalah fear of mismatch — biaya meleset, timeline meleset, hasil tidak seperti yang dijanjikan.
+Job ini bukan "mencari developer", melainkan **menyingkirkan ketidakpastian**. Orang yang punya anggaran sudah punya kandidat; yang belum adalah fear of mismatch: biaya meleset, timeline meleset, hasil tidak seperti yang dijanjikan.
 
 ### 2.2 Job sekunder (recruiter / talent partner)
 
@@ -39,7 +39,7 @@ Recruiter tidak akan melakukan inquiry. Ia akan **menutup tab** bila tidak menem
 
 ### 2.3 Job tersier (owner)
 
-> **Ketika** saya memperoleh informasi baru — project selesai, harga berubah, ada artikel baru untuk ditulis — **maka** saya ingin memperbarui situs dalam hitungan menit lewat form, **supaya** portofolio selalu mencerminkan kondisi terkini tanpa saya perlu menyentuh kode atau takut deploy.
+> **Ketika** saya memperoleh informasi baru: project selesai, harga berubah, ada artikel baru untuk ditulis: **maka** saya ingin memperbarui situs dalam hitungan menit lewat form, **supaya** portofolio selalu mencerminkan kondisi terkini tanpa saya perlu menyentuh kode atau takut deploy.
 
 ### 2.4 Job pasif (visitor dari mesin pencari)
 
@@ -54,7 +54,7 @@ Recruiter tidak akan melakukan inquiry. Ia akan **menutup tab** bila tidak menem
 | # | Pain Point | Dampak ke Produk | Akar Masalah |
 | --- | --- | --- | --- |
 | V1 | Tidak menemukan harga paket, harus tanya via chat lebih dulu | Menurun friction; pertanyaan "berapa biayanya?" menjadi blokir sebelum percakapan | Tidak ada layer konversi; portofolio hanya menampilkan kemampuannya |
-| V2 | Detail project tipis — tidak ada stack, tahun, client, atau tautan live | Pengunjung tidak bisa memverifikasi klaim dan menganggap portofolio "kosong" | Project diperlakukan sebagai gambar, bukan case study |
+| V2 | Detail project tipis: tidak ada stack, tahun, client, atau tautan live | Pengunjung tidak bisa memverifikasi klaim dan menganggap portofolio "kosong" | Project diperlakukan sebagai gambar, bukan case study |
 | V3 | Situs lambat di HP atau berat di perangkat lama | Pengunjung keluar sebelum mencapai CTA |
  Render penuh di client, tanpa RSC dan optimasi gambar |
 | V4 | Tidak ada bukti sosial dari pihak ketiga | Keraguan awal: "apakah ini orang yang benar-benar pernah menangani klien?" | Testimonial tidak pernah dianggap sebagai fitur, hanya hiasan |
@@ -88,16 +88,16 @@ Recruiter tidak akan melakukan inquiry. Ia akan **menutup tab** bila tidak menem
 
 Ketujuh pain point di atas berdiri di atas empat akar masalah yang sama:
 
-**Akar 1 — Dua audiens, dua kebutuhan, satu template yang tidak mempuasnya.**
+**Akar 1: Dua audiens, dua kebutuhan, satu template yang tidak mempuasnya.**
 Portofolio umumnya memprioritaskan estetika visual, sementara keputusan pembelian klien terjadi pada halaman harga, daftar paket, dan bukti kerja. Satu template yang hanya optimal untuk "dipuji" akan selalu gagal untuk "dibeli", dan sebaliknya. Produk harus melayani keduanya secara eksplisit, bukan berharap keduanya terjadi secara kebetulan.
 
-**Akar 2 — Konten dan konfigurasi tertanam di source code.**
+**Akar 2: Konten dan konfigurasi tertanam di source code.**
 Nama situs, tagline, warna aksen, font, urutan section, dan harga paket adalah **data**, bukan logika aplikasi. Selama keduanya tertanam di komponen React, setiap perubahan bisnis menuntut siklus deploy penuh dan setiap variation kecil butuh bantuan teknis.
 
-**Akar 3 — Tidak ada layer persistensi yang bisa ditulis manusia.**
+**Akar 3: Tidak ada layer persistensi yang bisa ditulis manusia.**
 Tidak ada tempat untuk menyimpan pesan calon klien, paket layanan, dan fitur paket secara terstruktur. Konsekuensinya, data repeat paling bernilai (pesan prospek) hilang begitu keluar dari kotak masuk.
 
-**Akar 4 — Tidak ada layer konversi yang terukur.**
+**Akar 4: Tidak ada layer konversi yang terukur.**
 Form kontak yang ada (bila ada) hanya mengirim email. Tidak ada data apakah orang benar-benar mengisi form, paket mana yang paling menarik, dari mana trafik datang, atau berapa lead hilang karena pertanyaan harga tak terjawab. Optimasi berjalan tanpa umpan balik.
 
 ---

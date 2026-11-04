@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Github, Globe } from "lucide-react";
+import { Github, Globe } from "lucide-react";
 import type { Project } from "@/lib/types";
 import { Badge, Card } from "@/components/ui";
 
@@ -62,10 +62,7 @@ export function ProjectCard({
             <h3 className="text-[15px] font-semibold tracking-tight transition-colors group-hover:text-[var(--accent)]">
               {project.title}
             </h3>
-            <ArrowUpRight
-              size={15}
-              className="mt-0.5 shrink-0 text-[var(--muted)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[var(--accent)]"
-            />
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--border)] transition-colors duration-300 group-hover:bg-[var(--accent)]" />
           </div>
 
           <p className="mt-2 line-clamp-2 text-[13.5px] leading-relaxed text-[var(--muted)]">

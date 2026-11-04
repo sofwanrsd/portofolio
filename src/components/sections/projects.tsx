@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { Button, Card, Container, Section, SectionHeading } from "@/components/ui";
 import { ProjectCard } from "@/components/project-card";
 import type { Project } from "@/lib/types";
@@ -19,7 +18,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
           align="split"
           action={
             <Button href="/projects" variant="outline" size="sm">
-              Lihat semua <ArrowRight size={14} />
+              Lihat semua
             </Button>
           }
         />

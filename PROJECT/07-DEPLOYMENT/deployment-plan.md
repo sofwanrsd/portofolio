@@ -1,4 +1,4 @@
-# 07 — Deployment Plan
+# 07: Deployment Plan
 
 Dokumen ini prosedur deploy Portfolio CMS ke Vercel dengan Neon Postgres: prasyarat, konfigurasi, langkah provisioning, alur rilis, rollback, dan operasi harian.
 
@@ -267,7 +267,7 @@ Setiap PR otomatis mendapat URL preview. Preview memakai **Preview scope** env. 
 Tag git saat rilis:
 
 ```bash
-git tag -a v1.0.0 -m "Portfolio CMS v1.0.0 — MVP"
+git tag -a v1.0.0 -m "Portfolio CMS v1.0.0: MVP"
 git push origin v1.0.0
 ```
 
@@ -357,10 +357,10 @@ Contoh cron mingguan:
 
 | Item | Batas Hobby | Dampak pada proyek |
 |---|---|---|
-| Build time | 600 detik | Build saat ini < 60 detik — aman |
-| Function execution | 60 detik | Query DB < 1 detik — aman |
+| Build time | 600 detik | Build saat ini < 60 detik: aman |
+| Function execution | 60 detik | Query DB < 1 detik: aman |
 | Bandwidth | 100 GB/bulan | Cukup untuk portofolio |
-| Serverless function | 12 | Route handler 7 + middleware — aman |
+| Serverless function | 12 | Route handler 7 + middleware: aman |
 | Build concurrency | 1 | Build paralel dibatasi |
 | Cron jobs | 2/hari | Cukup untuk backup mingguan (v2: backup harian di Pro) |
 
@@ -374,7 +374,7 @@ Optimasi yang sudah diterapkan: driver HTTP Neon (tanpa WebSocket), tidak ada de
 |---|---|---|
 | Vercel | 100 GB bandwidth/bulan | > 50k visitor/bulan |
 | Neon | 0.5 GB storage, 191.9 jam compute | > 100 MB data atau query berat |
-| Domain | — (opsional, ~Rp 100–200 ribu/tahun) | Saat situs resmi |
+| Domain |: (opsional, ~Rp 100–200 ribu/tahun) | Saat situs resmi |
 | Resend (email) | 3.000 email/bulan | Jika notifikasi email aktif |
 
 ---

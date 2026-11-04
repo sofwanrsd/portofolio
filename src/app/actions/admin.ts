@@ -29,7 +29,7 @@ export type ActionResult = {
 
 
 /* ------------------------------------------------------------------ *
- *  Resource definitions — satu engine CRUD untuk semua entitas
+ *  Resource definitions: satu engine CRUD untuk semua entitas
  * ------------------------------------------------------------------ */
 
 /* ------------------------------------------------------------------ *

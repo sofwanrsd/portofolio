@@ -1,4 +1,4 @@
-# 02 — Product Requirements Document (PRD)
+# 02: Product Requirements Document (PRD)
 
 ## 1. Ringkasan Produk
 
@@ -15,7 +15,7 @@ Website portofolio pribadi yang berfungsi sebagai **showcase karya sekaligus eta
 Detail lengkap di `01-RESEARCH/problem-statement.md`. Ringkasnya:
 
 1. Portofolio yang tersebar di banyak tempat (GitHub, Dribbble, Medium, Google Drive) tidak membentuk satu cerita yang koheren.
-2. Mengubah isi portofolio statis butuh deploy ulang — lambat, mahal, dan tidakmengubah skema.
+2. Mengubah isi portofolio statis butuh deploy ulang: lambat, mahal, dan tidakmengubah skema.
 3. Belum ada kanal konversi terukur dari pengunjung menjadi prospek.
 4. Belum ada mechanism untuk menampilkan "saya bisa(expression hiring)" secara eksplisit.
 
@@ -51,7 +51,7 @@ Detail persona & pain point: `01-RESEARCH/problem-statement.md` §3.
 - Analytics dashboard di dalam admin (pakai Vercel Analytics).
 - Notifikasi real-time (email notifikasi bersifat best-effort via Resend).
 
-## 6. Fitur — Prioritas
+## 6. Fitur: Prioritas
 
 MoSCoW. **M** = Must, **S** Should, **C** Could, **W** Won't (v1).
 

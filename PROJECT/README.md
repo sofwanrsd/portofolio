@@ -1,4 +1,4 @@
-# PROJECT — Dokumentasi Portfolio CMS
+# PROJECT: Dokumentasi Portfolio CMS
 
 Dokumentasi lengkap proyek Website Portofolio Pribadi dengan CMS semi-kustom, dari riset sampai deployment.
 
@@ -87,11 +87,11 @@ Pengunjung / Admin
 
 Prinsip yang dipegang:
 
-1. **Server-first** — semua query & mutasi terjadi di server; client hanya mengirim form.
-2. **Tidak ada ORM** — raw SQL terparameterisasi (`$1`, `$2`) via driver HTTP Neon.
-3. **Proteksi berlapis** — middleware memeriksa JWT, server action memeriksa `requireAdmin()`.
-4. **Tema dari database** — pengaturan tersimpan di tabel `settings`, di-inject sebagai CSS variable ke root layout.
-5. **Satu resource manager generik** — semua entitas CRUD memakai definisi yang sama di `src/lib/resources.ts`.
+1. **Server-first**: semua query & mutasi terjadi di server; client hanya mengirim form.
+2. **Tidak ada ORM**: raw SQL terparameterisasi (`$1`, `$2`) via driver HTTP Neon.
+3. **Proteksi berlapis**: middleware memeriksa JWT, server action memeriksa `requireAdmin()`.
+4. **Tema dari database**: pengaturan tersimpan di tabel `settings`, di-inject sebagai CSS variable ke root layout.
+5. **Satu resource manager generik**: semua entitas CRUD memakai definisi yang sama di `src/lib/resources.ts`.
 
 ---
 

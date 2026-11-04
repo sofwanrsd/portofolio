@@ -1,4 +1,4 @@
-# 06 — Definition of Done (DoD)
+# 06: Definition of Done (DoD)
 
 Dokumen ini mendefinisikan kriteria "selesai" untuk setiap item pekerjaan (feature, bug fix, dokumen) dalam Portfolio CMS v1.
 

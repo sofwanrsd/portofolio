@@ -3,7 +3,7 @@
  *
  * Sengaja dipasang di dalam area admin, bukan di root layout: `loading.tsx`
  * di root membungkus seluruh halaman dalam Suspense sehingga status HTTP
- * sudah terkirim sebagai 200 sebelum `notFound()` dievaluasi — halaman 404
+ * sudah terkirim sebagai 200 sebelum `notFound()` dievaluasi: halaman 404
  * jadi kehilangan status 404-nya. Area admin tidak butuh status itu.
  */
 function Skeleton({ className }: { className?: string }) {

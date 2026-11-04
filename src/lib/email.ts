@@ -1,6 +1,6 @@
 /**
  * Modul notifikasi email (Resend).
- * Kegagalan sending di sini TIDAK boleh menggagalkan operasi utama —
+ * Kegagalan sending di sini TIDAK boleh menggagalkan operasi utama -
  * pesan kontak sudah tersimpan di database sebelum email dikirim.
  * Di dokumentasikan pada PROJECT/04-ARCHITECTURE/system-architecture.md §4.2 dan failure mode F4.
  */
@@ -37,7 +37,7 @@ export async function sendInquiryNotification(
 
   if (!apiKey || !to || !from) {
     console.warn(
-      "[email] RESEND_API_KEY/CONTACT_TO_EMAIL/CONTACT_FROM_EMAIL belum di-set — notifikasi dilewati."
+      "[email] RESEND_API_KEY/CONTACT_TO_EMAIL/CONTACT_FROM_EMAIL belum di-set: notifikasi dilewati."
     );
     return false;
   }
@@ -53,7 +53,7 @@ export async function sendInquiryNotification(
         from,
         to: [to],
         subject: `[Portfolio] Inquiry baru dari ${payload.name}${
-          payload.subject ? ` — ${payload.subject}` : ""
+          payload.subject ? `: ${payload.subject}` : ""
         }`,
         html: `
           <h2>Inquiry baru dari form kontak</h2>

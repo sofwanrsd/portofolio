@@ -1,4 +1,4 @@
-# 04 — Security Design
+# 04: Security Design
 
 **Sistem:** Portfolio CMS · **Versi:** 1.0 · **Tanggal:** November 2026
 
@@ -252,11 +252,11 @@ Diterapkan di `next.config.ts` pada seluruh respons:
 
 ### 9.1 Prosedur Umum
 
-1. **Deteksi** — monitor log Vercel, notifikasi error, atau laporan owner.
-2. **Kontekanan** — Nonaktifkan deploy (Vercel -> Deployments -> promote rollback), cabut env yang bocor.
-3. **Eradikasi** — rotasi seluruh secret yang mungkin terdampak, patch kode, bersihkan data yang disusupi.
-4. **Pemulihan** — deploy versi bersih, pulihkan DB dari backup bila perlu.
-5. **Pelajaran** — dokumentasikan insiden, tambahkan kontrol pencegahan, perbarui `05-PLANNING/risks.md`.
+1. **Deteksi**: monitor log Vercel, notifikasi error, atau laporan owner.
+2. **Kontekanan**: Nonaktifkan deploy (Vercel -> Deployments -> promote rollback), cabut env yang bocor.
+3. **Eradikasi**: rotasi seluruh secret yang mungkin terdampak, patch kode, bersihkan data yang disusupi.
+4. **Pemulihan**: deploy versi bersih, pulihkan DB dari backup bila perlu.
+5. **Pelajaran**: dokumentasikan insiden, tambahkan kontrol pencegahan, perbarui `05-PLANNING/risks.md`.
 
 ### 9.2 Skenario dan Respons
 

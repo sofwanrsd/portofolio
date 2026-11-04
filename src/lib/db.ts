@@ -1,7 +1,7 @@
 import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
 
 /**
- * Klien Neon HTTP (serverless-friendly, tanpa WebSocket — aman untuk Vercel Edge/Node runtime).
+ * Klien Neon HTTP (serverless-friendly, tanpa WebSocket: aman untuk Vercel Edge/Node runtime).
  * Lazy-init supaya build tidak gagal saat DATABASE_URL belum di-set.
  *
  * `fullResults: true` wajib: tanpa opsi itu driver mengembalikan array baris
@@ -22,7 +22,7 @@ export function hasDatabase(): boolean {
 }
 
 /**
- * Tagged template `sql` — cara utama berinteraksi dengan database.
+ * Tagged template `sql`: cara utama berinteraksi dengan database.
  *
  * ```ts
  * const rows = await sql`SELECT * FROM projects WHERE published = true`;

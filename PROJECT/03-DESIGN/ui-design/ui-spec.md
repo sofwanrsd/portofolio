@@ -1,4 +1,4 @@
-# 03 — UI Design (High-Fidelity Spec)
+# 03: UI Design (High-Fidelity Spec)
 
 Dokumen ini menerjemahkan wireframe (`03-DESIGN/wireframes/wireframes.md`) menjadi spesifikasi visual yang dapat langsung diimplementasikan. Token warna, tipografi, dan spacing mengikuti `03-DESIGN/design-system.md`.
 
@@ -9,7 +9,7 @@ Dokumen ini menerjemahkan wireframe (`03-DESIGN/wireframes/wireframes.md`) menja
 1. **Dark-first.** Mode gelap adalah default; terang adalah variasi, bukan fitur tambahan.
 2. **Satu aksen.** Warna aksen hanya untuk aksi penting (CTA, link aktif, status). Tidak dipakai sebagai dekorasi.
 3. **Border tipis, bukan shadow tebal.** Pemisah visual memakai `1px solid var(--border)` + surface sedikit lebih terang.
-4. **Grid sebagai tekstur.** Latar memakai garis 1px berjarak 48px dengan opasitas rendah — memberi rasa "drafting", bukan dekorasi.
+4. **Grid sebagai tekstur.** Latar memakai garis 1px berjarak 48px dengan opasitas rendah: memberi rasa "drafting", bukan dekorasi.
 5. **Tipografi sebagai hierarki utama.** Ukuran + weight membentuk struktur; bukan warna atau garis dekoratif.
 
 ## 2. Implementasi Tema Dinamis
@@ -81,7 +81,7 @@ className="inline-flex h-10 items-center gap-2 rounded-lg bg-[var(--fg)] px-4 te
 ```
 
 **Spesifikasi:**
-- Height: 40px (default), 44px (mobile — target sentuh minimum).
+- Height: 40px (default), 44px (mobile: target sentuh minimum).
 - Radius: `rounded-lg` (8px) di dalam surface radius 12px.
 - Icon 15px, gap 8px.
 - State: default → hover (opacity 0.9) → focus (ring 2px accent, offset 2px) → disabled (opacity 0.6, no pointer) → loading (spinner 15px, label dipertahankan).
@@ -144,7 +144,7 @@ className="h-10 w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] p
 - Social: ikon 36px, border tipis, hover → border accent.
 - Barisan bawah: copyright di kiri, "Built with Next.js" di kanan, dipisah garis.
 
-## 5. Halaman Public — Spesifikasi Detail
+## 5. Halaman Public: Spesifikasi Detail
 
 ### 5.1 Hero
 
@@ -222,7 +222,7 @@ React                              ▓▓▓▓▓▓▓▓░░  85%
 - Tombol submit full-width di mobile, auto-width di desktop.
 --after-success: alert hijau `bg-emerald-500/10 border border-emerald-500/30 text-emerald-300`.
 
-## 6. Admin — Spesifikasi Detail
+## 6. Admin: Spesifikasi Detail
 
 ### 6.1 Layout Admin
 

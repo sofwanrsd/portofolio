@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, MapPin, Sparkles } from "lucide-react";
+import { MapPin, Sparkles } from "lucide-react";
 import { Button, Container } from "@/components/ui";
 import type { AppSettings } from "@/lib/types";
 
@@ -30,7 +30,7 @@ export function Hero({
         <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="max-w-3xl">
           {site.showAvailability && site.availability && (
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-[12.5px] text-[var(--muted)]">
+            <div className="rise d1 mb-7 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 py-1.5 text-[12.5px] text-[var(--muted)]">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
@@ -39,20 +39,19 @@ export function Hero({
             </div>
           )}
 
-          <h1 className="text-balance text-[clamp(2.35rem,5.6vw,4.25rem)] font-semibold leading-[0.99] tracking-[-0.045em]">
+          <h1 className="rise d2 text-balance text-[clamp(2.35rem,5.6vw,4.25rem)] font-semibold leading-[0.99] tracking-[-0.045em]">
             {titleHead}{" "}
             <span className="text-gradient-accent">{titleTail}</span>
           </h1>
 
-          <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-[var(--muted)] md:text-[17.5px]">
+          <p className="rise d3 mt-6 max-w-xl text-[16px] leading-relaxed text-[var(--muted)] md:text-[17.5px]">
             {site.heroSubtitle}
           </p>
 
-          <div className="mt-9 flex flex-wrap items-center gap-3">
+          <div className="rise d4 mt-9 flex flex-wrap items-center gap-3">
             {site.heroCtaText && (
               <Button href={site.heroCtaLink || "/projects"} size="lg">
                 {site.heroCtaText}
-                <ArrowRight size={16} />
               </Button>
             )}
             {site.heroSecondaryText && (
@@ -66,7 +65,7 @@ export function Hero({
             )}
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[13px] text-[var(--muted)]">
+          <div className="rise d5 mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[13px] text-[var(--muted)]">
             {site.location && (
               <span className="inline-flex items-center gap-1.5">
                 <MapPin size={13} /> {site.location}
@@ -87,9 +86,9 @@ export function Hero({
           </div>
 
           {/* Panel visual kanan: gambar hero bila ada, jika tidak gradient mesh. */}
-          <div className="relative hidden lg:block">
+          <div className="fade d3 relative hidden lg:block">
             <div className="float-slow relative">
-            <div className="ring-accent overflow-hidden rounded-[26px] shadow-[0_40px_120px_-50px_color-mix(in_oklab,var(--accent)_85%,transparent)] ring-1 ring-inset ring-[var(--border)]">
+            <div className="sheen ring-accent relative overflow-hidden rounded-[26px] shadow-[0_40px_120px_-50px_color-mix(in_oklab,var(--accent)_85%,transparent)] ring-1 ring-inset ring-[var(--border)]">
               {site.heroImage ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -138,7 +137,7 @@ export function Hero({
                       {["Performa", "Aksesibilitas", "Desain"].map((item) => (
                         <div
                           key={item}
-                          className="rounded-lg border border-[var(--border)] bg-[var(--card)]/70 px-2 py-2 text-center text-[11px] font-medium text-[var(--muted)] backdrop-blur-sm"
+                          className="rounded-lg border border-[var(--border)] bg-[var(--card)]/70 px-2 py-2 text-center text-[11px] font-medium text-[var(--fg)]/80 backdrop-blur-sm"
                         >
                           {item}
                         </div>

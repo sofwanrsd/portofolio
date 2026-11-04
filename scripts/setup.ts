@@ -80,7 +80,7 @@ async function main() {
 
   if (!email || !password) {
     console.log(
-      "\n[!] ADMIN_EMAIL / ADMIN_PASSWORD belum di-set — akun admin dilewati."
+      "\n[!] ADMIN_EMAIL / ADMIN_PASSWORD belum di-set: akun admin dilewati."
     );
   } else {
     console.log(`→ Menyiapkan akun admin: ${email}`);

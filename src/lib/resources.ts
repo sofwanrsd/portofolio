@@ -128,7 +128,7 @@ export const RESOURCES: Record<string, ResourceDef> = {
     fields: [
       { name: "role", label: "Peran/Jabatan", type: "text", required: true },
       { name: "company", label: "Perusahaan", type: "text", required: true },
-      { name: "period", label: "Periode", type: "text", placeholder: "2023 — sekarang" },
+      { name: "period", label: "Periode", type: "text", placeholder: "2023: sekarang" },
       { name: "description", label: "Deskripsi", type: "textarea", rows: 4 },
       { name: "url", label: "URL Perusahaan", type: "text" },
       { name: "sort_order", label: "Urutan", type: "number", default: 0 },

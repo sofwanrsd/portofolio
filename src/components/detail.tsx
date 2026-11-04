@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Github, Globe } from "lucide-react";
+import { Github, Globe } from "lucide-react";
 import { Badge, Button, Card, Container, Section } from "@/components/ui";
 import { ProjectCard } from "@/components/project-card";
 import { formatDate, readingTime } from "@/lib/utils";
@@ -20,7 +20,7 @@ export function ProjectDetail({
           href="/projects"
           className="inline-flex items-center gap-1.5 text-[13px] text-[var(--muted)] transition-colors hover:text-[var(--fg)]"
         >
-          <ArrowLeft size={14} /> Kembali ke Project
+          Kembali ke Project
         </Link>
 
         <div className="mt-6 max-w-3xl">
@@ -152,7 +152,7 @@ export function ProjectDetail({
                 href="/projects"
                 className="inline-flex items-center gap-1.5 text-[13px] text-[var(--muted)] transition-colors hover:text-[var(--fg)]"
               >
-                Semua <ArrowRight size={14} />
+                Semua Project
               </Link>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
@@ -182,7 +182,7 @@ export function PostDetail({
           href="/blog"
           className="inline-flex items-center gap-1.5 text-[13px] text-[var(--muted)] transition-colors hover:text-[var(--fg)]"
         >
-          <ArrowLeft size={14} /> Kembali ke Blog
+          Kembali ke Blog
         </Link>
 
         <header className="mx-auto mt-6 max-w-3xl">

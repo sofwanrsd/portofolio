@@ -1,4 +1,4 @@
-# 01 — Feasibility Study (Studi Kelayakan)
+# 01: Feasibility Study (Studi Kelayakan)
 
 ## 1. Ringkasan Eksekutif
 
@@ -91,8 +91,8 @@
 |---|---|---|
 | Vercel | $0 | $20/bln (Pro) |
 | Neon | $0 | $19/bln (Pro) |
-| Domain | — | $10–15/tahun |
-| Gambar/CDN | — | $0 (eksternal) / $5/bln |
+| Domain |: | $10–15/tahun |
+| Gambar/CDN |: | $0 (eksternal) / $5/bln |
 | **Total** | **$0** | **~$40–55/bln** |
 
 ### 4.2 Nilai Bisnis
@@ -115,7 +115,7 @@ Biaya yang *tidak* termasuk dihitung: waktu owner. Jika update konten manual lew
 | Aspek | Rencana |
 |---|---|
 |(round) Setup | `npm run db:setup` di Neon + 3 env var di Vercel |
-| Rutinitas | Update konten via `/admin` — tanpa deploy |
+| Rutinitas | Update konten via `/admin`: tanpa deploy |
 | Monitoring | Vercel Analytics (opsional), Neon dashboard untuk query/storage |
 | Backup | Neon auto-backup (7 hari di Pro) + dump SQL manual tiap minggu |
 | Onboarding pengganti | README + dokumen `PROJECT/` |
@@ -142,7 +142,7 @@ Biaya yang *tidak* termasuk dihitung: waktu owner. Jika update konten manual lew
 3. Deploy target: **preview Vercel lebih dulu**, domain kustom setelah KPI terukur.
 4. Review kelayakan ulang setelah 3 bulan operasional (data nyata: trafik, konversi, biaya).
 
-## 8. Lampiran — Checklist Kelayakan
+## 8. Lampiran: Checklist Kelayakan
 
 - [x] Masalah teridentifikasi dan tervalidasi (`01-RESEARCH/problem-statement.md`)
 - [x] Stack dipilih dengan perbandingan alternatif

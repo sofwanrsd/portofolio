@@ -1,4 +1,4 @@
-# 03 — Wireframes (Low-Fidelity)
+# 03: Wireframes (Low-Fidelity)
 
 Dokumen ini mendeskripsikan tata letak dan alur layar dalam bentuk low-fidelity (struktur, hierarki, dan perilaku) sebelum detail visual dipoles. Referensi visual token ada di `03-DESIGN/design-system.md`.
 
@@ -11,7 +11,7 @@ Dokumen ini mendeskripsikan tata letak dan alur layar dalam bentuk low-fidelity 
 
 ---
 
-## W-01 — Beranda (Desktop, ≥ 1024px)
+## W-01: Beranda (Desktop, ≥ 1024px)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -43,13 +43,13 @@ Dokumen ini mendeskripsikan tata letak dan alur layar dalam bentuk low-fidelity 
 │  Frameworks     [Next.js █████████░ 92] [Tailwind ████████░░ 80]    │
 ├──────────────────────────────────────────────────────────────────────┤
 │  EXPERIENCE                                                         │
-│  2023 — sekarang   Peran  ·  Perusahaan     deskripsi 1-2 baris      │
-│  2021 — 2023       Peran  ·  Perusahaan     deskripsi                 │
+│  2023: sekarang   Peran  ·  Perusahaan     deskripsi 1-2 baris      │
+│  2021: 2023       Peran  ·  Perusahaan     deskripsi                 │
 ├──────────────────────────────────────────────────────────────────────┤
 │  TESTIMONIALS        ▭▭▭▭▭▭   ▭▭▭▭▭▭   ▭▭▭▭▭▭                   │
 │                      "kutipan"    "kutipan"   "kutipan"               │
 ├──────────────────────────────────────────────────────────────────────┤
-│  PRICING — Paket Layanan                                             │
+│  PRICING: Paket Layanan                                             │
 │  ▭▭▭▭▭▭▭▭▭▭▭   ▭▭▭▭▭▭▭▭▭▭▭   ▭▭▭▭▭▭▭▭▭▭▭   ← kartu paket     │
 │  Lite              Pro  ★POPULER     Custom                         │
 │  fitur...          fitur...         fitur...                        │
@@ -59,7 +59,7 @@ Dokumen ini mendeskripsikan tata letak dan alur layar dalam bentuk low-fidelity 
 │  FROM THE BLOG            [Semua artikel →]                         │
 │  ▭▭▭▭▭▭▭  Judul    ▭▭▭▭▭▭▭  Judul    ▭▭▭▭▭▭▭  Judul                │
 ├──────────────────────────────────────────────────────────────────────┤
-│  CTA BANNER — "Punya ide project?"   [Mulai Diskusi]                 │
+│  CTA BANNER: "Punya ide project?"   [Mulai Diskusi]                 │
 ├──────────────────────────────────────────────────────────────────────┤
 │  CONTACT / FOOTER                                                    │
 │  [form inquiry]              social icons · copyright · tagline      │
@@ -73,7 +73,7 @@ Dokumen ini mendeskripsikan tata letak dan alur layar dalam bentuk low-fidelity 
 
 ---
 
-## W-02 — Mobile Beranda (360px)
+## W-02: Mobile Beranda (360px)
 
 ```
 ┌──────────────────────┐
@@ -99,7 +99,7 @@ Dokumen ini mendeskripsikan tata letak dan alur layar dalam bentuk low-fidelity 
 
 ---
 
-## W-03 — Detail Project
+## W-03: Detail Project
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -136,7 +136,7 @@ Dokumen ini mendeskripsikan tata letak dan alur layar dalam bentuk low-fidelity 
 
 ---
 
-## W-04 — Daftar Project (`/projects`)
+## W-04: Daftar Project (`/projects`)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -157,7 +157,7 @@ Dokumen ini mendeskripsikan tata letak dan alur layar dalam bentuk low-fidelity 
 
 ---
 
-## W-05 — Admin Dashboard (`/admin`)
+## W-05: Admin Dashboard (`/admin`)
 
 ```
 ┌────────────┬─────────────────────────────────────────────────────────┐
@@ -182,7 +182,7 @@ Dokumen ini mendeskripsikan tata letak dan alur layar dalam bentuk low-fidelity 
 
 ---
 
-## W-06 — Admin CRUD Resource (`/admin/projects`)
+## W-06: Admin CRUD Resource (`/admin/projects`)
 
 ```
 ┌────────────┬─────────────────────────────────────────────────────────┐
@@ -199,7 +199,7 @@ Dokumen ini mendeskripsikan tata letak dan alur layar dalam bentuk low-fidelity 
 │            │  1–3 dari 12                                          │
 └────────────┴─────────────────────────────────────────────────────────┘
 
-MODAL / DRAWER — Tambah Project
+MODAL / DRAWER: Tambah Project
 ┌──────────────────────────────────────────────────────┐
 │  Tambah Project                                    ✕ │
 │  ──────────────────────────────────────────────────── │
@@ -232,7 +232,7 @@ MODAL / DRAWER — Tambah Project
 
 ---
 
-## W-07 — Admin Pengaturan (`/admin/settings`)
+## W-07: Admin Pengaturan (`/admin/settings`)
 
 ```
 ┌────────────┬─────────────────────────────────────────────────────────┐
@@ -269,17 +269,17 @@ MODAL / DRAWER — Tambah Project
 
 ---
 
-## W-08 — Admin Inbox Pesan (`/admin/messages`)
+## W-08: Admin Inbox Pesan (`/admin/messages`)
 
 ```
 ┌────────────┬─────────────────────────────────────────────────────────┐
 │  sidebar   │  Pesan                              [Semua ▾] [Hapus ▾]  │
 │            │  ─────────────────────────────────────────────────────  │
-│            │  ● Budi Santoso — butuh web toko      [Baru] [Arsipkan] │
+│            │  ● Budi Santoso: butuh web toko      [Baru] [Arsipkan] │
 │    3 baru  │    budi@contoh.id · 2 jam lalu · Budget: 5-10jt        │
 │            │    "Halo, saya butuh toko online..."                    │
 │            │  ─────────────────────────────────────────────────────  │
-│            │  ○ Sari — tanya layanan SEO          [Baru] [Arsipkan] │
+│            │  ○ Sari: tanya layanan SEO          [Baru] [Arsipkan] │
 │            │    sari@contoh.id · 1 hari lalu                         │
 │            │    "Mau tanya paket SEO..."                             │
 └────────────┴─────────────────────────────────────────────────────────┘
@@ -290,7 +290,7 @@ MODAL / DRAWER — Tambah Project
 
 ---
 
-## W-09 — Login Admin (`/admin/login`)
+## W-09: Login Admin (`/admin/login`)
 
 ```
 ┌───────────────────────────────┐
@@ -315,7 +315,7 @@ MODAL / DRAWER — Tambah Project
 
 ---
 
-## W-10 — Form Kontak Publik (`/contact`)
+## W-10: Form Kontak Publik (`/contact`)
 
 ```
 ┌───────────────────────────────┬──────────────────────────────────────┐
@@ -329,12 +329,12 @@ MODAL / DRAWER — Tambah Project
 └───────────────────────────────┴──────────────────────────────────────┘
 ```
 - Dua kolom di desktop (kontak info | form), satu kolom di mobile.
-- Field honeypot `website` disembunyikan via CSS (`position:absolute; left:-9999px`) — bukan `display:none` agar bot tetap mengisinya.
+- Field honeypot `website` disembunyikan via CSS (`position:absolute; left:-9999px`): bukan `display:none` agar bot tetap mengisinya.
 - Setelah sukses: form dikosongkan dan muncul pesan hijau "Terima kasih, pesan Anda terkirim."
 
 ---
 
-## W-11 — Halaman 404
+## W-11: Halaman 404
 
 ```
 ┌───────────────────────────────────────┐
@@ -348,7 +348,7 @@ MODAL / DRAWER — Tambah Project
 
 ---
 
-## W-12 — Error & Loading States
+## W-12: Error & Loading States
 
 | Situasi | Tampilan |
 |---|---|

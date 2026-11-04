@@ -1,4 +1,4 @@
-# 06 — Test Plan
+# 06: Test Plan
 
 Dokumen ini mendefinisikan strategi pengujian Portfolio CMS: cakupan, level pengujian, kasus uji, dan kriteria keluar (exit criteria) untuk rilis v1.
 
@@ -8,7 +8,7 @@ Dokumen ini mendefinisikan strategi pengujian Portfolio CMS: cakupan, level peng
 
 | Prinsip | Penerapan |
 |---|---|
-| Risiko-sentris | Fokus pada jalur otentikasi, input form, dan integritas data — bukan pada detail visual |
+| Risiko-sentris | Fokus pada jalur otentikasi, input form, dan integritas data: bukan pada detail visual |
 | Otomatis di mana mungkin | Type check + lint + build dijalankan sebagai gate pada setiap commit |
 | Manual terstruktur | Perilaku UI, responsivitas, dan aksesibilitas diuji manual dengan checklist |
 | Wajib sebelum rilis | Semua kasus P0 dan P1 berstatus Lulus |
@@ -39,12 +39,12 @@ Dokumen ini mendefinisikan strategi pengujian Portfolio CMS: cakupan, level peng
 | ESLint | Konsistensi kode & best practice | `npx next lint` |
 | Next.js Build | Gate produksi (menangkap masalah bundling/SSR) | `npx next build` |
 | Vitest | Unit test logika murni (environment `node`) | `npm test` |
-| Manual + DevTools | E2E, responsif, audit Lighthouse | — |
-| `curl` | Uji kontrak API | — |
+| Manual + DevTools | E2E, responsif, audit Lighthouse |: |
+| `curl` | Uji kontrak API |: |
 
-> **Status implementasi:** Vitest sudah terpasang (`vitest.config.ts`) dengan 60 unit test di 5 berkas: `src/lib/slug.test.ts`, `src/lib/format.test.ts`, `src/lib/rate-limit.test.ts`, `src/lib/validation/schemas.test.ts`, dan `src/lib/contact.test.ts`. Seluruh tes berjalan tanpa database sehingga aman dijalankan di CI. E2E otomatis (Playwright) belum dipasang — bagian manual di §6 masih menjadi acuan.
+> **Status implementasi:** Vitest sudah terpasang (`vitest.config.ts`) dengan 60 unit test di 5 berkas: `src/lib/slug.test.ts`, `src/lib/format.test.ts`, `src/lib/rate-limit.test.ts`, `src/lib/validation/schemas.test.ts`, dan `src/lib/contact.test.ts`. Seluruh tes berjalan tanpa database sehingga aman dijalankan di CI. E2E otomatis (Playwright) belum dipasang: bagian manual di §6 masih menjadi acuan.
 
-## 3. Level 1 — Unit Test
+## 3. Level 1: Unit Test
 
 ### 3.1 `src/lib/utils.ts`
 
@@ -83,7 +83,7 @@ Dokumen ini mendefinisikan strategi pengujian Portfolio CMS: cakupan, level peng
 | U-CON-06 | Trim whitespace | tersimpan tanpa spasi tepi |
 | U-CON-07 | Field opsional kosong | default `""`, bukan `undefined` |
 
-## 4. Level 2 — Integration Test (Server Action + Neon)
+## 4. Level 2: Integration Test (Server Action + Neon)
 
 Dijalankan terhadap database uji (Neon branch terpisah), bukan production.
 
@@ -111,7 +111,7 @@ Dijalankan terhadap database uji (Neon branch terpisah), bukan production.
 | I-DB-01 | `getSettings` | tanpa baris settings | return default, bukan error |
 | I-DB-02 | `query()` | parameterized | nilai berisi `'` tidak merusak query |
 
-## 5. Level 3 — Uji API (Kontrak)
+## 5. Level 3: Uji API (Kontrak)
 
 Dikurasi dari `04-ARCHITECTURE/api-specification.yaml`.
 
@@ -133,7 +133,7 @@ Dikurasi dari `04-ARCHITECTURE/api-specification.yaml`.
 | A-14 | `POST /api/revalidate` | secret salah | 401 |
 | A-15 | `GET /api/health` | normal | 200 `{status:"ok"}` |
 
-## 6. Level 4 — Uji Manual E2E (Perjalanan Pengguna)
+## 6. Level 4: Uji Manual E2E (Perjalanan Pengguna)
 
 ### 6.1 Perjalanan Pengunjung
 

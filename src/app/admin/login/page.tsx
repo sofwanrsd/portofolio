@@ -35,7 +35,7 @@ export default async function AdminLoginPage() {
 
         <p className="mt-6 text-center text-[12px] text-[var(--muted)]">
           <a href="/" className="transition-colors hover:text-[var(--fg)]">
-            ← Kembali ke website
+            Kembali ke website
           </a>
         </p>
       </div>

@@ -3,7 +3,6 @@ import { getServices } from "@/lib/data";
 import { getSettings } from "@/lib/settings";
 import { formatPrice } from "@/lib/format";
 import { Button, Card, Container, Section, SectionHeading } from "@/components/ui";
-import { ArrowRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -87,7 +86,7 @@ export default async function ServicesPage() {
 
             <div className="mt-12 flex justify-center">
               <Button href="/contact" size="lg">
-                Diskusikan kebutuhan Anda <ArrowRight size={16} />
+                Diskusikan kebutuhan Anda
               </Button>
             </div>
           </>
