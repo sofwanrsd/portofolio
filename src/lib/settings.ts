@@ -7,7 +7,8 @@ export const defaultSettings: AppSettings = {
     tagline: "Full-Stack Developer & Designer",
     description:
       "Portfolio pribadi saya. Saya bangun produk web yang cepat, rapi, dan layak dipamerkan.",
-    logoText: "NK",
+    // Kosong = pakai inisial nama, supaya tidak ada huruf template yang tertinggal.
+    logoText: "",
     email: "hello@domainmu.com",
     phone: "+62 812-3456-7890",
     location: "Jakarta, Indonesia",
