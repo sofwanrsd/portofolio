@@ -1,4 +1,5 @@
-import { Briefcase, Code, Globe, Rocket } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Briefcase, Code, Globe, Rocket } from "lucide-react";
 import { Badge, Card, Container, Section, SectionHeading } from "@/components/ui";
 import { formatPrice } from "@/lib/utils";
 import type { Experience, Service, Skill } from "@/lib/types";
@@ -49,20 +50,9 @@ export function ServicesSection({ services }: { services: Service[] }) {
                     {service.description}
                   </p>
 
-                  {service.price_value && (
-                    <div className="mt-5">
-                      <p className="text-[11px] uppercase tracking-wider text-[var(--muted)]">
-                        {service.price_label || "Harga mulai"}
-                      </p>
-                      <p className="mt-1 text-xl font-semibold tracking-tight">
-                        {formatPrice(service.price_value, service.currency)}
-                      </p>
-                    </div>
-                  )}
-
                   {service.features.length > 0 && (
-                    <ul className="mt-5 space-y-2 border-t border-[var(--border)] pt-5">
-                      {service.features.map((feature) => (
+                    <ul className="mt-5 space-y-2">
+                      {service.features.slice(0, 3).map((feature) => (
                         <li
                           key={feature}
                           className="flex items-start gap-2 text-[13px] text-[var(--muted)]"
@@ -73,6 +63,13 @@ export function ServicesSection({ services }: { services: Service[] }) {
                       ))}
                     </ul>
                   )}
+
+                  <Link
+                    href="/services"
+                    className="mt-5 inline-flex items-center gap-1.5 text-[13px] font-medium text-[var(--accent)] hover:underline"
+                  >
+                    Lihat paket &amp; harga <ArrowRight size={14} />
+                  </Link>
                 </div>
               </Card>
             );
