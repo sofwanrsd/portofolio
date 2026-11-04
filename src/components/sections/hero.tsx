@@ -94,8 +94,8 @@ export function Hero({
 
           {/* Panel visual kanan: foto bila ada, jika tidak kartu editorial. */}
           <div className="fade d3 relative hidden lg:block">
-            <div className="relative">
-              <div className="relative overflow-hidden rounded-[28px] border border-[var(--border)] bg-[var(--card)] shadow-[0_50px_120px_-60px_color-mix(in_oklab,var(--accent)_70%,transparent)]">
+            <div className="float-slow relative">
+              <div className="sheen border-spin is-live relative overflow-hidden rounded-[28px] border border-[var(--border)] bg-[var(--card)] shadow-[0_50px_120px_-60px_color-mix(in_oklab,var(--accent)_70%,transparent)]">
                 {site.heroImage ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img

@@ -10,6 +10,7 @@ import {
 import { Hero, TechMarquee } from "@/components/sections/hero";
 import { ProjectsSection } from "@/components/sections/projects";
 import { HomeOverview } from "@/components/sections/home-overview";
+import { ExpertisePreview } from "@/components/sections/expertise-preview";
 import { PricingSection, ServicesSection } from "@/components/sections/collections";
 import {
   BlogSection,
@@ -44,6 +45,8 @@ export default async function HomePage() {
       )}
 
       {sections.projects && <ProjectsSection projects={projects} />}
+
+      {sections.skills && <ExpertisePreview skills={skills} />}
 
       {sections.services && <ServicesSection services={services} />}
 

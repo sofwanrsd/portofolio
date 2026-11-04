@@ -102,7 +102,7 @@ export default async function ContactPage({ searchParams }: Props) {
               )}
             </div>
 
-            <Card id="form" data-reveal="right" className="scroll-mt-28 p-6 md:p-8">
+            <Card id="form" data-reveal="right" className="border-spin scroll-mt-28 p-6 md:p-8">
               <h2 className="text-[clamp(1.4rem,2.4vw,1.8rem)] font-semibold tracking-[-0.03em]">
                 Kirim <span className="font-display text-[var(--accent)]">pesan</span>
               </h2>

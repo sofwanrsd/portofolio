@@ -34,6 +34,13 @@ describe("Home is a curated introduction, not a duplicate About", () => {
     expect(html).not.toContain("FULL WORK BULLET");
     for (const id of ["experience", "education", "organization", "certification", "skills"]) expect(html).not.toContain(`id="${id}"`);
   });
+  it("keeps Home visually complete with a separate expertise preview", async () => {
+    const html = await render();
+    expect(html.includes('id="expertise"')).toBe(true);
+    expect(html.includes("MikroTik")).toBe(true);
+    expect(html.includes('href="/about#skills"')).toBe(true);
+    expect(html.includes('role="meter"')).toBe(false);
+  });
   it("curates four projects rather than repeating the entire project catalog", async () => {
     const html = await render();
     for (let i = 1; i <= 4; i++) expect(html).toContain(`Karya ${i}`);

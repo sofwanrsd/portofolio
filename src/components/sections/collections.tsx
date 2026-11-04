@@ -225,7 +225,7 @@ export function SkillsSection({ skills }: { skills: Skill[] }) {
                 className="group overflow-hidden hover:-translate-y-1"
               >
                 <div className="flex items-center gap-2.5 border-b border-[var(--border)] px-5 py-3.5">
-                  <span className="grid h-8 w-8 place-items-center rounded-lg border border-[var(--border)] bg-[var(--glass)] text-[var(--accent)] transition-transform duration-500 group-hover:scale-105">
+                  <span className="grid h-8 w-8 place-items-center rounded-lg border border-[var(--border)] bg-[var(--glass)] text-[var(--accent)] transition-transform duration-500 group-hover:rotate-12">
                     <Icon size={15} />
                   </span>
                   <h3 className="text-[13px] font-semibold tracking-tight">

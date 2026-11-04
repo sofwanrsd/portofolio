@@ -33,6 +33,11 @@ describe("professional public presentation", () => {
     expect(html.includes("8+")).toBe(false);
     expect(html.includes("project selesai")).toBe(false);
   });
+  it("preserves the expressive original hero treatment", () => {
+    const html = render(createElement(Hero, { settings, projectsCount: 8 }));
+    expect(html.includes("float-slow")).toBe(true);
+    expect(html.includes("sheen border-spin")).toBe(true);
+  });
   it("keeps project pages factual and hides irrelevant client counts", async () => {
     const html = render(await ProjectsPage({ searchParams: Promise.resolve({}) }));
     expect(html.includes('aria-label="Proyek dan implementasi"')).toBe(true);

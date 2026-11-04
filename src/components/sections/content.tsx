@@ -169,7 +169,7 @@ export function CtaSection({ features }: { features: AppSettings["features"] }) 
       <Container>
         <div
           data-reveal="scale"
-          className="relative overflow-hidden rounded-[24px] border border-[var(--border)] bg-[var(--card)] px-6 py-16 text-center md:px-14 md:py-24"
+          className="border-spin is-live relative overflow-hidden rounded-[32px] border border-[var(--border)] bg-[var(--card)] px-6 py-16 text-center md:px-14 md:py-24"
         >
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <div className="bg-grid bg-grid-mask absolute inset-0 opacity-50" />

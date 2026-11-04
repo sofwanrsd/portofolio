@@ -115,7 +115,7 @@ export default async function AboutPage() {
             {PRINCIPLES.map(({ icon: Icon, title, text }, i) => (
               <Card key={title} data-reveal="" style={reveal(i)} className="group p-7 hover:-translate-y-1">
                 <div className="flex items-start gap-5">
-                  <span aria-hidden className="font-mono pt-1 text-[13px] text-[var(--muted)]">
+                  <span aria-hidden className="ghost-num text-6xl">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
