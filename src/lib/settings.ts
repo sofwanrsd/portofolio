@@ -74,7 +74,7 @@ export const defaultSettings: AppSettings = {
     ctaButtonText: "Kontak Sekarang",
   },
   footer: {
-    tagline: "Dibangun dengan Next.js + Neon + Vercel",
+    tagline: "",
     showCopyright: true,
     copyrightText: "© 2026 Nama Kamu. All rights reserved.",
   },

@@ -85,17 +85,12 @@ export function SiteFooter({ settings }: { settings: AppSettings }) {
               <ul className="space-y-2">
                 <li>
                   <Link href="/about" className="text-[var(--muted)] hover:text-[var(--fg)]">
-                    Profile
+                    Tentang
                   </Link>
                 </li>
                 <li>
                   <Link href="/contact" className="text-[var(--muted)] hover:text-[var(--fg)]">
                     Kontak
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/admin" className="text-[var(--muted)] hover:text-[var(--fg)]">
-                    Admin
                   </Link>
                 </li>
               </ul>

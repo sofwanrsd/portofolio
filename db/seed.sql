@@ -7,7 +7,7 @@ INSERT INTO settings (key, value) VALUES
   ('socials', '{"github":"https://github.com/namakamu","linkedin":"https://linkedin.com/in/namakamu","twitter":"https://x.com/namakamu","instagram":"https://instagram.com/namakamu","youtube":"https://youtube.com/@namakamu","whatsapp":"https://wa.me/6281234567890"}'),
   ('seo', '{"metaTitle":"Portfolio — Nama Kamu","metaDescription":"Portfolio pribadi developer: project, blog, dan layanan freelance.","ogImage":"/opengraph-image","keywords":"portfolio, web developer, freelance"}'),
   ('features', '{"hireMeEnabled":true,"hireMeTitle":"Punya ide project?","hireMeText":"Ceritakan kebutuhan Anda — saya balas dalam 1x24 jam dengan estimasi harga dan timeline.","hireMeButtonText":"Mulai Diskusi","hireMeButtonLink":"/contact","showPricing":true,"pricingTitle":"Paket Layanan","pricingSubtitle":"Harga transparan, tanpa biaya tersembunyi.","ctaTitle":"Mari kerjakan project Anda","ctaText":"Punya sesuatu yang ingin dibahas? Langsung saja — konsultasi gratis untuk project pertama.","ctaButtonText":"Kontak Sekarang"}'),
-  ('footer', '{"tagline":"Dibangun dengan Next.js + Neon + Vercel","showCopyright":true,"copyrightText":"© 2026 Nama Kamu. All rights reserved."}')
+  ('footer', '{"tagline":"","showCopyright":true,"copyrightText":"© 2026 Nama Kamu. All rights reserved."}')
 ON CONFLICT (key) DO NOTHING;
 
 INSERT INTO projects (slug, title, summary, description, category, cover_image, gallery, stack, repo_url, live_url, client, year, featured, published, sort_order) VALUES
