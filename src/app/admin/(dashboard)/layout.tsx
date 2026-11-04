@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
-import { AdminNav } from "@/components/admin/admin-nav";
-import { AdminMobileNav } from "@/components/admin/admin-mobile-nav";
+import { getDashboardStats } from "@/lib/data";
+import { getSettings } from "@/lib/settings";
+import { AdminShell } from "@/components/admin/admin-shell";
 
 export const dynamic = "force-dynamic";
 
@@ -20,13 +21,17 @@ export default async function AdminDashboardLayout({
   const user = await getCurrentUser();
   if (!user) redirect("/admin/login");
 
+  const [stats, settings] = await Promise.all([getDashboardStats(), getSettings()]);
+  const { site } = settings;
+
   return (
-    <div className="flex min-h-screen bg-[var(--bg)]">
-      <AdminNav userName={user.name || user.email} />
-      <div className="min-w-0 flex-1">
-        <AdminMobileNav />
-        <div className="px-5 py-7 md:px-8">{children}</div>
-      </div>
-    </div>
+    <AdminShell
+      user={{ name: user.name, email: user.email }}
+      siteName={site.name}
+      logoText={site.logoText || site.name.slice(0, 2).toUpperCase()}
+      newMessages={stats.newMessages}
+    >
+      {children}
+    </AdminShell>
   );
 }

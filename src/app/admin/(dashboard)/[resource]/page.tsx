@@ -8,6 +8,15 @@ export const dynamic = "force-dynamic";
 
 type Params = { params: Promise<{ resource: string }> };
 
+const DESCRIPTIONS: Record<string, string> = {
+  projects: "Karya yang tampil di halaman Project dan beranda.",
+  posts: "Artikel blog. Ditulis dengan format Markdown sederhana.",
+  services: "Paket harga yang tampil di halaman Layanan.",
+  experience: "Riwayat kerja di halaman Tentang.",
+  skills: "Teknologi beserta level penguasaannya.",
+  testimonials: "Ulasan klien yang bergulir di beranda.",
+};
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { resource } = await params;
   const def = getResource(resource);
@@ -25,6 +34,8 @@ export default async function ResourcePage({ params }: Params) {
     <ResourceManager
       resourceKey={resource}
       title={def.title}
+      singular={def.singular}
+      description={`${rows.length} ${def.singular} tersimpan. ${DESCRIPTIONS[resource] ?? ""}`.trim()}
       fields={def.fields}
       columns={def.columns}
       rows={rows}

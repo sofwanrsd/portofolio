@@ -1,10 +1,23 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useId, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Save } from "lucide-react";
 import { saveSettings, type ActionResult } from "@/app/actions/admin";
 import type { AppSettings } from "@/lib/types";
+import { INPUT_BASE } from "./field-schema";
+import { AdminHeader, Notice, btnPrimary } from "./admin-ui";
+
+const PANELS = [
+  ["identitas", "Identitas Situs"],
+  ["hero", "Hero / Headline"],
+  ["tema", "Tema & Tampilan"],
+  ["section", "Section Home"],
+  ["jualan", "Jualan & CTA"],
+  ["sosial", "Social Media"],
+  ["seo", "SEO"],
+  ["footer", "Footer"],
+] as const;
 
 const SECTION_LABELS: Record<string, string> = {
   hero: "Hero / Headline",
@@ -42,16 +55,19 @@ function TextField({
   hint?: string;
   type?: string;
 }) {
+  const id = useId();
   return (
     <div>
-      <label className="mb-1.5 block text-[13px] font-medium">{label}</label>
+      <label htmlFor={id} className="mb-1.5 block text-[13px] font-medium">{label}</label>
       <input
+        id={id}
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="h-10 w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 text-sm outline-none transition-colors focus:border-[var(--accent)]"
+        aria-describedby={hint ? `${id}-hint` : undefined}
+        className={`${INPUT_BASE} h-10`}
       />
-      {hint && <p className="mt-1 text-[11.5px] text-[var(--muted)]">{hint}</p>}
+      {hint && <p id={`${id}-hint`} className="mt-1.5 text-[11.5px] text-[var(--muted)]">{hint}</p>}
     </div>
   );
 }
@@ -67,14 +83,16 @@ function AreaField({
   onChange: (v: string) => void;
   rows?: number;
 }) {
+  const id = useId();
   return (
     <div>
-      <label className="mb-1.5 block text-[13px] font-medium">{label}</label>
+      <label htmlFor={id} className="mb-1.5 block text-[13px] font-medium">{label}</label>
       <textarea
+        id={id}
         rows={rows}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full resize-y rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 py-2.5 text-sm outline-none transition-colors focus:border-[var(--accent)]"
+        className={`${INPUT_BASE} resize-y py-2.5`}
       />
     </div>
   );
@@ -90,14 +108,21 @@ function ToggleField({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3.5 py-2.5">
+    <label className="flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-[var(--border)] bg-[var(--glass)] px-3.5 py-3 transition-colors hover:border-[color-mix(in_oklab,var(--accent)_35%,var(--border))]">
       <span className="text-[13px] font-medium">{label}</span>
       <input
         type="checkbox"
+        role="switch"
         checked={value}
         onChange={(e) => onChange(e.target.checked)}
-        className="h-4 w-4 shrink-0 accent-[var(--accent)]"
+        className="peer sr-only"
       />
+      <span
+        aria-hidden
+        className="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full bg-[var(--border)] transition-colors duration-300 peer-checked:bg-[var(--accent)] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--accent)] [&>span]:translate-x-0.5 peer-checked:[&>span]:translate-x-[22px]"
+      >
+        <span className="inline-block h-5 w-5 rounded-full bg-white shadow transition-transform duration-300" />
+      </span>
     </label>
   );
 }
@@ -111,11 +136,38 @@ export function SettingsForm({
   const [settings, setSettings] = useState<AppSettings>(initial);
   const [result, setResult] = useState<ActionResult | null>(null);
   const [pending, startTransition] = useTransition();
+  const [dirty, setDirty] = useState(false);
+  const [activePanel, setActivePanel] = useState<string>(PANELS[0][0]);
+
+  // Tandai bagian yang sedang terlihat di menu kiri.
+  useEffect(() => {
+    const els = PANELS.map(([id]) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    const io = new IntersectionObserver(
+      (entries) => {
+        const top = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (top) setActivePanel(top.target.id);
+      },
+      { rootMargin: "-20% 0px -60% 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  // Peringatkan sebelum meninggalkan halaman dengan perubahan yang belum disimpan.
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
 
   function patchSection<K extends keyof AppSettings>(
     key: K,
     values: Partial<AppSettings[K]>
   ) {
+    setDirty(true);
     setSettings((prev) => ({
       ...prev,
       [key]: { ...(prev[key] as object), ...values },
@@ -136,47 +188,61 @@ export function SettingsForm({
       };
       const response = await saveSettings(payload);
       setResult(response);
-      if (response.ok) router.refresh();
+      if (response.ok) {
+        setDirty(false);
+        router.refresh();
+      }
     });
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-4xl">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Pengaturan</h1>
-          <p className="mt-1 text-[13px] text-[var(--muted)]">
-            Semua perubahan langsung diterapkan ke website.
-          </p>
-        </div>
-        <button
-          type="submit"
-          disabled={pending}
-          className="inline-flex h-10 items-center gap-2 rounded-lg bg-[var(--fg)] px-4 text-sm font-medium text-[var(--bg)] disabled:opacity-60"
-        >
-          {pending ? (
-            <Loader2 size={15} className="animate-spin" />
-          ) : (
-            <Save size={15} />
-          )}
-          Simpan semua
-        </button>
-      </div>
+    <form onSubmit={handleSubmit} className="mx-auto max-w-6xl">
+      <AdminHeader
+        eyebrow="Sistem"
+        title="Pengaturan"
+        description="Semua perubahan langsung diterapkan ke website setelah disimpan."
+        actions={
+          <span
+            className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[12.5px] ${
+              dirty
+                ? "border-[color-mix(in_oklab,var(--accent)_45%,var(--border))] text-[var(--accent)]"
+                : "border-[var(--border)] text-[var(--muted)]"
+            }`}
+          >
+            <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${dirty ? "bg-[var(--accent)]" : "bg-emerald-500"}`} />
+            {dirty ? "Ada perubahan belum disimpan" : "Semua tersimpan"}
+          </span>
+        }
+      />
 
       {result && (
-        <p
-          role="status"
-          className={
-            result.ok
-              ? "mt-5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-[13px] text-emerald-300"
-              : "mt-5 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-[13px] text-red-300"
-          }
-        >
-          {result.message}
-        </p>
+        <div className="mt-5">
+          <Notice ok={result.ok}>{result.message}</Notice>
+        </div>
       )}
 
-      <Panel title="Identitas Situs">
+      <div className="mt-6 grid gap-6 xl:grid-cols-[12rem_1fr]">
+        <nav aria-label="Bagian pengaturan" className="hidden xl:block">
+          <ul className="sticky top-24 space-y-0.5">
+            {PANELS.map(([id, label]) => (
+              <li key={id}>
+                <a
+                  href={`#${id}`}
+                  aria-current={activePanel === id ? "location" : undefined}
+                  className={`relative block rounded-lg px-3 py-1.5 text-[13px] transition-colors ${
+                    activePanel === id
+                      ? "bg-[color-mix(in_oklab,var(--accent)_12%,transparent)] font-medium text-[var(--accent)] before:absolute before:inset-y-1.5 before:-left-px before:w-0.5 before:rounded-full before:bg-[var(--accent)]"
+                      : "text-[var(--muted)] hover:bg-[var(--glass)] hover:text-[var(--fg)]"
+                  }`}
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="min-w-0">
+      <Panel id="identitas" title="Identitas Situs">
         <div className="grid gap-4 md:grid-cols-2">
           <TextField
             label="Nama"
@@ -220,7 +286,7 @@ export function SettingsForm({
         </div>
       </Panel>
 
-      <Panel title="Hero / Headline">
+      <Panel id="hero" title="Hero / Headline">
         <div className="grid gap-4 md:grid-cols-2">
           <TextField
             label="Status ketersediaan"
@@ -273,7 +339,7 @@ export function SettingsForm({
         </div>
       </Panel>
 
-      <Panel title="Tema & Tampilan">
+      <Panel id="tema" title="Tema & Tampilan">
         <div className="grid gap-4 md:grid-cols-2">
           <ColorField
             label="Warna Aksen"
@@ -286,30 +352,32 @@ export function SettingsForm({
             onChange={(v) => patchSection("theme", { accentSecondary: v })}
           />
           <div>
-            <label className="mb-1.5 block text-[13px] font-medium">Mode</label>
+            <label htmlFor="theme-mode" className="mb-1.5 block text-[13px] font-medium">Mode</label>
             <select
+              id="theme-mode"
               value={settings.theme.mode}
               onChange={(e) =>
                 patchSection("theme", {
                   mode: e.target.value as "dark" | "light",
                 })
               }
-              className="h-10 w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 text-sm outline-none focus:border-[var(--accent)]"
+              className={`${INPUT_BASE} h-10`}
             >
               <option value="dark">Gelap (Dark)</option>
               <option value="light">Terang (Light)</option>
             </select>
           </div>
           <div>
-            <label className="mb-1.5 block text-[13px] font-medium">Radius</label>
+            <label htmlFor="theme-radius" className="mb-1.5 block text-[13px] font-medium">Radius</label>
             <select
+              id="theme-radius"
               value={settings.theme.radius}
               onChange={(e) =>
                 patchSection("theme", {
                   radius: e.target.value as "soft" | "sharp" | "round",
                 })
               }
-              className="h-10 w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 text-sm outline-none focus:border-[var(--accent)]"
+              className={`${INPUT_BASE} h-10`}
             >
               <option value="soft">Lunak</option>
               <option value="sharp">Tajam</option>
@@ -326,7 +394,7 @@ export function SettingsForm({
         </div>
       </Panel>
 
-      <Panel title="Section Home">
+      <Panel id="section" title="Section Home">
         <div className="grid gap-2 sm:grid-cols-2">
           {Object.entries(settings.sections).map(([key, value]) => (
             <ToggleField
@@ -343,7 +411,7 @@ export function SettingsForm({
         </div>
       </Panel>
 
-      <Panel title="Jualan & CTA">
+      <Panel id="jualan" title="Jualan & CTA">
         <div className="grid gap-4 md:grid-cols-2">
           <TextField
             label="Judul CTA"
@@ -395,7 +463,7 @@ export function SettingsForm({
         </div>
       </Panel>
 
-      <Panel title="Social Media">
+      <Panel id="sosial" title="Social Media">
         <div className="grid gap-4 md:grid-cols-2">
           {SOCIAL_KEYS.map(({ key, label }) => (
             <TextField
@@ -409,7 +477,7 @@ export function SettingsForm({
         </div>
       </Panel>
 
-      <Panel title="SEO">
+      <Panel id="seo" title="SEO">
         <div className="grid gap-4 md:grid-cols-2">
           <TextField
             label="Meta Title"
@@ -437,7 +505,7 @@ export function SettingsForm({
         </div>
       </Panel>
 
-      <Panel title="Footer">
+      <Panel id="footer" title="Footer">
         <div className="grid gap-4 md:grid-cols-2">
           <TextField
             label="Tagline Footer"
@@ -459,19 +527,39 @@ export function SettingsForm({
         </div>
       </Panel>
 
-      <div className="sticky bottom-4 mt-6 flex justify-end">
-        <button
-          type="submit"
-          disabled={pending}
-          className="inline-flex h-11 items-center gap-2 rounded-lg bg-[var(--fg)] px-5 text-sm font-medium text-[var(--bg)] shadow-lg disabled:opacity-60"
+      <div className="sticky bottom-4 z-20 mt-6">
+        <div
+          className={`flex flex-wrap items-center justify-between gap-3 rounded-2xl border px-4 py-3 backdrop-blur-xl transition-all duration-300 ${
+            dirty
+              ? "border-[color-mix(in_oklab,var(--accent)_40%,var(--border))] bg-[color-mix(in_oklab,var(--card)_88%,transparent)] shadow-[0_24px_60px_-28px_var(--accent)]"
+              : "border-[var(--border)] bg-[color-mix(in_oklab,var(--card)_80%,transparent)]"
+          }`}
         >
-          {pending ? (
-            <Loader2 size={15} className="animate-spin" />
-          ) : (
-            <Save size={15} />
-          )}
-          Simpan semua
-        </button>
+          <p className="text-[13px] text-[var(--muted)]" aria-live="polite">
+            {pending ? "Menyimpan perubahan..." : dirty ? "Ada perubahan yang belum disimpan." : "Semua perubahan sudah tersimpan."}
+          </p>
+          <div className="flex gap-2">
+            {dirty && !pending && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSettings(initial);
+                  setDirty(false);
+                  setResult(null);
+                }}
+                className="inline-flex h-10 items-center rounded-xl px-3 text-[13px] font-medium text-[var(--muted)] transition-colors hover:text-[var(--fg)]"
+              >
+                Batalkan
+              </button>
+            )}
+            <button type="submit" disabled={pending || !dirty} className={`${btnPrimary} h-10 px-5`}>
+              {pending ? <Loader2 size={15} className="animate-spin" aria-hidden /> : <Save size={15} aria-hidden />}
+              {pending ? "Menyimpan..." : "Simpan perubahan"}
+            </button>
+          </div>
+        </div>
+      </div>
+        </div>
       </div>
     </form>
   );
@@ -486,20 +574,23 @@ function ColorField({
   value: string;
   onChange: (v: string) => void;
 }) {
+  const id = useId();
   return (
     <div>
-      <label className="mb-1.5 block text-[13px] font-medium">{label}</label>
+      <label htmlFor={id} className="mb-1.5 block text-[13px] font-medium">{label}</label>
       <div className="flex gap-2">
         <input
           type="color"
+          aria-label={`${label}, pemilih warna`}
           value={/^#[0-9a-fA-F]{6}$/.test(value) ? value : "#ff6b1a"}
           onChange={(e) => onChange(e.target.value)}
-          className="h-10 w-12 shrink-0 cursor-pointer rounded-lg border border-[var(--border)] bg-[var(--bg)] p-1"
+          className="h-10 w-12 shrink-0 cursor-pointer rounded-xl border border-[var(--border)] bg-[var(--glass)] p-1"
         />
         <input
+          id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="h-10 flex-1 rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 font-mono text-[12.5px] outline-none focus:border-[var(--accent)]"
+          className={`${INPUT_BASE} h-10 flex-1 font-mono text-[12.5px]`}
         />
       </div>
     </div>
@@ -507,15 +598,24 @@ function ColorField({
 }
 
 function Panel({
+  id,
   title,
   children,
 }: {
+  id: string;
   title: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-6 rounded-[var(--radius-base)] border border-[var(--border)] bg-[var(--card)] p-5">
-      <h2 className="mb-4 text-[15px] font-semibold tracking-tight">{title}</h2>
+    <section
+      id={id}
+      aria-labelledby={`${id}-title`}
+      className="surface mb-6 scroll-mt-24 rounded-2xl p-5 ring-1 ring-inset ring-[var(--border)] md:p-6"
+    >
+      <h2 id={`${id}-title`} className="mb-5 flex items-center gap-2.5 text-[15px] font-semibold tracking-tight">
+        <span aria-hidden className="h-4 w-1 rounded-full bg-[var(--accent)]" />
+        {title}
+      </h2>
       {children}
     </section>
   );

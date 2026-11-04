@@ -32,4 +32,4 @@ export function toInputValue(field: FieldSchema, value: unknown): string {
 }
 
 export const INPUT_BASE =
-  "w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 text-sm outline-none transition-colors focus:border-[var(--accent)]";
+  "w-full rounded-xl border border-[var(--border)] bg-[var(--glass)] px-3.5 text-[13.5px] outline-none transition-[border-color,box-shadow] placeholder:text-[var(--muted)]/70 focus:border-[var(--accent)] focus:shadow-[0_0_0_4px_color-mix(in_oklab,var(--accent)_16%,transparent)]";

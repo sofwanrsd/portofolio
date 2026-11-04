@@ -152,3 +152,44 @@ export async function getDashboardStats() {
     newMessages: Number(row?.new_messages ?? 0),
   };
 }
+
+
+/** Data ringkasan untuk dashboard admin: status konten dan aktivitas pesan. */
+export async function getAdminOverview() {
+  const content = await query<{ kind: string; published: string; draft: string }>(
+    `SELECT 'Project' AS kind, count(*) FILTER (WHERE published) AS published, count(*) FILTER (WHERE NOT published) AS draft FROM projects
+     UNION ALL SELECT 'Artikel', count(*) FILTER (WHERE published), count(*) FILTER (WHERE NOT published) FROM posts
+     UNION ALL SELECT 'Layanan', count(*) FILTER (WHERE published), count(*) FILTER (WHERE NOT published) FROM services
+     UNION ALL SELECT 'Testimoni', count(*) FILTER (WHERE published), count(*) FILTER (WHERE NOT published) FROM testimonials`
+  );
+
+  // 14 hari terakhir, termasuk hari tanpa pesan (nilai 0), zona waktu Jakarta.
+  const daily = await query<{ day: string; total: string }>(
+    `SELECT to_char(d, 'YYYY-MM-DD') AS day,
+            (SELECT count(*) FROM messages m
+              WHERE (m.created_at AT TIME ZONE 'Asia/Jakarta')::date = d) AS total
+       FROM generate_series(
+              (now() AT TIME ZONE 'Asia/Jakarta')::date - 13,
+              (now() AT TIME ZONE 'Asia/Jakarta')::date,
+              interval '1 day') AS d
+      ORDER BY d`
+  );
+
+  const extra = await queryOne<{ skills: string; experiences: string; featured: string }>(
+    `SELECT (SELECT count(*) FROM skills) AS skills,
+            (SELECT count(*) FROM experiences) AS experiences,
+            (SELECT count(*) FROM projects WHERE featured AND published) AS featured`
+  );
+
+  return {
+    content: content.map((c) => ({
+      kind: c.kind,
+      published: Number(c.published),
+      draft: Number(c.draft),
+    })),
+    daily: daily.map((d) => ({ day: d.day, total: Number(d.total) })),
+    skills: Number(extra?.skills ?? 0),
+    experiences: Number(extra?.experiences ?? 0),
+    featured: Number(extra?.featured ?? 0),
+  };
+}

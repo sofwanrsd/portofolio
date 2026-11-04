@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
+import { AlertTriangle, RotateCcw } from "lucide-react";
+import { btnPrimary, btnSecondary } from "@/components/admin/admin-ui";
 
 /**
  * Error boundary admin. Menampilkan detail teknis (aman untuk admin)
@@ -19,34 +21,24 @@ export default function AdminError({
 
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 py-20 text-center">
-      <span className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--border)]/40 text-lg">
-        !
+      <span className="mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-red-500/10 text-[color-mix(in_oklab,#ef4444_75%,var(--fg))] ring-1 ring-inset ring-red-500/30">
+        <AlertTriangle size={24} aria-hidden />
       </span>
-      <h1 className="text-2xl font-semibold tracking-tight">
-        Terjadi kesalahan di dashboard
-      </h1>
+      <h1 className="text-2xl font-semibold tracking-tight">Terjadi kesalahan di dashboard</h1>
       <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-[var(--muted)]">
-        Data mungkin belum termuat atau koneksi database bermasalah. Coba
-        muat ulang, atau periksa log server untuk detail teknis.
+        Data mungkin belum termuat atau koneksi database bermasalah. Coba muat ulang, atau periksa log server untuk detail teknis.
       </p>
 
-      <pre className="mt-6 max-w-xl overflow-x-auto rounded-[var(--radius-base)] border border-[var(--border)] bg-[var(--border)]/30 p-4 text-left font-mono text-[12px] leading-relaxed text-[var(--fg)]">
+      <pre className="mt-6 max-w-xl overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--glass)] p-4 text-left font-mono text-[12px] leading-relaxed text-[var(--fg)]">
         {error.message}
         {error.digest ? `\nDigest: ${error.digest}` : ""}
       </pre>
 
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <button
-          type="button"
-          onClick={reset}
-          className="inline-flex h-10 items-center rounded-lg bg-[var(--fg)] px-4 text-sm font-medium text-[var(--bg)] transition-opacity hover:opacity-90"
-        >
-          Coba lagi
+        <button type="button" onClick={reset} className={btnPrimary}>
+          <RotateCcw size={15} aria-hidden /> Coba lagi
         </button>
-        <a
-          href="/admin"
-          className="inline-flex h-10 items-center rounded-lg border border-[var(--border)] px-4 text-sm font-medium text-[var(--fg)] transition-colors hover:bg-[var(--border)]/40"
-        >
+        <a href="/admin" className={btnSecondary}>
           Kembali ke dashboard
         </a>
       </div>
