@@ -1,13 +1,13 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-const state = vi.hoisted(() => ({ settings: null as unknown }));
+const state = vi.hoisted(() => ({ settings: null as unknown, posts: [] as Record<string, unknown>[] }));
 vi.mock("next/link", () => ({ default: ({ children, ...props }: { children: React.ReactNode }) => createElement("a", props, children) }));
 vi.mock("next/navigation", () => ({ usePathname: () => "/", notFound: () => { throw new Error("NOT_FOUND"); } }));
 vi.mock("@/components/theme-toggle", () => ({ ThemeToggle: () => null }));
 vi.mock("@/components/contact-form", () => ({ ContactForm: () => createElement("form") }));
 vi.mock("@/lib/settings", async (importOriginal) => ({ ...await importOriginal<object>(), getSettings: async () => state.settings }));
-vi.mock("@/lib/data", () => ({ getProjects: async () => [], getServices: async () => [], getPosts: async () => [] }));
+vi.mock("@/lib/data", () => ({ getProjects: async () => [], getServices: async () => [], getPosts: async () => state.posts }));
 import { defaultSettings } from "@/lib/settings";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -18,7 +18,7 @@ import ContactPage from "./contact/page";
 import ServicesPage from "./services/page";
 import BlogPage from "./blog/page";
 let settings: typeof defaultSettings;
-beforeEach(() => { settings = structuredClone(defaultSettings); settings.site.showAvailability = false; state.settings = settings; });
+beforeEach(() => { settings = structuredClone(defaultSettings); settings.site.showAvailability = false; state.settings = settings; state.posts = []; });
 const render = (el: React.ReactElement) => renderToStaticMarkup(el);
 
 describe("professional public presentation", () => {
@@ -59,6 +59,16 @@ describe("professional public presentation", () => {
     settings.sections.blog = false;
     await expect(ServicesPage()).rejects.toThrow("NOT_FOUND");
     await expect(BlogPage()).rejects.toThrow("NOT_FOUND");
+  });
+  it("renders published blog posts and keeps an honest empty state", async () => {
+    settings.sections.blog = true;
+    const iso = new Date().toISOString();
+    state.posts = [{ id: "1", slug: "catatan-jaringan", title: "Catatan jaringan", excerpt: "Ringkasan catatan", content: "Isi catatan", cover_image: "", tags: ["Jaringan"], published: true, published_at: iso, created_at: iso, updated_at: iso }];
+    const html = render(await BlogPage());
+    expect(html.includes("Catatan jaringan")).toBe(true);
+    expect(html.includes("Belum ada artikel")).toBe(false);
+    state.posts = [];
+    expect(render(await BlogPage()).includes("Belum ada artikel")).toBe(true);
   });
   it("makes footer contact details actionable", () => {
     const html = render(createElement(SiteFooter, { settings }));
