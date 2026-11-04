@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { brandMark } from "@/lib/brand";
 import { getSettings } from "@/lib/settings";
 
 export const size = { width: 1200, height: 630 };
@@ -41,7 +42,7 @@ export default async function OpengraphImage() {
               fontWeight: 700,
             }}
           >
-            {site.logoText || "NK"}
+            {brandMark(site)}
           </div>
           <div style={{ fontSize: 30, fontWeight: 600 }}>{site.name}</div>
         </div>
