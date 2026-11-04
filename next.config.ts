@@ -1,7 +1,12 @@
+import path from "node:path";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Kunci root tracing ke folder proyek. Tanpa ini Next bisa salah mendeteksi
+  // workspace root bila ada lockfile lain di direktori induk (mis. C:\Users\user),
+  // yang membuat output standalone/deploy memuat berkas di luar proyek.
+  outputFileTracingRoot: path.join(__dirname),
   // Jangan bocorkan versi framework lewat header X-Powered-By.
   poweredByHeader: false,
   images: {
