@@ -43,6 +43,17 @@ paths:
       summary: Daftar project yang dipublikasikan
       operationId: listProjects
       security: []
+      parameters:
+        - name: category
+          in: query
+          required: false
+          description: Filter kategori (tidak peka huruf besar)
+          schema: { type: string, enum: [web, ui, automation, mobile, ai, other] }
+        - name: limit
+          in: query
+          required: false
+          description: Jumlah maksimum hasil, 1 sampai 50. Nilai tidak valid diabaikan.
+          schema: { type: integer, minimum: 1, maximum: 50 }
       responses:
         "200":
           description: Berhasil
@@ -366,7 +377,7 @@ components:
         title: { type: string, example: Toko Online Sederhana }
         summary: { type: string }
         description: { type: string }
-        category: { type: string, enum: [web, ui, automation, mobile, other] }
+        category: { type: string, enum: [web, ui, automation, mobile, ai, other] }
         cover_image: { type: string, format: uri }
         gallery:
           type: array

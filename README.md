@@ -9,30 +9,33 @@ Dokumentasi lengkap ada di direktori [`PROJECT/`](./PROJECT/README.md).
 ## Fitur
 
 ### Situs Publik
-- **Beranda**: hero, project unggulan, koleksi, layanan, dan konten, semuanya bisa dimatikan lewat pengaturan.
-- **Katalog Project**: filter kategori, pencarian, pagination.
-- **Detail Project**: deskripsi, stack teknologi, screenshot, tautan demo & repo.
-- **Blog**: daftar artikel, tag, dan pembacaan artikel (markdown + GFM).
-- **Layanan**: paket layanan dengan harga dan fitur.
-- **Tentang**: profil, pengalaman, skill, testimoni.
-- **Kontak**: form pesan dengan validasi Zod, honeypot, dan rate limiting.
-- **Tema dinamis**: mode terang/gelap + warna aksen diatur dari dashboard.
-- **SEO**: sitemap.xml, robots.txt, Open Graph, metadata per halaman.
+- **Beranda**: hero, pita teknologi berjalan, project unggulan, layanan, tentang, skill, pengalaman, testimoni bergulir, paket harga, artikel, dan ajakan kontak. Setiap section bisa dimatikan lewat pengaturan.
+- **Project**: filter kategori lewat URL (`/projects?kategori=ai`), statistik ringkas, cover tiap project.
+- **Detail Project**: studi kasus (latar belakang, tantangan, solusi, hasil), stack, info klien, tautan demo & repo.
+- **Blog**: artikel terbaru tampil besar, bar progres baca, renderer markdown bawaan (heading, daftar, kutipan, garis).
+- **Layanan**: paket harga, alur kerja 4 langkah, FAQ. Tombol **Pilih paket** membuka form kontak yang sudah terisi (`/contact?paket=landing-page`).
+- **Tentang**: statistik dari data, prinsip kerja, skill, pengalaman.
+- **Kontak**: form dengan validasi Zod, honeypot, rate limiting, dan notifikasi email via Resend.
+- **Tema terang/gelap**: tombol di header, pilihan disimpan di cookie tanpa kedip saat halaman dimuat. Warna aksen diatur dari dashboard.
+- **Animasi ringan**: CSS transform/opacity tanpa library. Mati otomatis bila pengguna memilih "kurangi gerakan", dan konten tetap tampil tanpa JavaScript. Pita bergulir punya tombol jeda.
+- **Aksesibilitas**: fokus keyboard jelas, label form, `aria-current` di navigasi, kontras diuji di kedua tema.
+- **Responsif**: diuji di 320 sampai 2560 px (simulasi Chrome), termasuk HP landscape.
+- **SEO**: sitemap.xml, robots.txt, gambar Open Graph dinamis, metadata per halaman.
 
 ### Dashboard Admin (`/admin`)
 - Login dengan email + password (bcrypt + JWT di cookie HTTP-only).
-- Dashboard statistik: jumlah project, artikel, layanan, pesan baru.
-- **CRUD generik** untuk project, artikel, layanan, pengalaman, skill, testimoni: satu resource manager generik, bukan halaman terpisah.
-- **Inbox pesan** dengan tandai sudah dibaca / belum.
-- **Pengaturan situs**: identitas, tema, section on/off, socials, SEO, fitur, footer.
-- **Halaman 404** kustom.
+- **Dashboard**: kartu statistik, grafik pesan 14 hari, persentase kelengkapan situs dengan checklist, pesan terbaru, aksi cepat.
+- **CRUD generik** untuk project, artikel, layanan, pengalaman, skill, testimoni: satu resource manager dengan pencarian, tab Tayang/Draft, sakelar tayang, dan panel edit.
+- **Kotak masuk** dua panel: tab Baru/Dibaca/Arsip, otomatis ditandai dibaca saat dibuka.
+- **Pengaturan situs**: identitas, tema, section on/off, sosial media, SEO, fitur, footer. Bilah simpan menunjukkan perubahan yang belum disimpan.
+- Konfirmasi hapus memakai dialog bertema yang bisa dipakai dengan keyboard.
 
 ### API REST
 | Method | Endpoint | Keterangan |
 |---|---|---|
-| GET | `/api/projects` | Daftar project published (filter `?category=`, `?limit=`) |
+| GET | `/api/projects` | Daftar project published (filter `?category=`, `?limit=` maks 50) |
 | GET | `/api/projects/{slug}` | Detail satu project |
-| GET | `/api/posts` | Daftar artikel published (filter `?tag=`) |
+| GET | `/api/posts` | Daftar artikel published (filter `?tag=`, `?limit=`) |
 | GET | `/api/services` | Daftar layanan |
 | GET | `/api/settings/public` | Pengaturan publik (tanpa secret) |
 | POST | `/api/messages` | Kirim pesan kontak |
@@ -229,7 +232,7 @@ Rincian kolom, index, dan relasi: [`PROJECT/04-ARCHITECTURE/database-schema.md`]
 
 ## Autentikasi
 
-1. Admin login melalui `/admin/login` → password diverifikasi dengan **bcrypt**.
+1. Admin login melalui `/admin/login`, lalu password diverifikasi dengan **bcrypt**.
 2. Server membuat **JWT HS256** (JOSE) berisi `userId`, `email`, `role`, `exp` 7 hari.
 3. Token disimpan di cookie **`portfolio_session`**: `HttpOnly`, `SameSite=Lax`, `Secure` (production).
 4. `src/middleware.ts` memverifikasi JWT untuk seluruh rute `/admin/*` dan mengarahkan ke login bila tidak valid.

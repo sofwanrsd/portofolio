@@ -2,7 +2,7 @@
   "name": "portfolio-next",
   "version": "1.0.0",
   "private": true,
-  "description": "Portfolio CMS — Next.js + Neon Postgres + Vercel",
+  "description": "Portfolio CMS dengan Next.js, Neon Postgres, dan Vercel",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -24,7 +24,6 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-markdown": "^9.0.3",
-    "remark-gfm": "^4.0.0",
     "tailwind-merge": "^2.6.0",
     "zod": "^3.24.1"
   },
