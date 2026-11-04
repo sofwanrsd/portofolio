@@ -13,24 +13,28 @@
 }
 
 :root {
-  --accent: #6366f1;
+  --accent: #7c5cff;
   --accent-2: #22d3ee;
-  --radius-base: 14px;
-  --bg: #09090b;
-  --fg: #fafafa;
-  --muted: #a1a1aa;
-  --border: #27272a;
-  --card: #111113;
-  --grid-line: rgba(255, 255, 255, 0.045);
+  --radius-base: 20px;
+  --bg: #07080c;
+  --fg: #f6f7fb;
+  --muted: #98a0b3;
+  --border: #1d2130;
+  --card: #0d0f16;
+  --grid-line: rgba(255, 255, 255, 0.05);
+  --glass: rgba(255, 255, 255, 0.04);
+  --ring: rgba(255, 255, 255, 0.09);
 }
 
 :root[data-theme="light"] {
-  --bg: #ffffff;
-  --fg: #09090b;
-  --muted: #52525b;
-  --border: #e4e4e7;
+  --bg: #fbfbfd;
+  --fg: #0b0c10;
+  --muted: #5b6172;
+  --border: #e6e8ef;
   --card: #ffffff;
-  --grid-line: rgba(0, 0, 0, 0.045);
+  --grid-line: rgba(0, 0, 0, 0.04);
+  --glass: rgba(0, 0, 0, 0.02);
+  --ring: rgba(0, 0, 0, 0.08);
 }
 
 * {
@@ -118,6 +122,83 @@ body {
 
 .hairline {
   border-bottom: 1px solid var(--border);
+}
+
+/* Gradient teks aksen (untuk kata kunci di judul) */
+.text-gradient-accent {
+  background: linear-gradient(100deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Permukaan kaca: gradasi halus + cincin 1px, dipakai kartu & panel */
+.surface {
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, #ffffff 5%, transparent),
+    transparent 55%
+  );
+  background-color: var(--card);
+  box-shadow: inset 0 1px 0 0 var(--ring);
+}
+
+/* Cincin gradien saat hover: kartu terasa "hidup" tanpa gambar */
+.ring-accent {
+  position: relative;
+}
+.ring-accent::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(140deg, var(--accent), transparent 40%, var(--accent-2));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.ring-accent:hover::after {
+  opacity: 1;
+}
+
+/* Cahaya lembut di belakang elemen unggulan */
+.mesh-glow {
+  background:
+    radial-gradient(60% 60% at 20% 10%, color-mix(in oklab, var(--accent) 45%, transparent), transparent 70%),
+    radial-gradient(55% 55% at 85% 90%, color-mix(in oklab, var(--accent-2) 35%, transparent), transparent 70%);
+  filter: blur(46px);
+}
+
+/* Animasi mengapung halus untuk elemen dekoratif */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) }
+  50% { transform: translateY(-10px) }
+}
+.float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+/* Pita bergulir (marquee) untuk daftar teknologi */
+@keyframes marquee {
+  from { transform: translateX(0) }
+  to { transform: translateX(-50%) }
+}
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee:hover {
+  animation-play-state: paused;
 }
 
 /* Prose untuk artikel */

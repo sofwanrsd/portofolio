@@ -35,7 +35,7 @@ export function ProjectCard({
   featured?: boolean;
 }) {
   return (
-    <Card className="group overflow-hidden transition-all duration-300 hover:border-[var(--accent)]/50 hover:shadow-[0_20px_60px_-30px_color-mix(in_oklab,var(--accent)_60%,transparent)]">
+    <Card className="ring-accent group overflow-hidden hover:-translate-y-1 hover:shadow-[0_30px_80px_-40px_color-mix(in_oklab,var(--accent)_75%,transparent)]">
       <Link href={`/projects/${project.slug}`} className="block">
         <div
           className={
@@ -57,7 +57,7 @@ export function ProjectCard({
           )}
         </div>
 
-        <div className="p-5">
+        <div className="p-5 md:p-6">
           <div className="flex items-start justify-between gap-3">
             <h3 className="text-[15px] font-semibold tracking-tight transition-colors group-hover:text-[var(--accent)]">
               {project.title}

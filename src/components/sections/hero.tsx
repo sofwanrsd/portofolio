@@ -11,22 +11,20 @@ export function Hero({
   projectsCount: number;
 }) {
   const { site, theme } = settings;
+  const titleWords = site.heroTitle.trim().split(/\s+/);
+  const titleHead = titleWords.slice(0, -2).join(" ");
+  const titleTail = titleWords.slice(-2).join(" ");
 
   return (
-    <section className="relative overflow-hidden pt-16 pb-20 md:pt-24 md:pb-28">
+    <section className="relative overflow-hidden pt-14 pb-20 md:pt-20 md:pb-28">
       {theme.showGrid && (
         <>
           <div className="bg-grid absolute inset-0 -z-10 opacity-70" />
           <div className="bg-grid-mask absolute inset-0 -z-10" />
         </>
       )}
-      <div
-        className="pointer-events-none absolute left-1/2 top-[-14rem] -z-10 h-[30rem] w-[52rem] -translate-x-1/2 rounded-full opacity-25 blur-[120px]"
-        style={{
-          background:
-            "radial-gradient(closest-side, var(--accent), transparent 70%)",
-        }}
-      />
+      <div className="mesh-glow pointer-events-none absolute -top-40 left-1/2 -z-10 h-[34rem] w-[60rem] -translate-x-1/2 opacity-40" />
+      <div className="bg-grid-mask pointer-events-none absolute inset-x-0 top-0 -z-10 h-[28rem] bg-grid opacity-30" />
 
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
@@ -41,11 +39,12 @@ export function Hero({
             </div>
           )}
 
-          <h1 className="text-balance text-4xl font-semibold leading-[1.1] tracking-tight md:text-6xl">
-            <span className="text-gradient">{site.heroTitle}</span>
+          <h1 className="text-balance text-[clamp(2.35rem,5.6vw,4.25rem)] font-semibold leading-[0.99] tracking-[-0.045em]">
+            {titleHead}{" "}
+            <span className="text-gradient-accent">{titleTail}</span>
           </h1>
 
-          <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-[var(--muted)] md:text-[17px]">
+          <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-[var(--muted)] md:text-[17.5px]">
             {site.heroSubtitle}
           </p>
 
@@ -89,7 +88,8 @@ export function Hero({
 
           {/* Panel visual kanan: gambar hero bila ada, jika tidak gradient mesh. */}
           <div className="relative hidden lg:block">
-            <div className="glow overflow-hidden rounded-[var(--radius-base)] border border-[var(--border)] bg-[var(--card)]">
+            <div className="float-slow relative">
+            <div className="ring-accent overflow-hidden rounded-[26px] shadow-[0_40px_120px_-50px_color-mix(in_oklab,var(--accent)_85%,transparent)] ring-1 ring-inset ring-[var(--border)]">
               {site.heroImage ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -111,7 +111,7 @@ export function Hero({
                   {/* Ornamen dekoratif: cincin konsentris, bukan data palsu. */}
                   <div
                     aria-hidden
-                    className="pointer-events-none absolute inset-x-0 top-16 grid place-items-center sm:top-14"
+                    className="pointer-events-none absolute inset-x-0 top-[36%] grid place-items-center"
                   >
                     <div className="h-32 w-32 rounded-full border border-[var(--border)]" />
                     <div className="absolute h-20 w-20 rounded-full border border-[var(--border)]" />
@@ -147,6 +147,7 @@ export function Hero({
                   </div>
                 </div>
               )}
+            </div>
             </div>
           </div>
         </div>

@@ -26,7 +26,7 @@ export function Section({
   id?: string;
 }) {
   return (
-    <section id={id} className={cn("py-16 md:py-24", className)}>
+    <section id={id} className={cn("py-20 md:py-28", className)}>
       {children}
     </section>
   );
@@ -43,28 +43,38 @@ export function SectionHeading({
   eyebrow?: string;
   title: string;
   description?: string;
-  align?: "left" | "center";
+  align?: "left" | "center" | "split";
   action?: ReactNode;
 }) {
+  const centered = align === "center";
   return (
     <div
       className={cn(
-        "mb-10 flex flex-col gap-3 md:mb-14",
-        align === "center" ? "items-center text-center" : "md:flex-row md:items-end md:justify-between"
+        "mb-12 flex flex-col gap-5 md:mb-16",
+        centered
+          ? "items-center text-center"
+          : align === "split"
+            ? "md:flex-row md:items-end md:justify-between"
+            : "items-start"
       )}
     >
-      <div className={cn("max-w-2xl", align === "center" && "mx-auto")}>
+      <div className={cn("max-w-2xl", centered && "mx-auto")}>
         {eyebrow && (
-          <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-[var(--muted)]">
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--glass)] px-3 py-1 font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-[var(--muted)] backdrop-blur-sm">
             <span className="accent-gradient h-1.5 w-1.5 rounded-full" />
             {eyebrow}
           </span>
         )}
-        <h2 className="text-balance text-3xl font-semibold tracking-tight md:text-4xl">
+        <h2 className="text-balance text-[clamp(1.9rem,4.2vw,3.15rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
           {title}
         </h2>
         {description && (
-          <p className="mt-3 text-[15px] leading-relaxed text-[var(--muted)]">
+          <p
+            className={cn(
+              "mt-4 text-[15px] leading-relaxed text-[var(--muted)] md:text-[15.5px]",
+              centered ? "mx-auto max-w-xl" : "max-w-xl"
+            )}
+          >
             {description}
           </p>
         )}
@@ -79,11 +89,11 @@ type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
 
 const BUTTON_STYLES: Record<ButtonVariant, string> = {
   primary:
-    "bg-[var(--fg)] text-[var(--bg)] hover:opacity-90 shadow-sm",
+    "accent-gradient text-white shadow-[0_10px_30px_-12px_color-mix(in_oklab,var(--accent)_90%,transparent)] hover:brightness-110",
   secondary:
-    "bg-[var(--accent)] text-white hover:brightness-110 shadow-sm",
+    "bg-[var(--fg)] text-[var(--bg)] hover:opacity-90 shadow-sm",
   outline:
-    "border border-[var(--border)] text-[var(--fg)] hover:border-[var(--accent)] hover:bg-[var(--border)]/40",
+    "border border-[var(--border)] bg-[var(--glass)] text-[var(--fg)] backdrop-blur-sm hover:border-[var(--accent)]/60 hover:bg-[var(--border)]/40",
   ghost: "text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--border)]/40",
 };
 
@@ -108,7 +118,7 @@ export function Button({
   }[size];
 
   const classes = cn(
-    "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 hover:-translate-y-px disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:pointer-events-none disabled:opacity-50",
     sizes,
     BUTTON_STYLES[variant],
     className
@@ -140,16 +150,16 @@ export function Badge({
   variant?: "default" | "accent" | "outline";
 }) {
   const variants = {
-    default: "bg-[var(--border)]/50 text-[var(--muted)]",
+    default: "bg-[var(--glass)] text-[var(--muted)] ring-1 ring-inset ring-[var(--border)]",
     accent:
-      "bg-[color-mix(in_oklab,var(--accent)_16%,transparent)] text-[var(--accent)]",
+      "bg-[color-mix(in_oklab,var(--accent)_18%,transparent)] text-[var(--accent)] ring-1 ring-inset ring-[color-mix(in_oklab,var(--accent)_35%,transparent)]",
     outline: "border border-[var(--border)] text-[var(--muted)]",
   }[variant];
 
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-1 text-[11.5px] font-medium",
+        "inline-flex items-center rounded-full px-2.5 py-1 text-[11.5px] font-medium transition-colors",
         variants,
         className
       )}
@@ -170,7 +180,8 @@ export function Card({
   return (
     <div
       className={cn(
-        "rounded-[var(--radius-base)] border border-[var(--border)] bg-[var(--card)]",
+        "surface rounded-[var(--radius-base)] ring-1 ring-inset ring-[var(--border)]",
+        "transition-[transform,box-shadow,border-color] duration-300",
         className
       )}
     >

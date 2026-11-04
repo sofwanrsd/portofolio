@@ -16,6 +16,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
           eyebrow="Selected Work"
           title="Project pilihan saya"
           description="Beberapa karya terbaru, dari landing page sampai aplikasi internal yang dipakai harian."
+          align="split"
           action={
             <Button href="/projects" variant="outline" size="sm">
               Lihat semua <ArrowRight size={14} />

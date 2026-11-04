@@ -70,6 +70,7 @@ export function BlogSection({ posts }: { posts: Post[] }) {
           eyebrow="Writing"
           title="Catatan terbaru"
           description="Tulisan soal teknis dan proses kerja."
+          align="split"
           action={
             <Button href="/blog" variant="outline" size="sm">
               Semua artikel <ArrowRight size={14} />
