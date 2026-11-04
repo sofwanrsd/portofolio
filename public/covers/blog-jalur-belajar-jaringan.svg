@@ -8,12 +8,10 @@
 <rect width="1600" height="1000" fill="url(#g1)"/><rect width="1600" height="1000" fill="url(#g2)"/>
 <text x="96" y="140" fill="#a19a8f" font-family="ui-monospace,Menlo,monospace" font-size="24" letter-spacing="6">CATATAN KARIER</text>
 <rect x="96" y="176" width="72" height="4" rx="2" fill="#ff6b1a"/>
-<text x="96" y="470" fill="#f4efe7" font-family="Georgia,serif" font-size="76">Jalur belajar jaringan</text>
-<text x="96" y="470+89" fill="#ff6b1a" font-family="Georgia,serif" font-style="italic" font-size="76">sejak SMK sampai kuliah</text>
-<rect x="96" y="672" width="174" height="48" rx="24" fill="none" stroke="#2a251f" stroke-width="2"/>
-<text x="183.0" y="703" text-anchor="middle" fill="#a19a8f" font-family="ui-monospace,Menlo,monospace" font-size="22">Karier</text>
-<g opacity=".5"><circle cx="1420" cy="840" r="96" fill="none" stroke="#ff6b1a" stroke-opacity=".4" stroke-width="3"/>
-<circle cx="1420" cy="840" r="60" fill="none" stroke="#2a251f" stroke-width="3"/>
-<circle cx="1420" cy="840" r="24" fill="#ff6b1a" fill-opacity=".18" stroke="#ff6b1a" stroke-width="3"/>
-<circle cx="1420" cy="840" r="6" fill="#ffb54d"/></g>
+<text x="96" y="430" fill="#f4efe7" font-family="Georgia,serif" font-size="76">Jalur belajar jaringan</text>
+<text x="96" y="518" fill="#ff6b1a" font-family="Georgia,serif" font-style="italic" font-size="76">sejak SMK sampai kuliah</text>
+<g opacity=".45"><circle cx="1430" cy="850" r="94" fill="none" stroke="#ff6b1a" stroke-opacity=".4" stroke-width="3"/>
+<circle cx="1430" cy="850" r="58" fill="none" stroke="#2a251f" stroke-width="3"/>
+<circle cx="1430" cy="850" r="22" fill="#ff6b1a" fill-opacity=".16" stroke="#ff6b1a" stroke-width="3"/>
+<circle cx="1430" cy="850" r="5" fill="#ffb54d"/></g>
 </svg>
