@@ -18,7 +18,7 @@ export default async function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center px-5 py-16">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <span className="accent-gradient mx-auto grid h-11 w-11 place-items-center rounded-xl text-sm font-bold text-white">
+          <span className="accent-gradient mx-auto grid h-11 w-11 place-items-center rounded-xl text-sm font-bold text-[var(--on-accent)]">
             A
           </span>
           <h1 className="mt-5 text-2xl font-semibold tracking-tight">

@@ -36,7 +36,7 @@ export function AdminNav({ userName }: { userName: string }) {
     <aside className="hidden w-60 shrink-0 border-r border-[var(--border)] bg-[var(--card)]/40 lg:block">
       <div className="sticky top-0 flex h-screen flex-col px-4 py-6">
         <Link href="/admin" className="mb-7 flex items-center gap-2.5 px-2">
-          <span className="accent-gradient grid h-8 w-8 place-items-center rounded-lg text-[13px] font-bold text-white">
+          <span className="accent-gradient grid h-8 w-8 place-items-center rounded-lg text-[13px] font-bold text-[var(--on-accent)]">
             A
           </span>
           <span className="text-[15px] font-semibold tracking-tight">Admin</span>

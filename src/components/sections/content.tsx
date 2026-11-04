@@ -33,7 +33,7 @@ export function TestimonialsSection({
                 </p>
               </div>
               <div className="mt-6 flex items-center gap-3 border-t border-[var(--border)] pt-4">
-                <span className="accent-gradient grid h-9 w-9 shrink-0 place-items-center rounded-full text-[12px] font-bold text-white">
+                <span className="accent-gradient grid h-9 w-9 shrink-0 place-items-center rounded-full text-[12px] font-bold text-[var(--on-accent)]">
                   {t.name.slice(0, 2).toUpperCase()}
                 </span>
                 <div className="min-w-0">

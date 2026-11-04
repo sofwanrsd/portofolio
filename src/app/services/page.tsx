@@ -43,7 +43,7 @@ export default async function ServicesPage() {
                   }
                 >
                   {service.popular && (
-                    <span className="absolute -top-2.5 left-5 rounded-full bg-[var(--accent)] px-2.5 py-1 text-[11px] font-semibold text-white">
+                    <span className="absolute -top-2.5 left-5 rounded-full bg-[var(--accent)] px-2.5 py-1 text-[11px] font-semibold text-[var(--on-accent)]">
                       Paling populer
                     </span>
                   )}

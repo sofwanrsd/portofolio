@@ -2,7 +2,7 @@
 
 INSERT INTO settings (key, value) VALUES
   ('site', '{"name":"Nama Kamu","tagline":"Full-Stack Developer & Designer","description":"Portfolio pribadi saya. Saya bangun produk web yang cepat, rapi, dan layak dipamerkan.","logoText":"NK","email":"hello@domainmu.com","phone":"+62 812-3456-7890","location":"Jakarta, Indonesia","availability":"Tersedia untuk project baru","showAvailability":true,"heroTitle":"Saya bikin website yang enak dipakai dan enak dilihat.","heroSubtitle":"Full-stack developer dengan fokus pada performa, aksesibilitas, dan desain yang bersih.","heroCtaText":"Lihat Project","heroCtaLink":"/projects","heroSecondaryText":"Hubungi Saya","heroSecondaryLink":"/contact"}'),
-  ('theme', '{"accent":"#6366f1","accentSecondary":"#22d3ee","mode":"dark","font":"Geist","radius":"soft","showGrid":true}'),
+  ('theme', '{"accent":"#ff6b1a","accentSecondary":"#ffb54d","mode":"dark","font":"Geist","radius":"soft","showGrid":true}'),
   ('sections', '{"hero":true,"services":true,"projects":true,"about":true,"skills":true,"experience":true,"testimonials":true,"pricing":true,"blog":true,"cta":true,"contact":true}'),
   ('socials', '{"github":"https://github.com/namakamu","linkedin":"https://linkedin.com/in/namakamu","twitter":"https://x.com/namakamu","instagram":"https://instagram.com/namakamu","youtube":"https://youtube.com/@namakamu","whatsapp":"https://wa.me/6281234567890"}'),
   ('seo', '{"metaTitle":"Portfolio Nama Kamu","metaDescription":"Portfolio pribadi developer: project, blog, dan layanan freelance.","ogImage":"/opengraph-image","keywords":"portfolio, web developer, freelance"}'),

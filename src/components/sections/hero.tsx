@@ -41,7 +41,7 @@ export function Hero({
 
           <h1 className="rise d2 text-balance text-[clamp(2.35rem,5.6vw,4.25rem)] font-semibold leading-[0.99] tracking-[-0.045em]">
             {titleHead}{" "}
-            <span className="text-gradient-accent">{titleTail}</span>
+            <span className="font-display text-gradient-accent pr-1 text-[1.08em]">{titleTail}</span>
           </h1>
 
           <p className="rise d3 mt-6 max-w-xl text-[16px] leading-relaxed text-[var(--muted)] md:text-[17.5px]">

@@ -108,7 +108,7 @@ export default async function AdminDashboardPage() {
                   <p className="truncate text-[13.5px] font-medium">
                     {message.name}
                     {message.status === "new" && (
-                      <span className="ml-2 rounded-full bg-[var(--accent)] px-2 py-0.5 text-[10.5px] font-semibold text-white">
+                      <span className="ml-2 rounded-full bg-[var(--accent)] px-2 py-0.5 text-[10.5px] font-semibold text-[var(--on-accent)]">
                         Baru
                       </span>
                     )}

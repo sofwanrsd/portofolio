@@ -45,7 +45,7 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
         )}
       >
         <Link href="/" className="group flex items-center gap-2.5">
-          <span className="accent-gradient grid h-8 w-8 place-items-center rounded-xl text-[13px] font-bold text-white shadow-[0_8px_24px_-10px_color-mix(in_oklab,var(--accent)_90%,transparent)]">
+          <span className="accent-gradient grid h-8 w-8 place-items-center rounded-xl text-[13px] font-bold text-[var(--on-accent)] shadow-[0_8px_24px_-10px_color-mix(in_oklab,var(--accent)_90%,transparent)]">
             {site.logoText || site.name.slice(0, 2).toUpperCase()}
           </span>
           <span className="text-[15px] font-semibold tracking-tight">
@@ -78,7 +78,7 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
           <ThemeToggle />
           <Link
             href="/contact"
-            className="accent-gradient ml-2 rounded-full px-4 py-2 text-[13.5px] font-semibold text-white transition-transform hover:-translate-y-0.5"
+            className="accent-gradient ml-2 rounded-full px-4 py-2 text-[13.5px] font-semibold text-[var(--on-accent)] transition-transform hover:-translate-y-0.5"
           >
             Hire Me
           </Link>
@@ -112,7 +112,7 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
             ))}
             <Link
               href="/contact"
-              className="accent-gradient mt-1 rounded-2xl px-3 py-2.5 text-center text-sm font-semibold text-white"
+              className="accent-gradient mt-1 rounded-2xl px-3 py-2.5 text-center text-sm font-semibold text-[var(--on-accent)]"
             >
               Hire Me
             </Link>

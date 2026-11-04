@@ -76,7 +76,7 @@ export function AboutSection({
                 &ldquo;ini solusinya apa&rdquo;. Baru soal visual.
               </p>
               <div className="mt-4 flex items-center gap-3">
-                <span className="accent-gradient grid h-9 w-9 place-items-center rounded-lg text-[13px] font-bold text-white">
+                <span className="accent-gradient grid h-9 w-9 place-items-center rounded-lg text-[13px] font-bold text-[var(--on-accent)]">
                   {name.slice(0, 2).toUpperCase()}
                 </span>
                 <div>

@@ -22,8 +22,8 @@ export default async function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px",
-          background: `linear-gradient(135deg, #09090b 0%, ${theme.accent} 140%)`,
-          color: "#fafafa",
+          background: `linear-gradient(135deg, #0a0908 0%, ${theme.accent} 140%)`,
+          color: "#f4efe7",
           fontFamily: "sans-serif",
         }}
       >
@@ -50,10 +50,10 @@ export default async function OpengraphImage() {
           <div style={{ fontSize: 64, fontWeight: 700, lineHeight: 1.1, maxWidth: 900 }}>
             {site.heroTitle || site.tagline}
           </div>
-          <div style={{ fontSize: 28, color: "#d4d4d8" }}>{site.tagline}</div>
+          <div style={{ fontSize: 28, color: "#d8cfc2" }}>{site.tagline}</div>
         </div>
 
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#a1a1aa" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#a19a8f" }}>
           <span>{site.location}</span>
           <span>{site.email}</span>
         </div>

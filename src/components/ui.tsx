@@ -61,12 +61,12 @@ export function SectionHeading({
       <div className={cn("max-w-2xl", centered && "mx-auto")}>
         {eyebrow && (
           <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--glass)] px-3 py-1 font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-[var(--muted)] backdrop-blur-sm">
-            <span className="accent-gradient h-1.5 w-1.5 rounded-full" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)]" />
             {eyebrow}
           </span>
         )}
         <h2 className="text-balance text-[clamp(1.9rem,4.2vw,3.15rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
-          {title}
+          <AccentTitle text={title} />
         </h2>
         {description && (
           <p
@@ -84,12 +84,25 @@ export function SectionHeading({
   );
 }
 
+/** Kata terakhir judul dibuat serif miring oranye, kesan editorial. */
+function AccentTitle({ text }: { text: string }) {
+  const words = text.trim().split(/\s+/);
+  if (words.length < 2) return <>{text}</>;
+  const last = words.pop();
+  return (
+    <>
+      {words.join(" ")}{" "}
+      <span className="font-display pr-1 text-[1.1em] text-[var(--accent)]">{last}</span>
+    </>
+  );
+}
+
 /* ---------------- Button ---------------- */
 type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
 
 const BUTTON_STYLES: Record<ButtonVariant, string> = {
   primary:
-    "accent-gradient text-white shadow-[0_10px_30px_-12px_color-mix(in_oklab,var(--accent)_90%,transparent)] hover:brightness-110",
+    "accent-gradient text-[var(--on-accent)] font-semibold shadow-[0_10px_30px_-12px_color-mix(in_oklab,var(--accent)_90%,transparent)] hover:brightness-110",
   secondary:
     "bg-[var(--fg)] text-[var(--bg)] hover:opacity-90 shadow-sm",
   outline:

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { getSettings } from "@/lib/settings";
 import { SiteHeader } from "@/components/site-header";
@@ -10,6 +10,14 @@ import { PublicChrome } from "@/components/public-chrome";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const serifDisplay = Instrument_Serif({
+  variable: "--font-serif-display",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -56,8 +64,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#07080c" },
-    { media: "(prefers-color-scheme: light)", color: "#fbfbfd" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0908" },
+    { media: "(prefers-color-scheme: light)", color: "#faf7f2" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -90,13 +98,14 @@ export default async function RootLayout({
     <html
       lang="id"
       data-theme={mode}
+      className={`${geistSans.variable} ${geistMono.variable} ${serifDisplay.variable}`}
       style={themeVars}
       suppressHydrationWarning
     >
       <body className="min-h-screen antialiased">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--accent)] focus:px-4 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--accent)] focus:px-4 focus:py-2 focus:text-[var(--on-accent)]"
         >
           Lewati ke konten utama
         </a>

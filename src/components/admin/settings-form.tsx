@@ -492,7 +492,7 @@ function ColorField({
       <div className="flex gap-2">
         <input
           type="color"
-          value={/^#[0-9a-fA-F]{6}$/.test(value) ? value : "#6366f1"}
+          value={/^#[0-9a-fA-F]{6}$/.test(value) ? value : "#ff6b1a"}
           onChange={(e) => onChange(e.target.value)}
           className="h-10 w-12 shrink-0 cursor-pointer rounded-lg border border-[var(--border)] bg-[var(--bg)] p-1"
         />

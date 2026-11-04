@@ -23,7 +23,7 @@ export function SiteFooter({ settings }: { settings: AppSettings }) {
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
             <Link href="/" className="flex items-center gap-2.5">
-              <span className="accent-gradient grid h-8 w-8 place-items-center rounded-lg text-[13px] font-bold text-white">
+              <span className="accent-gradient grid h-8 w-8 place-items-center rounded-lg text-[13px] font-bold text-[var(--on-accent)]">
                 {site.logoText || site.name.slice(0, 2).toUpperCase()}
               </span>
               <span className="text-[15px] font-semibold tracking-tight">

@@ -23,8 +23,8 @@ export const defaultSettings: AppSettings = {
     heroImage: "",
   },
   theme: {
-    accent: "#6366f1",
-    accentSecondary: "#22d3ee",
+    accent: "#ff6b1a",
+    accentSecondary: "#ffb54d",
     mode: "dark",
     font: "Geist",
     radius: "soft",
