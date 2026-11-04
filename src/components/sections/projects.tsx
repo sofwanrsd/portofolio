@@ -14,7 +14,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
         <SectionHeading
           eyebrow="Selected Work"
           title="Project pilihan saya"
-          description="Beberapa karya terbaru, dari landing page sampai aplikasi internal yang dipakai harian."
+          description="Beberapa karya terbaru beserta teknologi yang dipakai."
           align="split"
           action={
             <Button href="/projects" variant="outline" size="sm">
@@ -47,10 +47,12 @@ export function AboutSection({
   name,
   description,
   tagline,
+  quote,
 }: {
   name: string;
   description: string;
   tagline: string;
+  quote?: string;
 }) {
   return (
     <Section id="about" className="border-y border-[var(--border)] bg-[var(--card)]/40">
@@ -73,20 +75,16 @@ export function AboutSection({
               {description}
             </p>
             <Card className="mt-6 p-5">
-              <p className="text-[13.5px] leading-relaxed text-[var(--muted)]">
-                Saya percaya website yang bagus itu cepat, enak dibaca, dan jelas
-                tujuannya. Karena itu setiap project saya mulai dari pertanyaan
-                &ldquo;ini solusinya apa&rdquo;. Baru soal visual.
-              </p>
-              <div className="mt-4 flex items-center gap-3">
+              {quote && (
+                <p className="mb-4 text-[13.5px] leading-relaxed text-[var(--muted)]">{quote}</p>
+              )}
+              <div className="flex items-center gap-3">
                 <span className="accent-gradient grid h-9 w-9 place-items-center rounded-lg text-[13px] font-bold text-[var(--on-accent)]">
                   {name.slice(0, 2).toUpperCase()}
                 </span>
                 <div>
                   <p className="text-sm font-medium">{name}</p>
-                  <p className="text-[12px] text-[var(--muted)]">
-                    Full-Stack Developer
-                  </p>
+                  <p className="text-[12px] text-[var(--muted)]">{tagline}</p>
                 </div>
               </div>
             </Card>

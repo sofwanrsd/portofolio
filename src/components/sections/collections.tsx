@@ -8,7 +8,9 @@ import {
   Layers,
   Palette,
   Rocket,
+  Network,
   Sparkles,
+  Users,
   Wrench,
 } from "lucide-react";
 import { Card, Container, Section, SectionHeading, reveal } from "@/components/ui";
@@ -22,6 +24,8 @@ const SKILL_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
   Styling: Palette,
   Tools: Wrench,
   AI: Sparkles,
+  Networking: Network,
+  "Soft Skill": Users,
 };
 
 const SERVICE_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {

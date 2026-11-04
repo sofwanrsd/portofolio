@@ -16,23 +16,23 @@ export const metadata: Metadata = {
 const PRINCIPLES = [
   {
     icon: Compass,
-    title: "Tujuan dulu, visual kemudian",
-    text: "Setiap project dimulai dari pertanyaan apa yang ingin dicapai. Desain yang bagus adalah desain yang menyelesaikan masalah itu.",
+    title: "Pahami masalahnya dulu",
+    text: "Setiap pekerjaan dimulai dari memahami kebutuhan dan kondisi yang ada, baru kemudian memilih solusi yang paling tepat.",
   },
   {
     icon: Gauge,
-    title: "Cepat itu fitur",
-    text: "Halaman yang lambat kehilangan pengunjung. Performa saya ukur di ponsel sungguhan, bukan hanya di laptop.",
+    title: "Andal dan terukur",
+    text: "Konfigurasi dan aplikasi diuji dulu sebelum dipakai, supaya hasilnya stabil, mudah dipantau, dan mudah diperbaiki.",
   },
   {
     icon: ShieldCheck,
-    title: "Bisa dipakai semua orang",
-    text: "Kontras yang cukup, navigasi keyboard, dan struktur yang rapi. Aksesibilitas bukan tambahan di akhir.",
+    title: "Aman sejak awal",
+    text: "Keamanan dasar seperti firewall, pembatasan akses, dan validasi input diterapkan dari awal, bukan ditambal belakangan.",
   },
   {
     icon: MessagesSquare,
-    title: "Komunikasi tanpa jargon",
-    text: "Demo progres rutin dan penjelasan dengan bahasa sehari-hari, supaya Anda selalu tahu posisi project.",
+    title: "Komunikasi yang jelas",
+    text: "Progres disampaikan rutin dengan bahasa yang mudah dipahami, termasuk saat ada kendala.",
   },
 ];
 
@@ -89,7 +89,7 @@ export default async function AboutPage() {
           <SectionHeading
             eyebrow="Cara kerja"
             title="Empat hal yang selalu saya pegang"
-            description="Prinsip sederhana yang membuat hasil akhir konsisten, dari landing page sampai aplikasi internal."
+            description="Prinsip sederhana yang saya pakai dalam setiap pekerjaan, baik jaringan maupun aplikasi."
           />
           <div className="grid gap-4 sm:grid-cols-2">
             {PRINCIPLES.map(({ icon: Icon, title, text }, i) => (

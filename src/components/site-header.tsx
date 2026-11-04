@@ -8,19 +8,23 @@ import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
 import type { AppSettings } from "@/lib/types";
 
-const NAV = [
+const ALL_NAV = [
   { href: "/", label: "Home" },
   { href: "/projects", label: "Project" },
-  { href: "/services", label: "Layanan" },
-  { href: "/blog", label: "Blog" },
+  { href: "/services", label: "Layanan", section: "services" },
+  { href: "/blog", label: "Blog", section: "blog" },
   { href: "/about", label: "Tentang" },
-];
+] as const;
 
 export function SiteHeader({ settings }: { settings: AppSettings }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { site } = settings;
+  const { site, sections } = settings;
+  // Menu Layanan dan Blog hanya tampil bila section-nya aktif di pengaturan.
+  const NAV = ALL_NAV.filter(
+    (item) => !("section" in item) || sections[item.section as keyof typeof sections]
+  );
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);

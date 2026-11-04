@@ -67,16 +67,20 @@ export function SiteFooter({ settings }: { settings: AppSettings }) {
                     Project
                   </Link>
                 </li>
-                <li>
-                  <Link href="/services" className="text-[var(--muted)] hover:text-[var(--fg)]">
-                    Layanan
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/blog" className="text-[var(--muted)] hover:text-[var(--fg)]">
-                    Blog
-                  </Link>
-                </li>
+                {settings.sections.services && (
+                  <li>
+                    <Link href="/services" className="text-[var(--muted)] hover:text-[var(--fg)]">
+                      Layanan
+                    </Link>
+                  </li>
+                )}
+                {settings.sections.blog && (
+                  <li>
+                    <Link href="/blog" className="text-[var(--muted)] hover:text-[var(--fg)]">
+                      Blog
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
             <div>

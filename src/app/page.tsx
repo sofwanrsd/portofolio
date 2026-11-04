@@ -56,6 +56,7 @@ export default async function HomePage() {
           name={site.name}
           tagline={site.tagline}
           description={site.description}
+          quote={site.heroSubtitle}
         />
       )}
 

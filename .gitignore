@@ -36,3 +36,5 @@ yarn-error.log*
 
 # local scratch
 /_block.txt
+.neon
+/.next-neon/
