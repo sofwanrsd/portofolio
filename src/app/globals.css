@@ -48,6 +48,13 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Animasi masuk dari samping tidak boleh memunculkan scroll horizontal.
+   "clip" (bukan "hidden") supaya position: sticky tetap berfungsi. */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   background-color: var(--bg);
   color: var(--fg);
@@ -315,6 +322,11 @@ body::before {
 .motion-ready [data-reveal="scale"] { transform: scale(0.94); }
 .motion-ready [data-reveal="left"] { transform: translate3d(-28px, 0, 0); }
 .motion-ready [data-reveal="right"] { transform: translate3d(28px, 0, 0); }
+@media (max-width: 767px) {
+  /* Di layar sempit, muncul dari bawah saja */
+  .motion-ready [data-reveal="left"],
+  .motion-ready [data-reveal="right"] { transform: translate3d(0, 20px, 0); }
+}
 .motion-ready [data-reveal="blur"] { transform: translate3d(0, 14px, 0); filter: blur(10px); }
 .motion-ready [data-reveal].is-in {
   opacity: 1;

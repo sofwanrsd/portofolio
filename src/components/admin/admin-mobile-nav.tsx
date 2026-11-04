@@ -23,19 +23,27 @@ export function AdminMobileNav() {
   return (
     <div className="border-b border-[var(--border)] bg-[var(--bg)]/95 lg:hidden">
       <div className="flex items-center gap-2 overflow-x-auto px-4 py-2.5">
-        {LINKS.map((link) => (
+        {LINKS.map((link) => {
+          // Dashboard hanya aktif di /admin persis, bukan di semua sub-halaman.
+          const active =
+            link.href === "/admin"
+              ? pathname === "/admin"
+              : pathname === link.href || pathname.startsWith(`${link.href}/`);
+          return (
           <Link
             key={link.href}
             href={link.href}
+            aria-current={active ? "page" : undefined}
             className={
-              pathname === link.href || pathname.startsWith(`${link.href}/`)
+              active
                 ? "shrink-0 rounded-lg bg-[var(--accent)]/12 px-3 py-1.5 text-[12.5px] font-medium text-[var(--accent)]"
                 : "shrink-0 rounded-lg px-3 py-1.5 text-[12.5px] font-medium text-[var(--muted)]"
             }
           >
             {link.label}
           </Link>
-        ))}
+          );
+        })}
         <form action={logoutAction} className="ml-auto shrink-0">
           <button
             type="submit"

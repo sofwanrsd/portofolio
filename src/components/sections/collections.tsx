@@ -147,7 +147,7 @@ export function PricingSection({
                   {service.description}
                 </p>
                 {service.price_value && (
-                  <p className="mt-5 text-3xl font-semibold tracking-tight">
+                  <p className="mt-5 text-[clamp(1.5rem,3.1vw,1.875rem)] font-semibold tabular-nums tracking-tight [overflow-wrap:anywhere]">
                     {formatPrice(service.price_value, service.currency)}
                   </p>
                 )}
