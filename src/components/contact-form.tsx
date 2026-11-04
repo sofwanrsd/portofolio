@@ -4,14 +4,7 @@ import { useState, useTransition } from "react";
 import { useFormStatus } from "react-dom";
 import { Loader2, Send } from "lucide-react";
 import { sendContactMessage } from "@/app/actions/contact";
-
-const BUDGET_OPTIONS = [
-  "< 5 juta",
-  "5 - 15 juta",
-  "15 - 50 juta",
-  "> 50 juta",
-  "Belum tahu",
-];
+import { BUDGET_OPTIONS } from "@/lib/budget";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -19,7 +12,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[var(--fg)] px-5 text-sm font-medium text-[var(--bg)] transition-transform hover:-translate-y-px disabled:opacity-60 sm:w-auto"
+      className="accent-gradient inline-flex h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-[15px] font-semibold text-[var(--on-accent)] transition-transform hover:-translate-y-0.5 disabled:opacity-60 sm:w-auto"
     >
       {pending ? (
         <>
@@ -34,7 +27,13 @@ function SubmitButton() {
   );
 }
 
-export function ContactForm() {
+export function ContactForm({
+  defaultSubject = "",
+  defaultBudget = "",
+}: {
+  defaultSubject?: string;
+  defaultBudget?: string;
+} = {}) {
   const [result, setResult] = useState<{
     ok: boolean;
     message: string;
@@ -82,6 +81,7 @@ export function ContactForm() {
           name="subject"
           label="Subjek"
           placeholder="Contoh: Company website"
+          defaultValue={defaultSubject}
           error={result?.errors?.subject}
         />
         <div>
@@ -94,7 +94,7 @@ export function ContactForm() {
           <select
             id="budget"
             name="budget"
-            defaultValue=""
+            defaultValue={defaultBudget}
             className="h-10 w-full rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 text-sm outline-none transition-colors focus:border-[var(--accent)]"
           >
             <option value="">Pilih range (opsional)</option>
@@ -116,11 +116,15 @@ export function ContactForm() {
           name="message"
           rows={6}
           required
+          aria-invalid={result?.errors?.message ? true : undefined}
+          aria-describedby={result?.errors?.message ? "message-error" : undefined}
           placeholder="Ceritakan singkat kebutuhan project Anda…"
           className="w-full resize-y rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-2.5 text-sm outline-none transition-colors focus:border-[var(--accent)]"
         />
         {result?.errors?.message && (
-          <p className="mt-1.5 text-[12px] text-red-400">{result.errors.message}</p>
+          <p id="message-error" className="mt-1.5 text-[12px] text-[color-mix(in_oklab,#ef4444_70%,var(--fg))]">
+            {result.errors.message}
+          </p>
         )}
       </div>
 
@@ -155,6 +159,7 @@ function Field({
   placeholder,
   error,
   required,
+  defaultValue,
 }: {
   name: string;
   label: string;
@@ -162,6 +167,7 @@ function Field({
   placeholder?: string;
   error?: string;
   required?: boolean;
+  defaultValue?: string;
 }) {
   return (
     <div>
@@ -174,9 +180,16 @@ function Field({
         type={type}
         placeholder={placeholder}
         required={required}
+        defaultValue={defaultValue}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `${name}-error` : undefined}
         className="h-10 w-full rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 text-sm outline-none transition-colors focus:border-[var(--accent)]"
       />
-      {error && <p className="mt-1.5 text-[12px] text-red-400">{error}</p>}
+      {error && (
+        <p id={`${name}-error`} className="mt-1.5 text-[12px] text-[color-mix(in_oklab,#ef4444_70%,var(--fg))]">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

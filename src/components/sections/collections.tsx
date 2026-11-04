@@ -130,8 +130,8 @@ export function PricingSection({
               style={reveal(i)}
               className={
                 service.popular
-                  ? "border-spin relative md:-translate-y-2"
-                  : "hover:-translate-y-1"
+                  ? "border-spin relative flex flex-col md:-translate-y-2"
+                  : "flex flex-col hover:-translate-y-1"
               }
             >
               {service.popular && (
@@ -139,7 +139,7 @@ export function PricingSection({
                   Paling populer
                 </span>
               )}
-              <div className="p-6">
+              <div className="flex flex-1 flex-col p-6">
                 <h3 className="text-[15px] font-semibold tracking-tight">
                   {service.title}
                 </h3>
@@ -169,6 +169,18 @@ export function PricingSection({
                     ))}
                   </ul>
                 )}
+                <div aria-hidden className="min-h-7 flex-1" />
+                <Link
+                  href={`/contact?paket=${encodeURIComponent(service.slug)}#form`}
+                  aria-label={`Pilih paket ${service.title}`}
+                  className={
+                    service.popular
+                      ? "accent-gradient inline-flex h-11 items-center justify-center rounded-full px-5 text-[14px] font-semibold text-[var(--on-accent)] transition-transform hover:-translate-y-0.5"
+                      : "inline-flex h-11 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--glass)] px-5 text-[14px] font-medium transition-all hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--accent)_45%,var(--border))]"
+                  }
+                >
+                  Pilih paket
+                </Link>
               </div>
             </Card>
           ))}

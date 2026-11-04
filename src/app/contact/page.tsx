@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import Link from "next/link";
+import { CheckCircle2, Clock, Mail, MapPin, Phone } from "lucide-react";
 import { getSettings } from "@/lib/settings";
 import { getServices } from "@/lib/data";
 import { formatPrice } from "@/lib/format";
+import { budgetFor } from "@/lib/budget";
 import { ContactForm } from "@/components/contact-form";
 import { Card, Container, PageHeader, Section, reveal } from "@/components/ui";
 
@@ -13,9 +15,15 @@ export const metadata: Metadata = {
   description: "Hubungi saya untuk mendiskusikan project Anda.",
 };
 
-export default async function ContactPage() {
-  const [settings, services] = await Promise.all([getSettings(), getServices()]);
+type Props = { searchParams: Promise<{ paket?: string; package?: string }> };
+
+export default async function ContactPage({ searchParams }: Props) {
+  const [params, settings, services] = await Promise.all([searchParams, getSettings(), getServices()]);
   const { site, features } = settings;
+
+  // Paket dari tombol "Pilih paket" (?paket=slug). "package" diterima untuk tautan lama.
+  const chosenSlug = params.paket ?? params.package;
+  const chosen = chosenSlug ? services.find((s) => s.slug === chosenSlug) : undefined;
 
   const channels = [
     site.email && { icon: Mail, label: "Email", value: site.email, href: `mailto:${site.email}` },
@@ -95,15 +103,39 @@ export default async function ContactPage() {
               )}
             </div>
 
-            <Card data-reveal="right" className="border-spin p-6 md:p-8">
+            <Card id="form" data-reveal="right" className="border-spin scroll-mt-28 p-6 md:p-8">
               <h2 className="text-[clamp(1.4rem,2.4vw,1.8rem)] font-semibold tracking-[-0.03em]">
                 Kirim <span className="font-display text-[var(--accent)]">pesan</span>
               </h2>
               <p className="mt-2 text-[14px] text-[var(--muted)]">
                 Ceritakan sedikit tentang project Anda. Semakin jelas briefnya, semakin akurat estimasinya.
               </p>
+              {chosen && (
+                <div
+                  role="status"
+                  className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-[color-mix(in_oklab,var(--accent)_40%,var(--border))] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-4 py-3"
+                >
+                  <CheckCircle2 size={18} aria-hidden className="shrink-0 text-[var(--accent)]" />
+                  <p className="min-w-0 flex-1 text-[13.5px]">
+                    Paket dipilih: <strong className="font-semibold">{chosen.title}</strong>
+                    {chosen.price_value && (
+                      <span className="text-[var(--muted)]">
+                        {" "}
+                        · mulai dari {formatPrice(chosen.price_value, chosen.currency)}
+                      </span>
+                    )}
+                  </p>
+                  <Link href="/services#pricing" className="link-grow shrink-0 text-[13px] font-medium text-[var(--accent)]">
+                    Ganti paket
+                  </Link>
+                </div>
+              )}
               <div className="mt-7">
-                <ContactForm />
+                <ContactForm
+                  key={chosen?.slug ?? "umum"}
+                  defaultSubject={chosen ? `Paket ${chosen.title}` : ""}
+                  defaultBudget={chosen ? budgetFor(chosen.price_value) : ""}
+                />
               </div>
             </Card>
           </div>
