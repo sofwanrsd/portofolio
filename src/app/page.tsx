@@ -8,16 +8,9 @@ import {
   getTestimonials,
 } from "@/lib/data";
 import { Hero, TechMarquee } from "@/components/sections/hero";
-import { AboutSection, ProjectsSection } from "@/components/sections/projects";
-import {
-  CertificationSection,
-  EducationSection,
-  ExperienceSection,
-  OrganizationSection,
-  PricingSection,
-  ServicesSection,
-  SkillsSection,
-} from "@/components/sections/collections";
+import { ProjectsSection } from "@/components/sections/projects";
+import { HomeOverview } from "@/components/sections/home-overview";
+import { PricingSection, ServicesSection } from "@/components/sections/collections";
 import {
   BlogSection,
   CtaSection,
@@ -54,24 +47,8 @@ export default async function HomePage() {
 
       {sections.services && <ServicesSection services={services} />}
 
-      {sections.about && (
-        <AboutSection
-          name={site.name}
-          tagline={site.tagline}
-          description={site.description}
-          quote={site.heroSubtitle}
-        />
-      )}
-
-      {sections.skills && <SkillsSection skills={skills} />}
-
-      {sections.experience && (
-        <>
-          <ExperienceSection experiences={experiences} />
-          <EducationSection experiences={experiences} />
-          <OrganizationSection experiences={experiences} />
-          <CertificationSection experiences={experiences} />
-        </>
+      {(sections.about || sections.experience) && (
+        <HomeOverview site={site} experiences={experiences} showAbout={sections.about} showExperience={sections.experience} />
       )}
 
       {sections.testimonials && (

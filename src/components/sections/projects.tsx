@@ -1,95 +1,26 @@
-import Link from "next/link";
-import { Button, Card, Container, Section, SectionHeading, reveal } from "@/components/ui";
+import { Button, Container, Section, SectionHeading } from "@/components/ui";
 import { ProjectCard } from "@/components/project-card";
 import type { Project } from "@/lib/types";
 
 export function ProjectsSection({ projects }: { projects: Project[] }) {
   if (projects.length === 0) return null;
-  const featured = projects.filter((p) => p.featured);
-  const rest = projects.filter((p) => !p.featured);
-
+  const selected = [...projects.filter((p) => p.featured), ...projects.filter((p) => !p.featured)].slice(0, 4);
   return (
     <Section id="projects">
       <Container>
         <SectionHeading
-          eyebrow="Selected Work"
-          title="Project pilihan saya"
-          description="Beberapa karya terbaru beserta teknologi yang dipakai."
+          eyebrow="Karya terpilih"
+          title="Dari ide menjadi karya"
+          description="Pilihan proyek jaringan dan aplikasi. Jelajahi teknologi dan hasilnya di setiap proyek."
           align="split"
-          action={
-            <Button href="/projects" variant="outline" size="sm">
-              Lihat semua
-            </Button>
-          }
+          action={<Button href="/projects" variant="outline" size="sm">Jelajahi semua proyek</Button>}
         />
-
-        {featured.length > 0 && (
-          <div className="mb-4 grid gap-4 md:grid-cols-2">
-            {featured.slice(0, 2).map((project, i) => (
-              <ProjectCard key={project.id} project={project} featured index={i} />
-            ))}
-          </div>
-        )}
-
-        {rest.length > 0 && (
-          <div className="grid gap-4 md:grid-cols-3">
-            {rest.slice(0, 6).map((project, i) => (
-              <ProjectCard key={project.id} project={project} index={i} />
-            ))}
-          </div>
-        )}
-      </Container>
-    </Section>
-  );
-}
-
-export function AboutSection({
-  name,
-  description,
-  tagline,
-  quote,
-}: {
-  name: string;
-  description: string;
-  tagline: string;
-  quote?: string;
-}) {
-  return (
-    <Section id="about" className="border-y border-[var(--border)] bg-[var(--card)]/40">
-      <Container>
-        <div className="grid gap-10 md:grid-cols-[1fr_1.2fr] md:gap-16">
-          <div data-reveal="left">
-            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--glass)] px-3 py-1 font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-[var(--muted)]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)]" />
-              Tentang saya
-            </span>
-            <h2 className="text-balance text-[clamp(1.9rem,4.2vw,3.15rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
-              {tagline}
-            </h2>
-            <p aria-hidden className="ghost-num mt-8 hidden text-[9rem] md:block">
-              {name.slice(0, 2).toUpperCase()}
-            </p>
-          </div>
-          <div data-reveal="right" style={reveal(1)}>
-            <p className="text-[16px] leading-relaxed text-[var(--muted)]">
-              {description}
-            </p>
-            <Card className="mt-6 p-5">
-              {quote && (
-                <p className="mb-4 text-[13.5px] leading-relaxed text-[var(--muted)]">{quote}</p>
-              )}
-              <div className="flex items-center gap-3">
-                <span className="accent-gradient grid h-9 w-9 place-items-center rounded-lg text-[13px] font-bold text-[var(--on-accent)]">
-                  {name.slice(0, 2).toUpperCase()}
-                </span>
-                <div>
-                  <p className="text-sm font-medium">{name}</p>
-                  <p className="text-[12px] text-[var(--muted)]">{tagline}</p>
-                </div>
-              </div>
-            </Card>
-          </div>
+        <div className="grid gap-5 md:grid-cols-2">
+          {selected.map((project, i) => <ProjectCard key={project.id} project={project} featured={i < 2} index={i} />)}
         </div>
+        <p data-reveal="fade" className="mt-6 font-mono text-[11px] uppercase tracking-wider text-[var(--muted)]">
+          {selected.length} karya pilihan dari {projects.length} proyek
+        </p>
       </Container>
     </Section>
   );

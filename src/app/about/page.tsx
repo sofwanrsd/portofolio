@@ -67,8 +67,8 @@ export default async function AboutPage() {
     <>
       <PageHeader
         eyebrow="Tentang saya"
-        title={site.tagline || "Developer"}
-        accent="yang peduli detail."
+        title="Cerita di balik"
+        accent={site.name}
         description={site.description}
         stats={[
           { label: "Pengalaman kerja", value: workCount },
@@ -87,7 +87,24 @@ export default async function AboutPage() {
         </dl>
       </PageHeader>
 
-      <Section className="border-t border-[var(--border)]">
+      <div className="border-y border-[var(--border)] bg-[var(--card)]/40 py-5">
+        <Container>
+          <nav aria-label="Jelajahi profil" className="flex flex-wrap gap-2">
+            {[
+              { href: "#principles", label: "Cara kerja", show: true },
+              { href: "#skills", label: "Keterampilan", show: skills.length > 0 },
+              { href: "#experience", label: "Pengalaman", show: workCount > 0 },
+              { href: "#education", label: "Pendidikan", show: experiences.some((e) => e.kind === "education") },
+              { href: "#organization", label: "Organisasi", show: orgCount > 0 },
+              { href: "#certification", label: "Sertifikasi", show: experiences.some((e) => e.kind === "certification") },
+            ].filter((item) => item.show).map(({ href, label }) => (
+              <a key={href} href={href} className="inline-flex min-h-11 items-center rounded-full border border-[var(--border)] bg-[var(--glass)] px-4 text-[12px] font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]">{label}</a>
+            ))}
+          </nav>
+        </Container>
+      </div>
+
+      <Section id="principles">
         <Container>
           <SectionHeading
             eyebrow="Cara kerja"

@@ -321,7 +321,7 @@ export function ExperienceSection({ experiences }: { experiences: Experience[] }
         <SectionHeading
           eyebrow="Pengalaman"
           title="Pengalaman kerja"
-          description="Peran profesional yang pernah saya jalani, dari pekerjaan lepas sampai tim produk. Setiap entri memuat lingkup kerja dan hal yang saya tangani."
+          description="Pengalaman langsung di laboratorium serta layanan komputer dan jaringan, beserta tanggung jawab yang saya jalani."
         />
         <div className="relative">
           <div aria-hidden className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px bg-[var(--border)]" />
