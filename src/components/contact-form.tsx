@@ -135,8 +135,8 @@ export function ContactForm() {
           role="status"
           className={
             result.ok
-              ? "rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-[13px] text-emerald-300"
-              : "rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-[13px] text-red-300"
+              ? "rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-[13px] text-[color-mix(in_oklab,#10b981_65%,var(--fg))]"
+              : "rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-[13px] text-[color-mix(in_oklab,#ef4444_65%,var(--fg))]"
           }
         >
           {result.message}

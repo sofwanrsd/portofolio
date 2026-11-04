@@ -1,86 +1,120 @@
 import type { Metadata } from "next";
+import { Compass, Gauge, MessagesSquare, ShieldCheck } from "lucide-react";
 import { getSettings } from "@/lib/settings";
-import { getExperiences, getSkills } from "@/lib/data";
-import { Container, Section, SectionHeading } from "@/components/ui";
-import {
-  ExperienceSection,
-  SkillsSection,
-} from "@/components/sections/collections";
+import { getExperiences, getProjects, getSkills, getTestimonials } from "@/lib/data";
+import { Card, Container, PageHeader, Section, SectionHeading, reveal } from "@/components/ui";
+import { ExperienceSection, SkillsSection } from "@/components/sections/collections";
+import { CtaSection } from "@/components/sections/content";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Tentang",
-  description: "Profil, pengalaman, dan skill saya.",
+  description: "Profil, cara kerja, pengalaman, dan skill saya.",
 };
+
+const PRINCIPLES = [
+  {
+    icon: Compass,
+    title: "Tujuan dulu, visual kemudian",
+    text: "Setiap project dimulai dari pertanyaan apa yang ingin dicapai. Desain yang bagus adalah desain yang menyelesaikan masalah itu.",
+  },
+  {
+    icon: Gauge,
+    title: "Cepat itu fitur",
+    text: "Halaman yang lambat kehilangan pengunjung. Performa saya ukur di ponsel sungguhan, bukan hanya di laptop.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Bisa dipakai semua orang",
+    text: "Kontras yang cukup, navigasi keyboard, dan struktur yang rapi. Aksesibilitas bukan tambahan di akhir.",
+  },
+  {
+    icon: MessagesSquare,
+    title: "Komunikasi tanpa jargon",
+    text: "Demo progres rutin dan penjelasan dengan bahasa sehari-hari, supaya Anda selalu tahu posisi project.",
+  },
+];
 
 export default async function AboutPage() {
   const settings = await getSettings();
   const { site, features } = settings;
-  const [skills, experiences] = await Promise.all([
+  const [skills, experiences, projects, testimonials] = await Promise.all([
     getSkills(),
     getExperiences(),
+    getProjects(),
+    getTestimonials(),
   ]);
+
+  const startYears = experiences
+    .map((e) => Number(e.period.match(/\d{4}/)?.[0]))
+    .filter(Number.isFinite);
+  const yearsActive = startYears.length
+    ? new Date().getFullYear() - Math.min(...startYears)
+    : 0;
+
+  const details = [
+    ["Nama", site.name],
+    ["Lokasi", site.location],
+    ["Email", site.email],
+    ["Telepon", site.phone],
+  ].filter(([, value]) => Boolean(value));
 
   return (
     <>
-      <Section>
-        <Container>
-          <div className="max-w-3xl">
-            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-[var(--muted)]">
-              <span className="accent-gradient h-1.5 w-1.5 rounded-full" />
-              Tentang saya
-            </span>
-            <h1 className="text-balance text-4xl font-semibold leading-[1.15] tracking-tight md:text-5xl">
-              {site.tagline}
-            </h1>
-            <p className="mt-6 text-[16px] leading-relaxed text-[var(--muted)]">
-              {site.description}
-            </p>
+      <PageHeader
+        eyebrow="Tentang saya"
+        title={site.tagline || "Developer"}
+        accent="yang peduli detail."
+        description={site.description}
+        stats={[
+          { label: "Tahun pengalaman", value: yearsActive, suffix: "+" },
+          { label: "Project selesai", value: projects.length, suffix: "+" },
+          { label: "Teknologi", value: skills.length },
+          { label: "Testimoni klien", value: testimonials.length },
+        ]}
+      >
+        <dl className="rise d6 mt-8 flex flex-wrap gap-x-8 gap-y-4">
+          {details.map(([label, value]) => (
+            <div key={label} className="border-l-2 border-[var(--accent)] pl-4">
+              <dt className="text-[11px] uppercase tracking-wider text-[var(--muted)]">{label}</dt>
+              <dd className="mt-1 text-[14px] font-medium">{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </PageHeader>
 
-            <dl className="mt-10 grid gap-6 sm:grid-cols-2">
-              {[
-                ["Nama", site.name],
-                ["Lokasi", site.location],
-                ["Email", site.email],
-                ["Telepon", site.phone],
-              ]
-                .filter(([, value]) => Boolean(value))
-                .map(([label, value]) => (
-                  <div key={label} className="border-l-2 border-[var(--accent)] pl-4">
-                    <dt className="text-[11px] uppercase tracking-wider text-[var(--muted)]">
-                      {label}
-                    </dt>
-                    <dd className="mt-1 text-[14px] font-medium">{value}</dd>
+      <Section className="border-t border-[var(--border)]">
+        <Container>
+          <SectionHeading
+            eyebrow="Cara kerja"
+            title="Empat hal yang selalu saya pegang"
+            description="Prinsip sederhana yang membuat hasil akhir konsisten, dari landing page sampai aplikasi internal."
+          />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {PRINCIPLES.map(({ icon: Icon, title, text }, i) => (
+              <Card key={title} data-reveal="" style={reveal(i)} className="group p-7 hover:-translate-y-1">
+                <div className="flex items-start gap-5">
+                  <span aria-hidden className="ghost-num text-6xl">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <span className="grid h-10 w-10 place-items-center rounded-xl border border-[var(--border)] bg-[var(--glass)] text-[var(--accent)] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
+                      <Icon size={18} aria-hidden />
+                    </span>
+                    <h3 className="mt-4 text-[16px] font-semibold tracking-tight">{title}</h3>
+                    <p className="mt-2 text-[14px] leading-relaxed text-[var(--muted)]">{text}</p>
                   </div>
-                ))}
-            </dl>
+                </div>
+              </Card>
+            ))}
           </div>
         </Container>
       </Section>
 
       <SkillsSection skills={skills} />
       <ExperienceSection experiences={experiences} />
-
-      {features.hireMeEnabled && (
-        <Section className="border-t border-[var(--border)] bg-[var(--card)]/40">
-          <Container>
-            <SectionHeading
-              title={features.hireMeTitle}
-              description={features.hireMeText}
-              align="center"
-            />
-            <div className="flex justify-center">
-              <a
-                href={features.hireMeButtonLink || "/contact"}
-                className="inline-flex h-12 items-center justify-center rounded-lg bg-[var(--fg)] px-6 text-[15px] font-medium text-[var(--bg)] transition-transform hover:-translate-y-px"
-              >
-                {features.hireMeButtonText}
-              </a>
-            </div>
-          </Container>
-        </Section>
-      )}
+      {features.hireMeEnabled && <CtaSection features={features} />}
     </>
   );
 }

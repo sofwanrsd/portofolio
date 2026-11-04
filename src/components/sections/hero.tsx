@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MapPin, Sparkles } from "lucide-react";
-import { Button, Container } from "@/components/ui";
+import { Button, Container, SplitWords } from "@/components/ui";
+import { MarqueeToggle } from "@/components/marquee-toggle";
 import type { AppSettings } from "@/lib/types";
 
 export function Hero({
@@ -22,6 +23,8 @@ export function Hero({
         <div className="bg-grid bg-grid-mask pointer-events-none absolute inset-x-0 top-0 -z-10 h-[30rem] opacity-40" />
       )}
       <div className="mesh-glow pointer-events-none absolute -top-48 left-1/2 -z-10 h-[30rem] w-[56rem] -translate-x-1/2 opacity-30" />
+      <div aria-hidden className="aurora -z-10 top-24 right-[4%] h-72 w-72 bg-[var(--accent)]" />
+      <div aria-hidden className="aurora -z-10 bottom-0 left-[2%] h-60 w-60 bg-[var(--accent-2)] opacity-20 [animation-delay:-9s]" />
 
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
@@ -36,9 +39,16 @@ export function Hero({
             </div>
           )}
 
-          <h1 className="rise d2 text-balance text-[clamp(2.35rem,5.6vw,4.25rem)] font-semibold leading-[0.99] tracking-[-0.045em]">
-            {titleHead}{" "}
-            <span className="font-display text-gradient-accent pr-1 text-[1.08em]">{titleTail}</span>
+          <h1
+            aria-label={site.heroTitle}
+            className="text-balance text-[clamp(2.35rem,5.6vw,4.25rem)] font-semibold leading-[0.99] tracking-[-0.045em]"
+          >
+            <SplitWords text={titleHead} />{" "}
+            <SplitWords
+              text={titleTail}
+              offset={titleWords.length - 2}
+              className="font-display shimmer-text pr-1 text-[1.08em]"
+            />
           </h1>
 
           <p className="rise d3 mt-6 max-w-xl text-[16px] leading-relaxed text-[var(--muted)] md:text-[17.5px]">
@@ -85,7 +95,7 @@ export function Hero({
           {/* Panel visual kanan: foto bila ada, jika tidak kartu editorial. */}
           <div className="fade d3 relative hidden lg:block">
             <div className="float-slow relative">
-              <div className="sheen ring-accent relative overflow-hidden rounded-[28px] border border-[var(--border)] bg-[var(--card)] shadow-[0_50px_120px_-60px_color-mix(in_oklab,var(--accent)_70%,transparent)]">
+              <div className="sheen border-spin is-live relative overflow-hidden rounded-[28px] border border-[var(--border)] bg-[var(--card)] shadow-[0_50px_120px_-60px_color-mix(in_oklab,var(--accent)_70%,transparent)]">
                 {site.heroImage ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -127,8 +137,10 @@ export function Hero({
                       <dl className="grid grid-cols-3 gap-4 text-[12px]">
                         <div>
                           <dt className="text-[var(--muted)]">Project</dt>
-                          <dd className="mt-1 text-[15px] font-semibold text-[var(--fg)]">
-                            {projectsCount}+
+                          <dd className="mt-1 text-[15px] font-semibold tabular-nums text-[var(--fg)]">
+                            <span data-count={projectsCount} data-suffix="+">
+                              {projectsCount}+
+                            </span>
                           </dd>
                         </div>
                         <div>
@@ -153,6 +165,40 @@ export function Hero({
           </div>
         </div>
       </Container>
+    </section>
+  );
+}
+
+
+/** Pita teknologi yang bergulir pelan. Salinan kedua disembunyikan dari screen reader. */
+export function TechMarquee({ items }: { items: string[] }) {
+  if (items.length === 0) return null;
+  const row = (hidden: boolean) => (
+    <ul aria-hidden={hidden || undefined} className="flex shrink-0 items-center">
+      {items.map((item) => (
+        <li
+          key={item}
+          className="flex items-center gap-5 px-5 text-[15px] font-medium text-[var(--muted)] transition-colors hover:text-[var(--fg)]"
+        >
+          {item}
+          <span className="h-1 w-1 rounded-full bg-[var(--accent)]" />
+        </li>
+      ))}
+    </ul>
+  );
+  return (
+    <section
+      aria-label="Teknologi yang saya pakai"
+      data-marquee=""
+      className="relative flex items-center gap-3 border-y border-[var(--border)] bg-[var(--card)]/40 py-5 pr-4"
+    >
+      <div className="marquee-wrap fade-x min-w-0 flex-1 overflow-hidden">
+        <div className="marquee-track">
+          {row(false)}
+          {row(true)}
+        </div>
+      </div>
+      <MarqueeToggle label="pita teknologi" />
     </section>
   );
 }

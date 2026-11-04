@@ -7,7 +7,7 @@ import {
   getSkills,
   getTestimonials,
 } from "@/lib/data";
-import { Hero } from "@/components/sections/hero";
+import { Hero, TechMarquee } from "@/components/sections/hero";
 import { AboutSection, ProjectsSection } from "@/components/sections/projects";
 import {
   ExperienceSection,
@@ -41,6 +41,10 @@ export default async function HomePage() {
     <>
       {sections.hero && (
         <Hero settings={settings} projectsCount={projects.length} />
+      )}
+
+      {sections.skills && skills.length > 0 && (
+        <TechMarquee items={skills.map((skill) => skill.name)} />
       )}
 
       {sections.projects && <ProjectsSection projects={projects} />}

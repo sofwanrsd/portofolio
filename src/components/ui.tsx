@@ -20,13 +20,14 @@ export function Section({
   children,
   className,
   id,
+  ...rest
 }: {
   children: ReactNode;
   className?: string;
   id?: string;
-}) {
+} & React.HTMLAttributes<HTMLElement> & { [key: `data-${string}`]: string | undefined }) {
   return (
-    <section id={id} className={cn("py-20 md:py-28", className)}>
+    <section {...rest} id={id} className={cn("py-20 md:py-28", className)}>
       {children}
     </section>
   );
@@ -60,16 +61,18 @@ export function SectionHeading({
     >
       <div className={cn("max-w-2xl", centered && "mx-auto")}>
         {eyebrow && (
-          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--glass)] px-3 py-1 font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-[var(--muted)] backdrop-blur-sm">
+          <span data-reveal="fade" className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--glass)] px-3 py-1 font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-[var(--muted)] backdrop-blur-sm">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)]" />
             {eyebrow}
           </span>
         )}
-        <h2 className="text-balance text-[clamp(1.9rem,4.2vw,3.15rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
+        <h2 data-reveal="blur" style={reveal(1)} className="text-balance text-[clamp(1.9rem,4.2vw,3.15rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
           <AccentTitle text={title} />
         </h2>
         {description && (
           <p
+            data-reveal=""
+            style={reveal(2)}
             className={cn(
               "mt-4 text-[15px] leading-relaxed text-[var(--muted)] md:text-[15.5px]",
               centered ? "mx-auto max-w-xl" : "max-w-xl"
@@ -79,7 +82,11 @@ export function SectionHeading({
           </p>
         )}
       </div>
-      {action && <div className="shrink-0">{action}</div>}
+      {action && (
+        <div data-reveal="" style={reveal(3)} className="shrink-0">
+          {action}
+        </div>
+      )}
     </div>
   );
 }
@@ -182,18 +189,123 @@ export function Badge({
   );
 }
 
+/* ---------------- Motion helpers ---------------- */
+/** Jeda bertingkat untuk elemen [data-reveal]. */
+export function reveal(i = 0): React.CSSProperties {
+  return { ["--i" as string]: i } as React.CSSProperties;
+}
+
+/** Judul yang katanya naik satu per satu. Teks utuh tetap dibaca screen reader. */
+export function SplitWords({
+  text,
+  className,
+  offset = 0,
+}: {
+  text: string;
+  className?: string;
+  offset?: number;
+}) {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, i) => (
+        <span key={`${word}-${i}`} className="split-word" aria-hidden>
+          <span className={className} style={{ ["--w" as string]: i + offset } as React.CSSProperties}>
+            {word}
+          </span>
+          {i < words.length - 1 ? "\u00a0" : null}
+        </span>
+      ))}
+    </>
+  );
+}
+
+/* ---------------- Page header ---------------- */
+/** Header besar untuk halaman dalam: eyebrow, judul animasi, deskripsi, dan statistik. */
+export function PageHeader({
+  eyebrow,
+  title,
+  accent,
+  description,
+  stats,
+  children,
+}: {
+  eyebrow: string;
+  title: string;
+  accent?: string;
+  description?: string;
+  stats?: { label: string; value: number; suffix?: string }[];
+  children?: ReactNode;
+}) {
+  const head = title.trim().split(/\s+/).length;
+  return (
+    <section className="relative overflow-hidden pt-16 pb-14 md:pt-24 md:pb-20">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="spotlight absolute inset-x-0 top-0 h-[34rem]" />
+        <div className="bg-grid bg-grid-mask absolute inset-x-0 top-0 h-[26rem] opacity-40" />
+        <div className="aurora -top-24 left-[8%] h-72 w-72 bg-[var(--accent)]" />
+        <div className="aurora top-10 right-[6%] h-64 w-64 bg-[var(--accent-2)] [animation-delay:-7s]" />
+      </div>
+      <Container>
+        <span className="rise inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--glass)] px-3 py-1 font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-[var(--muted)] backdrop-blur-sm">
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)]" />
+          {eyebrow}
+        </span>
+        <h1
+          aria-label={accent ? `${title} ${accent}` : title}
+          className="mt-6 max-w-4xl text-balance text-[clamp(2.4rem,6.4vw,5rem)] font-semibold leading-[0.98] tracking-[-0.045em]"
+        >
+          <SplitWords text={title} />
+          {accent && (
+            <>
+              {" "}
+              <SplitWords text={accent} offset={head} className="font-display shimmer-text pr-1 text-[1.06em]" />
+            </>
+          )}
+        </h1>
+        {description && (
+          <p className="rise d4 mt-6 max-w-2xl text-[16px] leading-relaxed text-[var(--muted)] md:text-[17px]">
+            {description}
+          </p>
+        )}
+        {stats && stats.length > 0 && (
+          <dl
+            style={{ ["--n" as string]: stats.length } as React.CSSProperties}
+            className="rise d5 mt-10 grid max-w-2xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--border)] sm:[grid-template-columns:repeat(var(--n),minmax(0,1fr))]"
+          >
+            {stats.map((stat) => (
+              <div key={stat.label} className="bg-[var(--bg)] px-4 py-4">
+                <dt className="text-[11.5px] text-[var(--muted)]">{stat.label}</dt>
+                <dd className="mt-1 text-2xl font-semibold tracking-tight tabular-nums">
+                  <span data-count={stat.value} data-suffix={stat.suffix ?? ""}>
+                    {stat.value}
+                    {stat.suffix}
+                  </span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        {children}
+      </Container>
+    </section>
+  );
+}
+
 /* ---------------- Card ---------------- */
 export function Card({
   children,
   className,
+  ...rest
 }: {
   children: ReactNode;
   className?: string;
-}) {
+} & React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
+      {...rest}
       className={cn(
-        "surface rounded-[var(--radius-base)] ring-1 ring-inset ring-[var(--border)]",
+        "spot surface rounded-[var(--radius-base)] ring-1 ring-inset ring-[var(--border)]",
         "transition-[transform,box-shadow,border-color] duration-300",
         className
       )}

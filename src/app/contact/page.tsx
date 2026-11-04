@@ -1,121 +1,114 @@
 import type { Metadata } from "next";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { getSettings } from "@/lib/settings";
 import { getServices } from "@/lib/data";
+import { formatPrice } from "@/lib/format";
 import { ContactForm } from "@/components/contact-form";
-import { Container, Section, SectionHeading } from "@/components/ui";
+import { Card, Container, PageHeader, Section, reveal } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Kontak",
-  description: "Hubungi saya untuk discuss project Anda.",
+  description: "Hubungi saya untuk mendiskusikan project Anda.",
 };
 
 export default async function ContactPage() {
   const [settings, services] = await Promise.all([getSettings(), getServices()]);
   const { site, features } = settings;
 
+  const channels = [
+    site.email && { icon: Mail, label: "Email", value: site.email, href: `mailto:${site.email}` },
+    site.phone && { icon: Phone, label: "Telepon / WhatsApp", value: site.phone, href: `tel:${site.phone.replace(/\s/g, "")}` },
+    site.location && { icon: MapPin, label: "Lokasi", value: site.location, href: "" },
+    { icon: Clock, label: "Waktu balas", value: "Maksimal 1x24 jam kerja", href: "" },
+  ].filter(Boolean) as { icon: typeof Mail; label: string; value: string; href: string }[];
+
   return (
-    <Section>
-      <Container>
-        <SectionHeading
-          eyebrow="Kontak"
-          title={features.hireMeTitle || "Mari kerjakan project Anda"}
-          description={features.hireMeText}
-        />
+    <>
+      <PageHeader
+        eyebrow="Kontak"
+        title={features.hireMeTitle || "Punya ide project?"}
+        accent="Ayo ngobrol."
+        description={features.hireMeText}
+      >
+        {site.availability && (
+          <p className="rise d5 mt-8 inline-flex items-center gap-2.5 rounded-full border border-[var(--border)] bg-[var(--glass)] py-1.5 pl-3 pr-4 text-[13px] text-[var(--fg)]">
+            <span className="relative flex h-2 w-2" aria-hidden>
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+            </span>
+            {site.availability}
+          </p>
+        )}
+      </PageHeader>
 
-        <div className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:gap-12">
-          <div className="space-y-4">
-            <div className="rounded-[var(--radius-base)] border border-[var(--border)] bg-[var(--card)] p-5">
-              <h2 className="text-[12px] font-semibold uppercase tracking-wider text-[var(--muted)]">
-                Detail kontak
-              </h2>
-              <ul className="mt-4 space-y-3">
-                {site.email && (
-                  <li className="flex items-center gap-3 text-[13.5px]">
-                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-[var(--border)]">
-                      <Mail size={14} />
-                    </span>
-                    <a
-                      href={`mailto:${site.email}`}
-                      className="truncate transition-colors hover:text-[var(--accent)]"
-                    >
-                      {site.email}
-                    </a>
-                  </li>
-                )}
-                {site.phone && (
-                  <li className="flex items-center gap-3 text-[13.5px]">
-                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-[var(--border)]">
-                      <Phone size={14} />
-                    </span>
-                    <a
-                      href={`tel:${site.phone.replace(/\s/g, "")}`}
-                      className="transition-colors hover:text-[var(--accent)]"
-                    >
-                      {site.phone}
-                    </a>
-                  </li>
-                )}
-                {site.location && (
-                  <li className="flex items-center gap-3 text-[13.5px]">
-                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-[var(--border)]">
-                      <MapPin size={14} />
-                    </span>
-                    {site.location}
-                  </li>
-                )}
-              </ul>
-            </div>
-
-            {services.length > 0 && (
-              <div className="rounded-[var(--radius-base)] border border-[var(--border)] bg-[var(--card)] p-5">
-                <h2 className="text-[12px] font-semibold uppercase tracking-wider text-[var(--muted)]">
-                  Paket layanan
-                </h2>
-                <ul className="mt-4 space-y-3">
-                  {services.map((service) => (
-                    <li
-                      key={service.id}
-                      className="flex items-start justify-between gap-3"
-                    >
-                      <span className="text-[13.5px] font-medium">
-                        {service.title}
+      <Section className="pt-2 md:pt-4">
+        <Container>
+          <div className="grid gap-6 lg:grid-cols-[1fr_1.45fr] lg:gap-10">
+            <div className="space-y-4">
+              <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                {channels.map(({ icon: Icon, label, value, href }, i) => {
+                  const body = (
+                    <>
+                      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-[var(--border)] bg-[var(--glass)] text-[var(--accent)] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
+                        <Icon size={17} aria-hidden />
                       </span>
-                      <span className="shrink-0 text-[13px] text-[var(--muted)]">
-                        {service.price_value &&
-                          `${new Intl.NumberFormat("id-ID", { maximumFractionDigits: 0 }).format(
-                            Number(service.price_value.replace(/\D/g, "") || 0)
-                          )} ${service.currency}`}
+                      <span className="min-w-0">
+                        <span className="block text-[11.5px] text-[var(--muted)]">{label}</span>
+                        <span className="block truncate text-[14px] font-medium">{value}</span>
                       </span>
+                    </>
+                  );
+                  return (
+                    <li key={label}>
+                      <Card data-reveal="left" style={reveal(i)} className="group hover:-translate-y-0.5">
+                        {href ? (
+                          <a href={href} className="flex items-center gap-4 rounded-[var(--radius-base)] p-4">
+                            {body}
+                          </a>
+                        ) : (
+                          <div className="flex items-center gap-4 p-4">{body}</div>
+                        )}
+                      </Card>
                     </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+                  );
+                })}
+              </ul>
 
-            {site.availability && (
-              <div className="flex items-center gap-2 rounded-[var(--radius-base)] border border-emerald-500/25 bg-emerald-500/5 px-5 py-4 text-[13px] text-emerald-300">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                {site.availability}
-              </div>
-            )}
-          </div>
-
-          <div className="rounded-[var(--radius-base)] border border-[var(--border)] bg-[var(--card)] p-6">
-            <h2 className="text-[15px] font-semibold tracking-tight">
-              Kirim pesan
-            </h2>
-            <p className="mt-1.5 text-[13px] text-[var(--muted)]">
-              Isi form berikut, saya akan membalas dalam 1x24 jam.
-            </p>
-            <div className="mt-6">
-              <ContactForm />
+              {services.length > 0 && (
+                <Card data-reveal="left" style={reveal(channels.length)} className="p-5">
+                  <h2 className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--muted)]">
+                    Harga mulai dari
+                  </h2>
+                  <ul className="mt-4 divide-y divide-[var(--border)]">
+                    {services.map((service) => (
+                      <li key={service.id} className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
+                        <span className="text-[13.5px] font-medium">{service.title}</span>
+                        <span className="shrink-0 text-[13.5px] font-semibold tabular-nums text-[var(--accent)]">
+                          {service.price_value ? formatPrice(service.price_value, service.currency) : "Hubungi saya"}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              )}
             </div>
+
+            <Card data-reveal="right" className="border-spin p-6 md:p-8">
+              <h2 className="text-[clamp(1.4rem,2.4vw,1.8rem)] font-semibold tracking-[-0.03em]">
+                Kirim <span className="font-display text-[var(--accent)]">pesan</span>
+              </h2>
+              <p className="mt-2 text-[14px] text-[var(--muted)]">
+                Ceritakan sedikit tentang project Anda. Semakin jelas briefnya, semakin akurat estimasinya.
+              </p>
+              <div className="mt-7">
+                <ContactForm />
+              </div>
+            </Card>
           </div>
-        </div>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
+    </>
   );
 }

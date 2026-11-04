@@ -6,6 +6,7 @@ import { getSettings } from "@/lib/settings";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PublicChrome } from "@/components/public-chrome";
+import { Motion } from "@/components/motion";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -110,6 +111,7 @@ export default async function RootLayout({
           Lewati ke konten utama
         </a>
         <PublicChrome>
+          <Motion />
           <SiteHeader settings={settings} />
         </PublicChrome>
         <main id="main">{children}</main>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Github, Globe } from "lucide-react";
 import type { Project } from "@/lib/types";
-import { Badge, Card } from "@/components/ui";
+import { Badge, Card, reveal } from "@/components/ui";
 
 /** Placeholder visual deterministik untuk project tanpa cover image. */
 function CoverPlaceholder({ title, category }: { title: string; category: string }) {
@@ -30,18 +30,23 @@ function CoverPlaceholder({ title, category }: { title: string; category: string
 export function ProjectCard({
   project,
   featured = false,
+  index = 0,
 }: {
   project: Project;
   featured?: boolean;
+  index?: number;
 }) {
   return (
-    <Card className="ring-accent group overflow-hidden hover:-translate-y-1 hover:shadow-[0_30px_80px_-40px_color-mix(in_oklab,var(--accent)_75%,transparent)]">
+    <Card
+      data-reveal=""
+      style={reveal(index)}
+      className="ring-accent group overflow-hidden hover:-translate-y-1 hover:shadow-[0_30px_80px_-40px_color-mix(in_oklab,var(--accent)_75%,transparent)]">
       <Link href={`/projects/${project.slug}`} className="block">
         <div
           className={
             featured
-              ? "aspect-[16/9] w-full overflow-hidden"
-              : "aspect-[4/3] w-full overflow-hidden"
+              ? "zoom-img aspect-[16/9] w-full overflow-hidden"
+              : "zoom-img aspect-[16/10] w-full overflow-hidden"
           }
         >
           {project.cover_image ? (
@@ -49,7 +54,7 @@ export function ProjectCard({
             <img
               src={project.cover_image}
               alt={project.title}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              className="h-full w-full object-cover"
               loading="lazy"
             />
           ) : (

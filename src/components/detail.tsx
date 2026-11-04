@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Github, Globe } from "lucide-react";
-import { Badge, Button, Card, Container, Section } from "@/components/ui";
+import { Badge, Button, Card, Container, Section, SplitWords, reveal } from "@/components/ui";
+import { PostCard } from "@/components/sections/content";
 import { ProjectCard } from "@/components/project-card";
 import { formatDate, readingTime } from "@/lib/utils";
 import type { Post, Project } from "@/lib/types";
@@ -18,25 +19,28 @@ export function ProjectDetail({
       <Container className="pt-10 md:pt-16">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-1.5 text-[13px] text-[var(--muted)] transition-colors hover:text-[var(--fg)]"
+          className="link-grow rise inline-flex items-center gap-1.5 text-[13px] text-[var(--muted)] hover:text-[var(--fg)]"
         >
           Kembali ke Project
         </Link>
 
         <div className="mt-6 max-w-3xl">
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="rise d1 flex flex-wrap items-center gap-2">
             <Badge variant="accent">{project.category}</Badge>
             {project.year && <Badge variant="outline">{project.year}</Badge>}
             {project.client && <Badge variant="outline">{project.client}</Badge>}
           </div>
-          <h1 className="mt-4 text-balance text-3xl font-semibold tracking-tight md:text-5xl">
-            {project.title}
+          <h1
+            aria-label={project.title}
+            className="mt-5 text-balance text-[clamp(2.3rem,6vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.045em]"
+          >
+            <SplitWords text={project.title} />
           </h1>
-          <p className="mt-4 text-[16px] leading-relaxed text-[var(--muted)]">
+          <p className="rise d4 mt-5 text-[17px] leading-relaxed text-[var(--muted)]">
             {project.summary}
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="rise d5 mt-6 flex flex-wrap items-center gap-3">
             {project.live_url && (
               <Button href={project.live_url} size="sm">
                 <Globe size={14} /> Buka Website
@@ -54,8 +58,8 @@ export function ProjectDetail({
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={project.cover_image}
-            alt={project.title}
-            className="mt-10 w-full rounded-[var(--radius-base)] border border-[var(--border)] object-cover"
+            alt={`Tampilan ${project.title}`}
+            className="pop d5 mt-12 w-full rounded-[28px] border border-[var(--border)] object-cover shadow-[0_60px_140px_-70px_color-mix(in_oklab,var(--accent)_75%,transparent)]"
           />
         ) : (
           <div className="mt-10 aspect-[16/9] w-full overflow-hidden rounded-[var(--radius-base)] border border-[var(--border)]">
@@ -64,7 +68,7 @@ export function ProjectDetail({
         )}
 
         <div className="mt-10 grid gap-10 pb-16 md:grid-cols-[1.6fr_1fr]">
-          <div className="prose-custom max-w-none">
+          <div data-reveal="" className="prose-custom max-w-none">
             {project.description.split("\n").map((block, i) =>
               block.trim().startsWith("## ") ? (
                 <h2 key={i}>{block.replace(/^##\s+/, "")}</h2>
@@ -85,7 +89,7 @@ export function ProjectDetail({
             )}
           </div>
 
-          <aside className="space-y-6">
+          <aside data-reveal="right" className="space-y-6 md:sticky md:top-24 md:self-start">
             <Card className="p-5">
               <h2 className="text-[12px] font-semibold uppercase tracking-wider text-[var(--muted)]">
                 Tech Stack
@@ -145,8 +149,8 @@ export function ProjectDetail({
         <Section className="border-t border-[var(--border)] bg-[var(--card)]/40">
           <Container>
             <div className="mb-8 flex items-center justify-between">
-              <h2 className="text-2xl font-semibold tracking-tight">
-                Project lain
+              <h2 data-reveal="blur" className="text-[clamp(1.6rem,3vw,2.2rem)] font-semibold tracking-[-0.03em]">
+                Project <span className="font-display text-[var(--accent)]">lainnya</span>
               </h2>
               <Link
                 href="/projects"
@@ -156,8 +160,8 @@ export function ProjectDetail({
               </Link>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
-              {related.map((item) => (
-                <ProjectCard key={item.id} project={item} />
+              {related.map((item, i) => (
+                <ProjectCard key={item.id} project={item} index={i} />
               ))}
             </div>
           </Container>
@@ -180,31 +184,35 @@ export function PostDetail({
       <Container className="pt-10 md:pt-16">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-1.5 text-[13px] text-[var(--muted)] transition-colors hover:text-[var(--fg)]"
+          className="link-grow rise inline-flex items-center gap-1.5 text-[13px] text-[var(--muted)] hover:text-[var(--fg)]"
         >
           Kembali ke Blog
         </Link>
 
+        <div aria-hidden className="read-progress" />
         <header className="mx-auto mt-6 max-w-3xl">
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="rise d1 flex flex-wrap items-center gap-2">
             {post.tags.map((tag) => (
               <Badge key={tag} variant="accent">
                 {tag}
               </Badge>
             ))}
           </div>
-          <h1 className="mt-4 text-balance text-3xl font-semibold tracking-tight md:text-4xl">
-            {post.title}
+          <h1
+            aria-label={post.title}
+            className="mt-5 text-balance text-[clamp(2rem,4.6vw,3.4rem)] font-semibold leading-[1.02] tracking-[-0.04em]"
+          >
+            <SplitWords text={post.title} />
           </h1>
-          <div className="mt-4 flex items-center gap-3 text-[13px] text-[var(--muted)]">
+          <div className="rise d4 mt-5 flex items-center gap-3 text-[13px] text-[var(--muted)]">
             <time dateTime={post.published_at ?? undefined}>
               {formatDate(post.published_at ?? post.created_at)}
             </time>
-            <span>·</span>
+            <span aria-hidden>·</span>
             <span>{readingTime(post.content)} menit baca</span>
           </div>
           {post.excerpt && (
-            <p className="mt-5 text-[16px] leading-relaxed text-[var(--muted)]">
+            <p className="rise d5 mt-5 text-[17px] leading-relaxed text-[var(--muted)]">
               {post.excerpt}
             </p>
           )}
@@ -214,8 +222,8 @@ export function PostDetail({
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={post.cover_image}
-            alt={post.title}
-            className="mx-auto mt-10 w-full max-w-4xl rounded-[var(--radius-base)] border border-[var(--border)] object-cover"
+            alt=""
+            className="pop d5 mx-auto mt-12 w-full max-w-4xl rounded-[28px] border border-[var(--border)] object-cover shadow-[0_60px_140px_-70px_color-mix(in_oklab,var(--accent)_75%,transparent)]"
           />
         )}
 
@@ -227,27 +235,12 @@ export function PostDetail({
       {related.length > 0 && (
         <Section className="border-t border-[var(--border)] bg-[var(--card)]/40">
           <Container>
-            <h2 className="mb-8 text-2xl font-semibold tracking-tight">
-              Baca juga
+            <h2 data-reveal="blur" className="mb-8 text-[clamp(1.6rem,3vw,2.2rem)] font-semibold tracking-[-0.03em]">
+              Baca <span className="font-display text-[var(--accent)]">juga</span>
             </h2>
             <div className="grid gap-4 md:grid-cols-3">
-              {related.map((item) => (
-                <Card
-                  key={item.id}
-                  className="group p-5 transition-colors hover:border-[var(--accent)]/40"
-                >
-                  <Link href={`/blog/${item.slug}`}>
-                    <p className="text-[11.5px] text-[var(--muted)]">
-                      {formatDate(item.published_at ?? item.created_at)}
-                    </p>
-                    <h3 className="mt-2 text-[14.5px] font-semibold leading-snug tracking-tight transition-colors group-hover:text-[var(--accent)]">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 line-clamp-2 text-[13px] text-[var(--muted)]">
-                      {item.excerpt}
-                    </p>
-                  </Link>
-                </Card>
+              {related.map((item, i) => (
+                <PostCard key={item.id} post={item} index={i} />
               ))}
             </div>
           </Container>

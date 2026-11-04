@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button, Card, Container, Section, SectionHeading } from "@/components/ui";
+import { Button, Card, Container, Section, SectionHeading, reveal } from "@/components/ui";
 import { ProjectCard } from "@/components/project-card";
 import type { Project } from "@/lib/types";
 
@@ -25,16 +25,16 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
 
         {featured.length > 0 && (
           <div className="mb-4 grid gap-4 md:grid-cols-2">
-            {featured.slice(0, 2).map((project) => (
-              <ProjectCard key={project.id} project={project} featured />
+            {featured.slice(0, 2).map((project, i) => (
+              <ProjectCard key={project.id} project={project} featured index={i} />
             ))}
           </div>
         )}
 
         {rest.length > 0 && (
           <div className="grid gap-4 md:grid-cols-3">
-            {rest.slice(0, 6).map((project) => (
-              <ProjectCard key={project.id} project={project} />
+            {rest.slice(0, 6).map((project, i) => (
+              <ProjectCard key={project.id} project={project} index={i} />
             ))}
           </div>
         )}
@@ -56,17 +56,20 @@ export function AboutSection({
     <Section id="about" className="border-y border-[var(--border)] bg-[var(--card)]/40">
       <Container>
         <div className="grid gap-10 md:grid-cols-[1fr_1.2fr] md:gap-16">
-          <div>
-            <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-[var(--muted)]">
-              <span className="accent-gradient h-1.5 w-1.5 rounded-full" />
+          <div data-reveal="left">
+            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--glass)] px-3 py-1 font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-[var(--muted)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)]" />
               Tentang saya
             </span>
-            <h2 className="text-balance text-3xl font-semibold tracking-tight md:text-4xl">
+            <h2 className="text-balance text-[clamp(1.9rem,4.2vw,3.15rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
               {tagline}
             </h2>
+            <p aria-hidden className="ghost-num mt-8 hidden text-[9rem] md:block">
+              {name.slice(0, 2).toUpperCase()}
+            </p>
           </div>
-          <div>
-            <p className="text-[15px] leading-relaxed text-[var(--muted)]">
+          <div data-reveal="right" style={reveal(1)}>
+            <p className="text-[16px] leading-relaxed text-[var(--muted)]">
               {description}
             </p>
             <Card className="mt-6 p-5">

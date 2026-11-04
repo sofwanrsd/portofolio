@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { getPosts } from "@/lib/data";
-import { Container, EmptyState, Section, SectionHeading } from "@/components/ui";
-import { formatDate, readingTime } from "@/lib/utils";
-import Link from "next/link";
+import { PostCard } from "@/components/sections/content";
+import { Container, EmptyState, PageHeader, Section } from "@/components/ui";
+import { readingTime } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -13,59 +13,45 @@ export const metadata: Metadata = {
 
 export default async function BlogPage() {
   const posts = await getPosts();
+  const [first, ...rest] = posts;
+  const tags = new Set(posts.flatMap((p) => p.tags)).size;
+  const minutes = posts.reduce((sum, p) => sum + readingTime(p.content), 0);
 
   return (
-    <Section>
-      <Container>
-        <SectionHeading
-          eyebrow="Writing"
-          title="Catatan & tulisan"
-          description="Tulisan soal teknis, arsitektur, dan proses kerja saya."
-        />
+    <>
+      <PageHeader
+        eyebrow="Writing"
+        title="Catatan dari"
+        accent="meja kerja."
+        description="Hal-hal yang saya pelajari saat membangun produk: performa, desain, database, dan cara bekerja dengan klien."
+        stats={[
+          { label: "Artikel", value: posts.length },
+          { label: "Topik", value: tags },
+          { label: "Menit bacaan", value: minutes },
+        ]}
+      />
 
-        {posts.length === 0 ? (
-          <EmptyState
-            title="Belum ada artikel"
-            description="Tulis artikel pertama Anda lewat panel admin."
-          />
-        ) : (
-          <div className="grid gap-4 md:grid-cols-2">
-            {posts.map((post) => (
-              <Link
-                key={post.id}
-                href={`/blog/${post.slug}`}
-                className="group rounded-[var(--radius-base)] border border-[var(--border)] bg-[var(--card)] p-6 transition-colors hover:border-[var(--accent)]/40"
-              >
-                <div className="flex items-center gap-2 text-[11.5px] text-[var(--muted)]">
-                  <time dateTime={post.published_at ?? undefined}>
-                    {formatDate(post.published_at ?? post.created_at)}
-                  </time>
-                  <span>·</span>
-                  <span>{readingTime(post.content)} menit baca</span>
+      <Section className="pt-4 md:pt-6">
+        <Container>
+          {!first ? (
+            <EmptyState
+              title="Belum ada artikel"
+              description="Tulis artikel pertama Anda lewat panel admin."
+            />
+          ) : (
+            <div className="space-y-5">
+              <PostCard post={first} large />
+              {rest.length > 0 && (
+                <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                  {rest.map((post, i) => (
+                    <PostCard key={post.id} post={post} index={i % 3} />
+                  ))}
                 </div>
-                <h2 className="mt-3 text-lg font-semibold leading-snug tracking-tight transition-colors group-hover:text-[var(--accent)]">
-                  {post.title}
-                </h2>
-                <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--muted)]">
-                  {post.excerpt}
-                </p>
-                {post.tags.length > 0 && (
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full bg-[var(--border)]/50 px-2 py-0.5 text-[11px] text-[var(--muted)]"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </Link>
-            ))}
-          </div>
-        )}
-      </Container>
-    </Section>
+              )}
+            </div>
+          )}
+        </Container>
+      </Section>
+    </>
   );
 }

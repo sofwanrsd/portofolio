@@ -11,7 +11,7 @@ import {
   Sparkles,
   Wrench,
 } from "lucide-react";
-import { Card, Container, Section, SectionHeading } from "@/components/ui";
+import { Card, Container, Section, SectionHeading, reveal } from "@/components/ui";
 import { formatPrice } from "@/lib/utils";
 import type { Experience, Service, Skill } from "@/lib/types";
 
@@ -43,15 +43,17 @@ export function ServicesSection({ services }: { services: Service[] }) {
           description="Dari halaman satu halaman sampai aplikasi kustom. Harga awal transparan, scope jelas."
         />
         <div className="grid gap-4 md:grid-cols-3">
-          {services.map((service) => {
+          {services.map((service, i) => {
             const Icon = SERVICE_ICONS[service.icon] ?? Rocket;
             return (
               <Card
                 key={service.id}
+                data-reveal=""
+                style={reveal(i)}
                 className={
                   service.popular
-                    ? "relative border-[var(--accent)]/50 glow"
-                    : "transition-colors hover:border-[var(--accent)]/40"
+                    ? "border-spin group relative hover:-translate-y-1"
+                    : "group hover:-translate-y-1"
                 }
               >
                 {service.popular && (
@@ -60,8 +62,8 @@ export function ServicesSection({ services }: { services: Service[] }) {
                   </span>
                 )}
                 <div className="p-6">
-                  <div className="mb-4 grid h-10 w-10 place-items-center rounded-lg border border-[var(--border)] bg-[var(--border)]/30">
-                    <Icon size={17} />
+                  <div className="mb-5 grid h-11 w-11 place-items-center rounded-xl border border-[var(--border)] bg-[var(--glass)] text-[var(--accent)] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
+                    <Icon size={18} />
                   </div>
                   <h3 className="text-[15px] font-semibold tracking-tight">
                     {service.title}
@@ -86,7 +88,7 @@ export function ServicesSection({ services }: { services: Service[] }) {
 
                   <Link
                     href="/services"
-                    className="mt-5 inline-flex items-center gap-1.5 text-[13px] font-medium text-[var(--accent)] hover:underline"
+                    className="link-grow mt-5 inline-flex items-center gap-1.5 text-[13px] font-medium text-[var(--accent)]"
                   >
                     Lihat paket &amp; harga
                   </Link>
@@ -121,13 +123,15 @@ export function PricingSection({
           align="center"
         />
         <div className="grid gap-4 md:grid-cols-3">
-          {services.map((service) => (
+          {services.map((service, i) => (
             <Card
               key={service.id}
+              data-reveal="scale"
+              style={reveal(i)}
               className={
                 service.popular
-                  ? "relative border-[var(--accent)]/50 glow md:-translate-y-2"
-                  : ""
+                  ? "border-spin relative md:-translate-y-2"
+                  : "hover:-translate-y-1"
               }
             >
               {service.popular && (
@@ -191,15 +195,17 @@ export function SkillsSection({ skills }: { skills: Skill[] }) {
           description="Stack modern yang saya pakai sehari-hari untuk membangun produk yang cepat, aman, dan siap produksi."
         />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {Object.entries(grouped).map(([category, items]) => {
+          {Object.entries(grouped).map(([category, items], i) => {
             const Icon = SKILL_ICONS[category] ?? Code;
             return (
               <Card
                 key={category}
-                className="overflow-hidden transition-colors hover:border-[var(--accent)]/50"
+                data-reveal=""
+                style={reveal(i)}
+                className="group overflow-hidden hover:-translate-y-1"
               >
                 <div className="flex items-center gap-2.5 border-b border-[var(--border)] px-5 py-3.5">
-                  <span className="grid h-8 w-8 place-items-center rounded-lg border border-[var(--border)] bg-[var(--border)]/30">
+                  <span className="grid h-8 w-8 place-items-center rounded-lg border border-[var(--border)] bg-[var(--glass)] text-[var(--accent)] transition-transform duration-500 group-hover:rotate-12">
                     <Icon size={15} />
                   </span>
                   <h3 className="text-[13px] font-semibold tracking-tight">
@@ -210,20 +216,28 @@ export function SkillsSection({ skills }: { skills: Skill[] }) {
                   </span>
                 </div>
                 <ul className="space-y-3 p-5">
-                  {items.map((skill) => (
-                    <li key={skill.id}>
+                  {items.map((skill, j) => (
+                    <li key={skill.id} style={reveal(j)}>
                       <div className="flex items-baseline justify-between gap-3">
                         <span className="text-[13px] font-medium">{skill.name}</span>
                         <span className="text-[11px] tabular-nums text-[var(--muted)]">
                           {skill.level}%
                         </span>
                       </div>
-                      <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-[var(--border)]">
-                        <div
-                          className="accent-gradient h-full rounded-full"
+                      <div
+                        role="meter"
+                        aria-label={`Penguasaan ${skill.name}`}
+                        aria-valuenow={skill.level}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        className="meter mt-1.5 h-1 overflow-hidden rounded-full bg-[var(--border)]"
+                      >
+                        <span
+                          className="accent-gradient block h-full rounded-full"
                           style={{
                             width: `${Math.min(100, Math.max(4, skill.level))}%`,
-                          }}
+                            ["--i" as string]: j,
+                          } as React.CSSProperties}
                         />
                       </div>
                     </li>
@@ -254,11 +268,18 @@ export function ExperienceSection({
           description="Pengalaman yang membentuk cara saya mengerjakan project."
         />
         <div className="relative">
-          <div className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px bg-[var(--border)]" />
-          <div className="space-y-8">
-            {experiences.map((exp) => (
-              <div key={exp.id} className="relative pl-9">
-                <span className="absolute left-0 top-1.5 grid h-[15px] w-[15px] place-items-center rounded-full border-2 border-[var(--accent)] bg-[var(--bg)]" />
+          <div aria-hidden className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px bg-[var(--border)]" />
+          <div
+            aria-hidden
+            data-reveal="fade"
+            className="grow-y absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px bg-gradient-to-b from-[var(--accent)] via-[var(--accent-2)] to-transparent"
+          />
+          <ol className="space-y-10">
+            {experiences.map((exp, i) => (
+              <li key={exp.id} data-reveal="right" style={reveal(i)} className="group relative pl-10">
+                <span aria-hidden className="absolute left-0 top-1.5 grid h-[15px] w-[15px] place-items-center rounded-full border-2 border-[var(--accent)] bg-[var(--bg)] transition-transform duration-300 group-hover:scale-125">
+                  <span className="h-1 w-1 rounded-full bg-[var(--accent)]" />
+                </span>
                 <p className="text-[11.5px] uppercase tracking-wider text-[var(--muted)]">
                   {exp.period}
                 </p>
@@ -271,9 +292,9 @@ export function ExperienceSection({
                     {exp.description}
                   </p>
                 )}
-              </div>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </Container>
     </Section>
