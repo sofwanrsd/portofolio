@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Automation Bot">
+<defs>
+<radialGradient id="g1" cx="85%" cy="0%" r="75%"><stop offset="0" stop-color="#ff6b1a" stop-opacity=".38"/><stop offset="1" stop-color="#ff6b1a" stop-opacity="0"/></radialGradient>
+<radialGradient id="g2" cx="0%" cy="100%" r="60%"><stop offset="0" stop-color="#ffb54d" stop-opacity=".14"/><stop offset="1" stop-color="#ffb54d" stop-opacity="0"/></radialGradient>
+<linearGradient id="ac" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb54d"/><stop offset="1" stop-color="#ff6b1a"/></linearGradient>
+<pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="#ffffff" stroke-opacity=".035"/></pattern>
+</defs>
+<rect width="1600" height="1000" fill="#0a0908"/>
+<rect width="1600" height="1000" fill="url(#grid)"/>
+<rect width="1600" height="1000" fill="url(#g1)"/>
+<rect width="1600" height="1000" fill="url(#g2)"/>
+<text x="96" y="120" fill="#a19a8f" font-family="ui-monospace,Menlo,monospace" font-size="22" letter-spacing="6">AUTOMATION / 2024</text>
+<g><rect x="300" y="220" width="1240" height="700" rx="28" fill="#14110e" stroke="#2a251f" stroke-width="2"/>
+<circle cx="336" cy="254" r="7" fill="#2a251f"/><circle cx="360" cy="254" r="7" fill="#2a251f"/><circle cx="384" cy="254" r="7" fill="#2a251f"/>
+<line x1="300" y1="288" x2="1540" y2="288" stroke="#2a251f" stroke-width="2"/><path d="M560 460 C650 460 660 340 760 340" stroke="#ff6b1a" stroke-width="4" fill="none"/><path d="M560 460 C650 460 660 600 760 600" stroke="#2a251f" stroke-width="4" fill="none"/><path d="M900 340 C1000 340 1000 470 1100 470" stroke="#ff6b1a" stroke-width="4" fill="none"/><path d="M900 600 C1000 600 1000 470 1100 470" stroke="#2a251f" stroke-width="4" fill="none"/><rect x="420" y="420" width="140" height="80" rx="18" fill="#0a0908" stroke="#ff6b1a" stroke-width="2"/><circle cx="450" cy="460" r="10" fill="#ff6b1a"/><rect x="472" y="453" width="70" height="14" rx="7" fill="#f4efe7" opacity=".8"/><rect x="760" y="300" width="140" height="80" rx="18" fill="#0a0908" stroke="#2a251f" stroke-width="2"/><circle cx="790" cy="340" r="10" fill="#a19a8f"/><rect x="812" y="333" width="70" height="14" rx="7" fill="#f4efe7" opacity=".8"/><rect x="760" y="560" width="140" height="80" rx="18" fill="#0a0908" stroke="#2a251f" stroke-width="2"/><circle cx="790" cy="600" r="10" fill="#a19a8f"/><rect x="812" y="593" width="70" height="14" rx="7" fill="#f4efe7" opacity=".8"/><rect x="1100" y="430" width="140" height="80" rx="18" fill="#0a0908" stroke="#ff6b1a" stroke-width="2"/><circle cx="1130" cy="470" r="10" fill="#ff6b1a"/><rect x="1152" y="463" width="70" height="14" rx="7" fill="#f4efe7" opacity=".8"/><rect x="420" y="740" width="820" height="130" rx="18" fill="#0a0908" stroke="#2a251f" stroke-width="2"/><rect x="450" y="768" width="560" height="12" rx="6" fill="#a19a8f" opacity=".5"/><circle cx="1200" cy="774" r="6" fill="#ffb54d"/><rect x="450" y="798" width="440" height="12" rx="6" fill="#a19a8f" opacity=".5"/><circle cx="1200" cy="804" r="6" fill="#4ade80"/><rect x="450" y="828" width="320" height="12" rx="6" fill="#a19a8f" opacity=".5"/><circle cx="1200" cy="834" r="6" fill="#4ade80"/></g>
+</svg>

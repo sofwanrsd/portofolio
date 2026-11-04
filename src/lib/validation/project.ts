@@ -10,7 +10,7 @@ export const projectSchema = z.object({
   slug: optionalText(80),
   summary: z.string().trim().min(10, "Ringkasan minimal 10 karakter").max(400),
   description: optionalText(20000),
-  category: z.enum(["web", "ui", "automation", "mobile", "other"]),
+  category: z.enum(["web", "ui", "automation", "mobile", "ai", "other"]),
   cover_image: optionalText(500),
   gallery: urlListSchema.default([]),
   stack: tagListSchema.default([]),

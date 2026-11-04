@@ -40,6 +40,7 @@ export const RESOURCES: Record<string, ResourceDef> = {
         { value: "ui", label: "UI/UX" },
         { value: "automation", label: "Automation" },
         { value: "mobile", label: "Mobile" },
+        { value: "ai", label: "AI" },
         { value: "other", label: "Lainnya" },
       ], default: "web" },
       { name: "cover_image", label: "URL Cover Image", type: "text", placeholder: "https://... (kosongkan untuk placeholder otomatis)" },

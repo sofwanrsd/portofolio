@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Analytics Dashboard">
+<defs>
+<radialGradient id="g1" cx="85%" cy="0%" r="75%"><stop offset="0" stop-color="#ff6b1a" stop-opacity=".38"/><stop offset="1" stop-color="#ff6b1a" stop-opacity="0"/></radialGradient>
+<radialGradient id="g2" cx="0%" cy="100%" r="60%"><stop offset="0" stop-color="#ffb54d" stop-opacity=".14"/><stop offset="1" stop-color="#ffb54d" stop-opacity="0"/></radialGradient>
+<linearGradient id="ac" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb54d"/><stop offset="1" stop-color="#ff6b1a"/></linearGradient>
+<pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="#ffffff" stroke-opacity=".035"/></pattern>
+</defs>
+<rect width="1600" height="1000" fill="#0a0908"/>
+<rect width="1600" height="1000" fill="url(#grid)"/>
+<rect width="1600" height="1000" fill="url(#g1)"/>
+<rect width="1600" height="1000" fill="url(#g2)"/>
+<text x="96" y="120" fill="#a19a8f" font-family="ui-monospace,Menlo,monospace" font-size="22" letter-spacing="6">ANALYTICS / 2025</text>
+<g><rect x="300" y="220" width="1240" height="700" rx="28" fill="#14110e" stroke="#2a251f" stroke-width="2"/>
+<circle cx="336" cy="254" r="7" fill="#2a251f"/><circle cx="360" cy="254" r="7" fill="#2a251f"/><circle cx="384" cy="254" r="7" fill="#2a251f"/>
+<line x1="300" y1="288" x2="1540" y2="288" stroke="#2a251f" stroke-width="2"/><rect x="360" y="300" width="285" height="150" rx="18" fill="#0a0908" stroke="#2a251f" stroke-width="2"/><rect x="388" y="332" width="90" height="12" rx="6" fill="#a19a8f" opacity=".5"/><rect x="388" y="372" width="150" height="34" rx="8" fill="#f4efe7" opacity=".9"/><rect x="665" y="300" width="285" height="150" rx="18" fill="#0a0908" stroke="#2a251f" stroke-width="2"/><rect x="693" y="332" width="90" height="12" rx="6" fill="#a19a8f" opacity=".5"/><rect x="693" y="372" width="130" height="34" rx="8" fill="#f4efe7" opacity=".9"/><rect x="970" y="300" width="285" height="150" rx="18" fill="#0a0908" stroke="#2a251f" stroke-width="2"/><rect x="998" y="332" width="90" height="12" rx="6" fill="#a19a8f" opacity=".5"/><rect x="998" y="372" width="110" height="34" rx="8" fill="#f4efe7" opacity=".9"/><path d="M360,860 L450,820 L540,840 L630,760 L720,780 L810,710 L900,730 L990,660 L1080,680 L1170,620 L1260,640 L1260,860 L360,860 Z" fill="url(#ac)" opacity=".18"/><path d="M360,860 L450,820 L540,840 L630,760 L720,780 L810,710 L900,730 L990,660 L1080,680 L1170,620 L1260,640" fill="none" stroke="url(#ac)" stroke-width="6" stroke-linejoin="round"/><rect x="1300" y="320" width="170" height="30" rx="8" fill="#ff6b1a" opacity="1"/><rect x="1300" y="378" width="142" height="30" rx="8" fill="#2a251f" opacity="0.9"/><rect x="1300" y="436" width="114" height="30" rx="8" fill="#2a251f" opacity="0.9"/><rect x="1300" y="494" width="86" height="30" rx="8" fill="#2a251f" opacity="0.9"/><rect x="1300" y="552" width="58" height="30" rx="8" fill="#2a251f" opacity="0.9"/></g>
+</svg>
