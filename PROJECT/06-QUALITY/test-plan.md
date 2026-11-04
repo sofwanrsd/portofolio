@@ -36,13 +36,13 @@ Dokumen ini mendefinisikan strategi pengujian Portfolio CMS: cakupan, level peng
 | Tool | Peran | Perintah |
 |---|---|---|
 | TypeScript Compiler | Validasi tipe seluruh repo | `npx tsc --noEmit` |
-| ESLint | KodeCONSistensi & best practice | `npx next lint` |
+| ESLint | Konsistensi kode & best practice | `npx next lint` |
 | Next.js Build | Gate produksi (menangkap masalah bundling/SSR) | `npx next build` |
-| Node test runner | Unit test tanpa dependensi tambahan | `node --test` / `tsx --test` |
+| Vitest | Unit test logika murni (environment `node`) | `npm test` |
 | Manual + DevTools | E2E, responsif, audit Lighthouse | — |
 | `curl` | Uji kontrak API | — |
 
-> Proyek v1 belum memasang framework test otomatis (Vitest/Playwright) agar dependensi tetap ringan dan build di Vercel cepat. Struktur test case di bawah sudah disiapkan agar dapat langsung diimplementasikan sebagai file `*.test.ts` saat ransom v2.02.
+> **Status implementasi:** Vitest sudah terpasang (`vitest.config.ts`) dengan 60 unit test di 5 berkas: `src/lib/slug.test.ts`, `src/lib/format.test.ts`, `src/lib/rate-limit.test.ts`, `src/lib/validation/schemas.test.ts`, dan `src/lib/contact.test.ts`. Seluruh tes berjalan tanpa database sehingga aman dijalankan di CI. E2E otomatis (Playwright) belum dipasang — bagian manual di §6 masih menjadi acuan.
 
 ## 3. Level 1 — Unit Test
 

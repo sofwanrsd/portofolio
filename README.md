@@ -126,6 +126,29 @@ Buka http://localhost:3000 — admin tersedia di http://localhost:3000/admin/log
 | `npm run db:setup` | Skema + seed + buat akun admin |
 | `npm run db:seed` | Isi ulang data seed (tidak menghapus data) |
 | `npm run db:reset` | Hapus tabel, lalu setup ulang (**hapus data**) |
+| `npm test` | Unit test Vitest (60 tes, sekali jalan) |
+| `npm run test:watch` | Unit test mode watch |
+
+---
+
+## Pengujian
+
+Unit test memakai **Vitest** (tanpa DOM, environment `node`) dan mencakup 5 berkas:
+
+| Berkas | Cakupan |
+|---|---|
+| `src/lib/slug.test.ts` | Normalisasi slug, aksen, pemotongan 80 karakter |
+| `src/lib/format.test.ts` | Tanggal Indonesia, parsing nominal (`2.500.000`), harga, excerpt, waktu baca |
+| `src/lib/rate-limit.test.ts` | Sliding window, penolakan tanpa perpanjangan jendela, `reset`, `sweep` |
+| `src/lib/validation/schemas.test.ts` | Skema Zod project/post/service/message termasuk honeypot |
+| `src/lib/contact.test.ts` | Validasi form kontak + kuota rate limit per IP |
+
+```bash
+npm test          # sekali jalan
+npm run test:watch
+```
+
+Tes ini murni logika (tanpa database), sehingga aman dijalankan di CI tanpa `DATABASE_URL`. Untuk integration/E2E, lihat `PROJECT/06-QUALITY/test-plan.md`.
 
 ---
 
@@ -156,6 +179,8 @@ portfolio/
 │   │   ├── globals.css
 │   │   ├── sitemap.ts
 │   │   ├── robots.ts
+│   │   ├── icon.svg            # Favicon
+│   │   ├── opengraph-image.tsx # OG image dinamis (fallback seo.ogImage)
 │   │   └── not-found.tsx
 │   ├── components/
 │   │   ├── sections/            # Section beranda
@@ -178,9 +203,10 @@ portfolio/
 │   │   └── utils.ts             # cn + re-export helper
 │   └── middleware.ts            # Proteksi rute /admin
 ├── PROJECT/                     # Dokumentasi lengkap (21 dokumen)
-├── .env.example
+├── .env.example                 # Template env (salin ke .env.local)
 ├── next.config.ts
 ├── postcss.config.mjs
+├── vitest.config.ts             # Konfigurasi unit test
 └── tsconfig.json
 ```
 

@@ -22,7 +22,8 @@ describe("slugify", () => {
   it("mengembalikan string kosong bila tidak ada karakter valid", () => {
     expect(slugify("")).toBe("");
     expect(slugify("!!!")).toBe("");
-    expect(slugify("日本語")).toBe("");
+    // Teks non-latin (karakter Jepang) tidak menyisakan karakter valid.
+    expect(slugify("\u65e5\u672c\u8a9e")).toBe("");
   });
 
   it("membatasi panjang maksimum 80 karakter tanpa tanda hubung menggantung", () => {
