@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Github, Globe } from "lucide-react";
+import { Globe } from "lucide-react";
+import { Github } from "@/components/brand-icons";
 import type { Project } from "@/lib/types";
 import { Badge, Card, reveal } from "@/components/ui";
 

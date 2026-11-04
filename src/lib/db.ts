@@ -6,6 +6,10 @@ import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
  *
  * `fullResults: true` wajib: tanpa opsi itu driver mengembalikan array baris
  * saja, sehingga pembacaan `.rows` / `.rowCount` di bawah selalu kosong.
+ *
+ * Sejak @neondatabase/serverless 1.0, query dengan teks + parameter wajib
+ * lewat `client.query(text, params)`. Memanggil `client(text, params)` seperti
+ * fungsi biasa sekarang error, karena rawan SQL injection.
  */
 let client: NeonQueryFunction<false, true> | null = null;
 
@@ -55,7 +59,7 @@ export async function query<T = Record<string, unknown>>(
   const client = getSql();
   if (!client) return [];
   try {
-    const res = await client(text, params as never[]);
+    const res = await client.query(text, params);
     return (res.rows ?? []) as T[];
   } catch (error) {
     console.error("[db] query error:", (error as Error).message);
@@ -79,7 +83,7 @@ export async function execute(
 ): Promise<{ rowCount: number }> {
   const client = getSql();
   if (!client) throw new Error("DATABASE_URL belum di-set");
-  const res = await client(text, params as never[]);
+  const res = await client.query(text, params);
   return { rowCount: res.rowCount ?? 0 };
 }
 

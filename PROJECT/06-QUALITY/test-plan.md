@@ -42,7 +42,7 @@ Dokumen ini mendefinisikan strategi pengujian Portfolio CMS: cakupan, level peng
 | Manual + DevTools | E2E, responsif, audit Lighthouse |: |
 | `curl` | Uji kontrak API |: |
 
-> **Status implementasi:** Vitest sudah terpasang (`vitest.config.ts`) dengan 60 unit test di 5 berkas: `src/lib/slug.test.ts`, `src/lib/format.test.ts`, `src/lib/rate-limit.test.ts`, `src/lib/validation/schemas.test.ts`, dan `src/lib/contact.test.ts`. Seluruh tes berjalan tanpa database sehingga aman dijalankan di CI. E2E otomatis (Playwright) belum dipasang: bagian manual di §6 masih menjadi acuan.
+> **Status implementasi:** Vitest 5 sudah terpasang (`vitest.config.mts`) dengan 74 unit test di 7 berkas: `src/lib/slug.test.ts`, `src/lib/format.test.ts`, `src/lib/rate-limit.test.ts`, `src/lib/validation/schemas.test.ts`, `src/lib/contact.test.ts`, `src/lib/budget.test.ts`, dan `src/lib/api-filters.test.ts`. Seluruh tes berjalan tanpa database sehingga aman dijalankan di CI. E2E otomatis (Playwright) belum dipasang: bagian manual di §6 masih menjadi acuan.
 
 ## 3. Level 1: Unit Test
 

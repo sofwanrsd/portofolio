@@ -64,7 +64,7 @@ function coerceValue(field: FieldSchema, raw: string | undefined): unknown {
  * tetap memakai definisi field; skema Zod menambah aturan domain
  * (batas panjang, enum kategori, format URL, dan sejenisnya).
  */
-const SCHEMAS: Record<string, z.ZodTypeAny> = {
+const SCHEMAS: Record<string, z.ZodType> = {
   projects: projectSchema,
   posts: postSchema,
   services: serviceSchema,

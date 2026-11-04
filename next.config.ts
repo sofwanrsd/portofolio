@@ -13,12 +13,8 @@ const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR || ".next",
   // Jangan bocorkan versi framework lewat header X-Powered-By.
   poweredByHeader: false,
-  images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "**" },
-      { protocol: "http", hostname: "**" },
-    ],
-  },
+  // Tidak ada images.remotePatterns: situs memakai <img> biasa, bukan next/image.
+  // Pola "**" sebelumnya membuka image optimizer untuk domain mana pun.
   async headers() {
     return [
       {

@@ -1,16 +1,13 @@
-import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
 
 /**
  * Konfigurasi Vitest untuk unit test logika murni (slug, validasi, format,
- * rate limiter, kontak). Alias `@` disamakan dengan tsconfig agar import
- * `@/lib/...` tetap valid tanpa build tambahan.
+ * rate limiter, kontak, filter API). Alias `@/` dibaca langsung dari
+ * tsconfig.json lewat dukungan bawaan Vite, jadi tidak perlu ditulis ulang.
  */
 export default defineConfig({
   resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
-    },
+    tsconfigPaths: true,
   },
   test: {
     environment: "node",

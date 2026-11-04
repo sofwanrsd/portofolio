@@ -211,12 +211,12 @@ portfolio/
 │   │   ├── revalidate.ts        # Invalidasi cache Next.js
 │   │   ├── types.ts             # Interface TypeScript
 │   │   └── utils.ts             # cn + re-export helper
-│   └── middleware.ts            # Proteksi rute /admin
+│   └── proxy.ts                 # Proteksi rute /admin (dulu middleware.ts)
 ├── PROJECT/                     # Dokumentasi lengkap (21 dokumen)
 ├── .env.example                 # Template env (salin ke .env.local)
 ├── next.config.ts
 ├── postcss.config.mjs
-├── vitest.config.ts             # Konfigurasi unit test
+├── vitest.config.mts            # Konfigurasi unit test
 └── tsconfig.json
 ```
 
@@ -235,8 +235,8 @@ Rincian kolom, index, dan relasi: [`PROJECT/04-ARCHITECTURE/database-schema.md`]
 1. Admin login melalui `/admin/login`, lalu password diverifikasi dengan **bcrypt**.
 2. Server membuat **JWT HS256** (JOSE) berisi `userId`, `email`, `role`, `exp` 7 hari.
 3. Token disimpan di cookie **`portfolio_session`**: `HttpOnly`, `SameSite=Lax`, `Secure` (production).
-4. `src/middleware.ts` memverifikasi JWT untuk seluruh rute `/admin/*` dan mengarahkan ke login bila tidak valid.
-5. Server action admin selalu memanggil `requireAdmin()`: proteksi berlapis, bukan hanya di middleware.
+4. `src/proxy.ts` (nama baru middleware di Next 16) memverifikasi JWT untuk seluruh rute `/admin/*` dan mengarahkan ke login bila tidak valid.
+5. Server action admin selalu memanggil `requireAdmin()`: proteksi berlapis, bukan hanya di proxy.
 
 ---
 

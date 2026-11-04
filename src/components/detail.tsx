@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Github, Globe } from "lucide-react";
+import { Globe } from "lucide-react";
+import { Github } from "@/components/brand-icons";
 import { Badge, Button, Card, Container, Section, SplitWords, reveal } from "@/components/ui";
 import { PostCard } from "@/components/sections/content";
 import { ProjectCard } from "@/components/project-card";

@@ -34,7 +34,7 @@ async function main() {
 
   console.log("→ Menjalankan db/seed.sql ...");
   for (const statement of splitStatements(seed)) {
-    await sql(statement);
+    await sql.query(statement);
   }
   console.log("  ✓ seed selesai");
 }

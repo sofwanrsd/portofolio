@@ -15,7 +15,7 @@ export const optionalText = (max: number) =>
 
 /** Daftar URL dipisah baris baru; setiap item divalidasi sebagai URL. */
 export const urlListSchema = z
-  .union([z.array(z.string().trim().url()), z.string()])
+  .union([z.array(z.string().trim().pipe(z.url())), z.string()])
   .transform((value) =>
     Array.isArray(value)
       ? value
@@ -24,7 +24,7 @@ export const urlListSchema = z
           .map((line) => line.trim())
           .filter(Boolean)
   )
-  .pipe(z.array(z.string().trim().url()));
+  .pipe(z.array(z.string().trim().pipe(z.url())));
 
 /** Daftar tag dipisah baris baru. */
 export const tagListSchema = z

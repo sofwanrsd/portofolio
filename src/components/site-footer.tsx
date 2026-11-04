@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Github, Linkedin, Twitter, Instagram, Youtube, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
+import { Github, Instagram, Linkedin, Twitter, Youtube } from "@/components/brand-icons";
 import type { AppSettings } from "@/lib/types";
 
 const SOCIAL_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {

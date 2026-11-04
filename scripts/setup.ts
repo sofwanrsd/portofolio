@@ -51,13 +51,13 @@ async function main() {
   console.log("→ Membaca db/schema.sql ...");
   const schema = await readFile(join(ROOT, "db", "schema.sql"), "utf-8");
   for (const statement of splitStatements(schema)) {
-    await sql(statement);
+    await sql.query(statement);
   }
   console.log("  ✓ skema siap");
 
   if (reset) {
     console.log("→ Reset data (--reset) ...");
-    await sql(
+    await sql.query(
       "TRUNCATE projects, posts, services, experiences, skills, testimonials, messages, settings RESTART IDENTITY CASCADE"
     );
   }
@@ -66,7 +66,7 @@ async function main() {
   const seed = await readFile(join(ROOT, "db", "seed.sql"), "utf-8");
   for (const statement of splitStatements(seed)) {
     try {
-      await sql(statement);
+      await sql.query(statement);
     } catch (error) {
       // Seed memakai ON CONFLICT DO NOTHING; error lain tetap fatal.
       console.error(`  ! Gagal: ${(error as Error).message}`);
@@ -85,7 +85,7 @@ async function main() {
   } else {
     console.log(`→ Menyiapkan akun admin: ${email}`);
     const hash = await bcrypt.hash(password, 10);
-    await sql(
+    await sql.query(
       `INSERT INTO users (email, name, password_hash, role)
        VALUES ($1, $2, $3, 'admin')
        ON CONFLICT (email) DO UPDATE
