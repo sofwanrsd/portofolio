@@ -32,7 +32,7 @@ export function SiteFooter({ settings }: { settings: AppSettings }) {
               </span>
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
-              {footer.tagline || site.description}
+              {footer.tagline || site.tagline}
             </p>
             {socialEntries.length > 0 && (
               <div className="mt-5 flex items-center gap-2">
