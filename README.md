@@ -97,6 +97,12 @@ openssl rand -hex 32      # REVALIDATE_SECRET
 
 > Gunakan **pooled** connection string (mengandung `-pooler.`), bukan direct connection.
 
+> **Postgres lokal?** Driver `@neondatabase/serverless` hanya bicara HTTP/HTTPS ke
+> `https://<host>/sql` — tidak ada koneksi TCP seperti driver `pg`. Jadi `DATABASE_URL`
+> harus menunjuk endpoint Neon (atau Postgres ber-protokol HTTP seperti Neon Local).
+> Menembak Postgres biasa dari `docker run` butuh jembatan HTTP tambahan di port 443
+> plus `NODE_TLS_REJECT_UNAUTHORIZED=0` bila sertifikatnya self-signed.
+
 Inisialisasi database:
 
 ```bash
