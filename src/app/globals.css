@@ -1,0 +1,223 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, monospace;
+
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+
+  --radius-card: 14px;
+}
+
+:root {
+  --accent: #6366f1;
+  --accent-2: #22d3ee;
+  --radius-base: 14px;
+  --bg: #09090b;
+  --fg: #fafafa;
+  --muted: #a1a1aa;
+  --border: #27272a;
+  --card: #111113;
+  --grid-line: rgba(255, 255, 255, 0.045);
+}
+
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --fg: #09090b;
+  --muted: #52525b;
+  --border: #e4e4e7;
+  --card: #ffffff;
+  --grid-line: rgba(0, 0, 0, 0.045);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 40%, transparent);
+  color: #fff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--border) 90%, transparent);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--accent) 60%, var(--border));
+}
+
+/* Grid background */
+.bg-grid {
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: center;
+}
+
+.bg-grid-mask {
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+.text-gradient {
+  background: linear-gradient(
+    120deg,
+    var(--fg) 0%,
+    var(--fg) 45%,
+    var(--accent) 85%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.accent-gradient {
+  background: linear-gradient(
+    120deg,
+    var(--accent) 0%,
+    var(--accent-2) 100%
+  );
+}
+
+.glow {
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent) 22%, transparent),
+    0 18px 60px -20px color-mix(in oklab, var(--accent) 45%, transparent);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-base);
+}
+
+.hairline {
+  border-bottom: 1px solid var(--border);
+}
+
+/* Prose untuk artikel */
+.prose-custom {
+  color: color-mix(in oklab, var(--fg) 82%, var(--muted));
+  line-height: 1.75;
+}
+.prose-custom h2 {
+  color: var(--fg);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+.prose-custom h3 {
+  color: var(--fg);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.prose-custom p {
+  margin-bottom: 1.1rem;
+}
+.prose-custom a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-custom ul {
+  list-style: disc;
+  padding-left: 1.4rem;
+  margin-bottom: 1.1rem;
+}
+.prose-custom ol {
+  list-style: decimal;
+  padding-left: 1.4rem;
+  margin-bottom: 1.1rem;
+}
+.prose-custom li {
+  margin-bottom: 0.4rem;
+}
+.prose-custom code {
+  background: color-mix(in oklab, var(--border) 70%, transparent);
+  padding: 0.15rem 0.4rem;
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+.prose-custom pre {
+  background: color-mix(in oklab, var(--border) 55%, var(--bg));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+  margin-bottom: 1.25rem;
+}
+.prose-custom pre code {
+  background: transparent;
+  padding: 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.prose-custom blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1rem;
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+}
+.prose-custom hr {
+  border-color: var(--border);
+  margin: 2rem 0;
+}
+.prose-custom table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+.prose-custom th,
+.prose-custom td {
+  border: 1px solid var(--border);
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+}
+.prose-custom th {
+  background: color-mix(in oklab, var(--border) 40%, transparent);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

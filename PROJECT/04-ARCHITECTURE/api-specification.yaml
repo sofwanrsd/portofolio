@@ -1,0 +1,502 @@
+openapi: 3.1.0
+
+info:
+  title: Portfolio CMS API
+  version: 1.0.0
+  description: |
+    API publik read-only untuk website portofolio, plus endpoint penulisan pesan
+    kontak dan endpoint revalidasi internal.
+
+    **Autentikasi**
+    - Endpoint publik (`/api/projects`, `/api/posts`, `/api/services`, `/api/settings/public`) tidak memerlukan autentikasi.
+    - `POST /api/messages` tidak memerlukan autentikasi, tetapi dilindungi rate limit (5 permintaan / 10 menit per IP).
+    - `POST /api/revalidate` memerlukan header `x-revalidate-secret` yang cocok dengan env var `REVALIDATE_SECRET`.
+
+    **Rate limit**
+    - Header respons `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` dikirim pada endpoint pesan.
+
+    **Error shape**
+    Semua error memakai objek `{ "error": string, "details"?: object }` dengan status HTTP sesuai.
+  contact:
+    name: Portfolio Owner
+  license:
+    name: UNLICENSED
+
+servers:
+  - url: https://your-portfolio.vercel.app
+    description: Production
+  - url: http://localhost:3000
+    description: Local development
+
+tags:
+  - name: Content
+    description: Data showcase publik
+  - name: Contact
+    description: Pengiriman pesan inquiry
+  - name: Internal
+    description: Endpoint internal untuk revalidasi cache
+
+paths:
+  /api/projects:
+    get:
+      tags: [Content]
+      summary: Daftar project yang dipublikasikan
+      operationId: listProjects
+      security: []
+      responses:
+        "200":
+          description: Berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/Project" }
+                  count:
+                    type: integer
+                    example: 6
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /api/projects/{slug}:
+    get:
+      tags: [Content]
+      summary: Detail satu project
+      operationId: getProject
+      security: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema: { type: string }
+          example: toko-online
+      responses:
+        "200":
+          description: Berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Project" }
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/posts:
+    get:
+      tags: [Content]
+      summary: Daftar artikel yang dipublikasikan
+      operationId: listPosts
+      security: []
+      parameters:
+        - name: tag
+          in: query
+          required: false
+          description: Filter berdasarkan tag
+          schema: { type: string }
+      responses:
+        "200":
+          description: Berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/Post" }
+                  count:
+                    type: integer
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /api/services:
+    get:
+      tags: [Content]
+      summary: Daftar paket layanan yang dipublikasikan
+      operationId: listServices
+      security: []
+      responses:
+        "200":
+          description: Berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/Service" }
+                  count:
+                    type: integer
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /api/settings/public:
+    get:
+      tags: [Content]
+      summary: Pengaturan situs yang aman dipublikasikan
+      description: Tidak menyertakan data sensitif (tidak ada kredensial, hash, atau isi database).
+      operationId: getPublicSettings
+      security: []
+      responses:
+        "200":
+          description: Berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      site: { $ref: "#/components/schemas/SiteSettings" }
+                      theme: { $ref: "#/components/schemas/ThemeSettings" }
+                      sections: { $ref: "#/components/schemas/SectionSettings" }
+                      socials: { $ref: "#/components/schemas/SocialSettings" }
+                      features: { $ref: "#/components/schemas/FeatureSettings" }
+                      footer: { $ref: "#/components/schemas/FooterSettings" }
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /api/messages:
+    post:
+      tags: [Contact]
+      summary: Kirim pesan inquiry
+      description: |
+        Menyimpan pesan dari form kontak. Divalidasi dengan Zod di server.
+        Honeypot `website` harus kosong. Dibatasi 5 permintaan per 10 menit per IP.
+      operationId: createMessage
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateMessageInput" }
+            examples:
+              valid:
+                value:
+                  name: Budi Santoso
+                  email: budi@contoh.id
+                  subject: Butuh toko online
+                  budget: "5-10jt"
+                  message: "Halo, saya butuh website toko online sederhana."
+                  website: ""
+      responses:
+        "201":
+          description: Pesan tersimpan
+          headers:
+            X-RateLimit-Limit:
+              description: Batas permintaan dalam jendela 10 menit.
+              schema: { type: integer, example: 5 }
+            X-RateLimit-Remaining:
+              description: Sisa kuota yang tersedia.
+              schema: { type: integer, example: 4 }
+            X-RateLimit-Reset:
+              description: Epoch detik saat jendela berikutnya bergeser.
+              schema: { type: integer, example: 1762200000 }
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      ok: { type: boolean, example: true }
+                      message: { type: string, example: "Pesan berhasil dikirim." }
+        "400":
+          description: Body bukan JSON valid
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+        "422":
+          description: Validasi gagal
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ValidationError" }
+        "429":
+          description: Rate limit terlampaui
+          headers:
+            X-RateLimit-Limit:
+              description: Batas permintaan dalam jendela 10 menit.
+              schema: { type: integer, example: 5 }
+            X-RateLimit-Remaining:
+              description: Sisa kuota (0 saat terlampaui).
+              schema: { type: integer, example: 0 }
+            X-RateLimit-Reset:
+              description: Epoch detik saat jendela berikutnya bergeser.
+              schema: { type: integer, example: 1762200000 }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+
+  /api/revalidate:
+    post:
+      tags: [Internal]
+      summary: Trigger revalidasi cache
+      description: Mengosongkan cache seluruh route. Memerlukan header `x-revalidate-secret`.
+      operationId: revalidate
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: x-revalidate-secret
+          in: header
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Cache direvalidasi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revalidated: { type: boolean, example: true }
+                  at: { type: string, format: date-time }
+        "401":
+          description: Secret tidak cocok
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+
+  /api/health:
+    get:
+      tags: [Internal]
+      summary: Health check
+      operationId: health
+      security: []
+      responses:
+        "200":
+          description: Layanan sehat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: "ok" }
+                  database: { type: string, enum: [connected, not_configured], example: connected }
+                  timestamp: { type: string, format: date-time }
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-revalidate-secret
+      description: Nilainya harus sama dengan env var `REVALIDATE_SECRET`.
+
+  responses:
+    NotFound:
+      description: Data tidak ditemukan
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    InternalError:
+      description: Kesalahan server
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+          example: "Unauthorized"
+
+    ValidationError:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+          example: "Data tidak valid."
+        details:
+          type: object
+          additionalProperties:
+            type: array
+            items: { type: string }
+          example:
+            email: ["Email tidak valid"]
+            message: ["Pesan minimal 10 karakter"]
+
+    CreateMessageInput:
+      type: object
+      required: [name, email, message]
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: Budi Santoso
+        email:
+          type: string
+          format: email
+          maxLength: 160
+          example: budi@contoh.id
+        subject:
+          type: string
+          maxLength: 160
+          example: Butuh toko online
+        budget:
+          type: string
+          maxLength: 80
+          example: "5-10jt"
+        message:
+          type: string
+          minLength: 10
+          maxLength: 5000
+          example: "Halo, saya butuh website toko online sederhana."
+        website:
+          type: string
+          maxLength: 0
+          description: Honeypot. Harus kosong.
+          example: ""
+
+    Project:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        slug: { type: string, example: toko-online }
+        title: { type: string, example: Toko Online Sederhana }
+        summary: { type: string }
+        description: { type: string }
+        category: { type: string, enum: [web, ui, automation, mobile, other] }
+        cover_image: { type: string, format: uri }
+        gallery:
+          type: array
+          items: { type: string, format: uri }
+        stack:
+          type: array
+          items: { type: string }
+          example: ["Next.js", "PostgreSQL", "Tailwind"]
+        repo_url: { type: string, format: uri }
+        live_url: { type: string, format: uri }
+        client: { type: string }
+        year: { type: string, example: "2025" }
+        featured: { type: boolean }
+        published: { type: boolean }
+        sort_order: { type: integer }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+
+    Post:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        slug: { type: string }
+        title: { type: string }
+        excerpt: { type: string }
+        content: { type: string }
+        cover_image: { type: string, format: uri }
+        tags:
+          type: array
+          items: { type: string }
+        published: { type: boolean }
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+
+    Service:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        slug: { type: string }
+        title: { type: string, example: Paket Pro }
+        description: { type: string }
+        price_label: { type: string, example: mulai dari }
+        price_value: { type: string, example: "7500000" }
+        currency: { type: string, enum: [IDR, USD, EUR] }
+        features:
+          type: array
+          items: { type: string }
+        icon: { type: string, enum: [rocket, globe, code, briefcase] }
+        popular: { type: boolean }
+        published: { type: boolean }
+        sort_order: { type: integer }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+
+    SiteSettings:
+      type: object
+      properties:
+        name: { type: string }
+        tagline: { type: string }
+        description: { type: string }
+        logoText: { type: string, maxLength: 2 }
+        email: { type: string }
+        phone: { type: string }
+        location: { type: string }
+        availability: { type: string }
+        showAvailability: { type: boolean }
+        heroTitle: { type: string }
+        heroSubtitle: { type: string }
+        heroCtaText: { type: string }
+        heroCtaLink: { type: string }
+        heroSecondaryText: { type: string }
+        heroSecondaryLink: { type: string }
+
+    ThemeSettings:
+      type: object
+      properties:
+        accent: { type: string, pattern: "^#[0-9a-fA-F]{6}$", example: "#6366f1" }
+        accentSecondary: { type: string, pattern: "^#[0-9a-fA-F]{6}$", example: "#22d3ee" }
+        mode: { type: string, enum: [dark, light] }
+        font: { type: string }
+        radius: { type: string, enum: [soft, sharp, round] }
+        showGrid: { type: boolean }
+
+    SectionSettings:
+      type: object
+      properties:
+        hero: { type: boolean }
+        services: { type: boolean }
+        projects: { type: boolean }
+        about: { type: boolean }
+        skills: { type: boolean }
+        experience: { type: boolean }
+        testimonials: { type: boolean }
+        pricing: { type: boolean }
+        blog: { type: boolean }
+        cta: { type: boolean }
+        contact: { type: boolean }
+
+    SocialSettings:
+      type: object
+      properties:
+        github: { type: string }
+        linkedin: { type: string }
+        twitter: { type: string }
+        instagram: { type: string }
+        youtube: { type: string }
+        whatsapp: { type: string }
+
+    FeatureSettings:
+      type: object
+      properties:
+        hireMeEnabled: { type: boolean }
+        hireMeTitle: { type: string }
+        hireMeText: { type: string }
+        hireMeButtonText: { type: string }
+        hireMeButtonLink: { type: string }
+        showPricing: { type: boolean }
+        pricingTitle: { type: string }
+        pricingSubtitle: { type: string }
+        ctaTitle: { type: string }
+        ctaText: { type: string }
+        ctaButtonText: { type: string }
+
+    FooterSettings:
+      type: object
+      properties:
+        tagline: { type: string }
+        showCopyright: { type: boolean }
+        copyrightText: { type: string }
