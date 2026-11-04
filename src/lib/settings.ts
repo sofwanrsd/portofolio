@@ -13,10 +13,10 @@ export const defaultSettings: AppSettings = {
     location: "Jakarta, Indonesia",
     availability: "Tersedia untuk project baru",
     showAvailability: true,
-    heroTitle: "Saya bikin website yang enak dipakai dan enak dilihat.",
+    heroTitle: "Jaringan komputer dan pengembangan aplikasi.",
     heroSubtitle:
       "Full-stack developer dengan fokus pada performa, aksesibilitas, dan desain yang bersih.",
-    heroCtaText: "Lihat Project",
+    heroCtaText: "Lihat proyek",
     heroCtaLink: "/projects",
     heroSecondaryText: "Hubungi Saya",
     heroSecondaryLink: "/contact",
@@ -60,18 +60,18 @@ export const defaultSettings: AppSettings = {
   },
   features: {
     hireMeEnabled: true,
-    hireMeTitle: "Punya ide project?",
+    hireMeTitle: "Mari terhubung",
     hireMeText:
-      "Ceritakan kebutuhan Anda. Saya balas dalam 1x24 jam dengan estimasi harga dan timeline.",
+      "Hubungi saya untuk membahas kebutuhan teknis, kolaborasi, atau peluang profesional.",
     hireMeButtonText: "Mulai Diskusi",
     hireMeButtonLink: "/contact",
     showPricing: true,
     pricingTitle: "Paket Layanan",
     pricingSubtitle: "Harga transparan, tanpa biaya tersembunyi.",
-    ctaTitle: "Mari kerjakan project Anda",
+    ctaTitle: "Diskusikan proyek Anda",
     ctaText:
-      "Punya sesuatu yang ingin dibahas? Langsung saja, konsultasi gratis untuk project pertama.",
-    ctaButtonText: "Kontak Sekarang",
+      "Sampaikan kebutuhan Anda untuk mendiskusikan lingkup pekerjaan dan langkah selanjutnya.",
+    ctaButtonText: "Hubungi saya",
   },
   footer: {
     tagline: "",

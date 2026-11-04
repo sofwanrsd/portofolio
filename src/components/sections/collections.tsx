@@ -210,9 +210,9 @@ export function SkillsSection({ skills }: { skills: Skill[] }) {
     <Section id="skills">
       <Container>
         <SectionHeading
-          eyebrow="Skills"
-          title="Teknologi yang saya pakai"
-          description="Stack modern yang saya pakai sehari-hari untuk membangun produk yang cepat, aman, dan siap produksi."
+          eyebrow="Kompetensi"
+          title="Keterampilan teknis"
+          description="Teknologi dan keterampilan yang digunakan dalam proyek, perkuliahan, serta praktik kerja."
         />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {Object.entries(grouped).map(([category, items], i) => {
@@ -225,7 +225,7 @@ export function SkillsSection({ skills }: { skills: Skill[] }) {
                 className="group overflow-hidden hover:-translate-y-1"
               >
                 <div className="flex items-center gap-2.5 border-b border-[var(--border)] px-5 py-3.5">
-                  <span className="grid h-8 w-8 place-items-center rounded-lg border border-[var(--border)] bg-[var(--glass)] text-[var(--accent)] transition-transform duration-500 group-hover:rotate-12">
+                  <span className="grid h-8 w-8 place-items-center rounded-lg border border-[var(--border)] bg-[var(--glass)] text-[var(--accent)] transition-transform duration-500 group-hover:scale-105">
                     <Icon size={15} />
                   </span>
                   <h3 className="text-[13px] font-semibold tracking-tight">
@@ -235,31 +235,10 @@ export function SkillsSection({ skills }: { skills: Skill[] }) {
                     {items.length}
                   </span>
                 </div>
-                <ul className="space-y-3 p-5">
-                  {items.map((skill, j) => (
-                    <li key={skill.id} style={reveal(j)}>
-                      <div className="flex items-baseline justify-between gap-3">
-                        <span className="text-[13px] font-medium">{skill.name}</span>
-                        <span className="text-[11px] tabular-nums text-[var(--muted)]">
-                          {skill.level}%
-                        </span>
-                      </div>
-                      <div
-                        role="meter"
-                        aria-label={`Penguasaan ${skill.name}`}
-                        aria-valuenow={skill.level}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        className="meter mt-1.5 h-1 overflow-hidden rounded-full bg-[var(--border)]"
-                      >
-                        <span
-                          className="accent-gradient block h-full rounded-full"
-                          style={{
-                            width: `${Math.min(100, Math.max(4, skill.level))}%`,
-                            ["--i" as string]: j,
-                          } as React.CSSProperties}
-                        />
-                      </div>
+                <ul className="flex flex-wrap gap-2 p-5">
+                  {items.map((skill) => (
+                    <li key={skill.id} className="rounded-lg border border-[var(--border)] bg-[var(--glass)] px-3 py-2 text-[13px] font-medium">
+                      {skill.name}
                     </li>
                   ))}
                 </ul>
@@ -466,8 +445,8 @@ export function CertificationSection({ experiences }: { experiences: Experience[
       <Container>
         <SectionHeading
           eyebrow="Sertifikasi"
-          title="Sertifikasi & pelatihan"
-          description="Sertifikat kompetensi dan kelas yang sudah saya selesaikan, lengkap dengan penerbit dan tahun terbitnya."
+          title="Sertifikasi profesional"
+          description="Sertifikasi kompetensi dengan informasi penerbit dan tahun perolehan."
         />
         <ul className="grid gap-4 md:grid-cols-2">
           {certification.map((cert, i) => {

@@ -9,8 +9,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import type { AppSettings } from "@/lib/types";
 
 const ALL_NAV = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Project" },
+  { href: "/", label: "Beranda" },
+  { href: "/projects", label: "Proyek" },
   { href: "/services", label: "Layanan", section: "services" },
   { href: "/blog", label: "Blog", section: "blog" },
   { href: "/about", label: "Tentang" },
@@ -56,7 +56,7 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-0.5 md:flex">
+        <nav aria-label="Navigasi utama" className="hidden items-center gap-0.5 md:flex">
           {NAV.map((item) => {
             const active =
               item.href === "/"
@@ -66,8 +66,9 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
               <Link
                 key={item.href}
                 href={item.href}
+                aria-current={active ? "page" : undefined}
                 className={cn(
-                  "rounded-full px-3.5 py-2 text-[13.5px] font-medium transition-colors",
+                  "inline-flex min-h-11 items-center rounded-full px-3.5 py-2 text-[13.5px] font-medium transition-colors",
                   active
                     ? "bg-[var(--glass)] text-[var(--fg)] ring-1 ring-inset ring-[var(--border)]"
                     : "text-[var(--muted)] hover:text-[var(--fg)]"
@@ -87,7 +88,7 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
               pathname.startsWith("/contact") && "ring-2 ring-[var(--accent)]/40 ring-offset-2 ring-offset-[var(--bg)]"
             )}
           >
-            Hire Me
+            Hubungi saya
           </Link>
         </nav>
 
@@ -107,11 +108,12 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
 
       {open && (
         <div className="mx-auto mt-2 w-full max-w-6xl rounded-3xl border border-[var(--border)] bg-[var(--bg)]/95 p-3 backdrop-blur-xl md:hidden">
-          <nav className="flex flex-col gap-1">
+          <nav aria-label="Navigasi seluler" className="flex flex-col gap-1">
             {NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
+                aria-current={(item.href === "/" ? pathname === "/" : pathname.startsWith(item.href)) ? "page" : undefined}
                 className="rounded-2xl px-3 py-2.5 text-sm font-medium text-[var(--muted)] hover:bg-[var(--border)]/40 hover:text-[var(--fg)]"
               >
                 {item.label}
@@ -122,7 +124,7 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
               aria-current={pathname.startsWith("/contact") ? "page" : undefined}
               className="accent-gradient mt-1 rounded-2xl px-3 py-2.5 text-center text-sm font-semibold text-[var(--on-accent)]"
             >
-              Hire Me
+              Hubungi saya
             </Link>
           </nav>
         </div>

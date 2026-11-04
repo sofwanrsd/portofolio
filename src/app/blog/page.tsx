@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getSettings } from "@/lib/settings";
 import { getPosts } from "@/lib/data";
 import { PostCard } from "@/components/sections/content";
 import { Container, EmptyState, PageHeader, Section } from "@/components/ui";
@@ -12,6 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
+  const settings = await getSettings();
+  if (!settings.sections.blog) notFound();
   const posts = await getPosts();
   const [first, ...rest] = posts;
   const tags = new Set(posts.flatMap((p) => p.tags)).size;
@@ -20,10 +24,10 @@ export default async function BlogPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Writing"
+        eyebrow="Artikel"
         title="Catatan dari"
         accent="meja kerja."
-        description="Hal-hal yang saya pelajari saat membangun produk: performa, desain, database, dan cara bekerja dengan klien."
+        description="Catatan mengenai jaringan komputer, pemrograman, dan pengalaman mengerjakan proyek teknis."
         stats={[
           { label: "Artikel", value: posts.length },
           { label: "Topik", value: tags },
@@ -36,7 +40,7 @@ export default async function BlogPage() {
           {!first ? (
             <EmptyState
               title="Belum ada artikel"
-              description="Tulis artikel pertama Anda lewat panel admin."
+              description="Artikel akan ditampilkan setelah dipublikasikan."
             />
           ) : (
             <div className="space-y-5">

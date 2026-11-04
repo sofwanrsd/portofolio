@@ -54,7 +54,7 @@ export function ProjectCard({
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={project.cover_image}
-              alt={project.title}
+              alt={`Ilustrasi proyek ${project.title}`}
               className="h-full w-full object-cover"
               loading="lazy"
             />
@@ -87,12 +87,12 @@ export function ProjectCard({
             <div className="mt-4 flex items-center gap-3 text-[12px] text-[var(--muted)]">
               {project.live_url && (
                 <span className="inline-flex items-center gap-1">
-                  <Globe size={12} /> Live
+                  <Globe size={12} /> Situs
                 </span>
               )}
               {project.repo_url && (
                 <span className="inline-flex items-center gap-1">
-                  <Github size={12} /> Code
+                  <Github size={12} /> Kode
                 </span>
               )}
             </div>

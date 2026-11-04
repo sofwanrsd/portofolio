@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ClipboardList, PenTool, Code2, Rocket, Plus } from "lucide-react";
 import { getServices } from "@/lib/data";
 import { getSettings } from "@/lib/settings";
@@ -14,22 +15,24 @@ export const metadata: Metadata = {
 };
 
 const STEPS = [
-  { icon: ClipboardList, title: "Diskusi & brief", time: "1 sampai 3 hari", text: "Kita bahas tujuan, pengguna, dan ruang lingkup. Anda menerima estimasi harga dan timeline tertulis." },
-  { icon: PenTool, title: "Desain", time: "3 sampai 10 hari", text: "Wireframe lalu desain final di Figma. Revisi dilakukan di tahap ini, sebelum satu baris kode ditulis." },
-  { icon: Code2, title: "Pengembangan", time: "1 sampai 6 minggu", text: "Dibangun bertahap dengan URL preview. Anda bisa mencoba progres kapan saja dari ponsel." },
-  { icon: Rocket, title: "Rilis & serah terima", time: "1 sampai 2 hari", text: "Deploy ke domain Anda, pelatihan singkat, dan dokumentasi. Dukungan perbaikan 30 hari setelah rilis." },
+  { icon: ClipboardList, title: "Diskusi & brief", time: "Penentuan kebutuhan", text: "Kita bahas tujuan, pengguna, dan ruang lingkup. Anda menerima estimasi harga dan timeline tertulis." },
+  { icon: PenTool, title: "Desain", time: "Sesuai lingkup", text: "Wireframe lalu desain final di Figma. Revisi dilakukan di tahap ini, sebelum satu baris kode ditulis." },
+  { icon: Code2, title: "Pengembangan", time: "Sesuai jadwal", text: "Dibangun bertahap dengan URL preview. Anda bisa mencoba progres kapan saja dari ponsel." },
+  { icon: Rocket, title: "Rilis & serah terima", time: "Tahap akhir", text: "Penyiapan rilis dan serah terima sesuai kesepakatan, termasuk dokumentasi dan kebutuhan dukungan." },
 ];
 
 const FAQ = [
-  { q: "Apakah harga sudah termasuk domain dan hosting?", a: "Belum. Domain sekitar Rp150 ribu per tahun. Hosting di Vercel gratis untuk sebagian besar situs portofolio dan company profile. Saya bantu pengaturannya tanpa biaya tambahan." },
-  { q: "Bagaimana sistem pembayarannya?", a: "50 persen di awal setelah brief disepakati, 50 persen saat rilis. Untuk project di atas Rp25 juta bisa dibagi menjadi tiga termin sesuai milestone." },
-  { q: "Kalau saya belum punya desain atau konten?", a: "Tidak masalah. Desain termasuk di semua paket. Untuk konten, saya berikan panduan struktur teks dan foto yang dibutuhkan agar Anda tinggal mengisi." },
-  { q: "Apakah bisa mengubah konten sendiri setelah rilis?", a: "Bisa. Paket Company Website dan Custom Web App sudah termasuk panel admin, lengkap dengan pelatihan singkat cara memakainya." },
-  { q: "Berapa lama dukungan setelah rilis?", a: "Perbaikan bug gratis selama 30 hari. Setelah itu tersedia paket perawatan bulanan atau pengerjaan per permintaan." },
+  { q: "Apakah harga sudah termasuk domain dan hosting?", a: "Biaya domain dan hosting dibahas terpisah berdasarkan kebutuhan teknis serta penyedia yang digunakan." },
+  { q: "Bagaimana sistem pembayarannya?", a: "Nilai pekerjaan dan tahapan pembayaran disepakati sebelum pengerjaan dimulai, berdasarkan ruang lingkup proyek." },
+  { q: "Kalau saya belum punya desain atau konten?", a: "Kebutuhan desain, materi teks, dan gambar dibahas pada tahap awal agar tanggung jawab serta hasil pekerjaan jelas." },
+  { q: "Apakah bisa mengubah konten sendiri setelah rilis?", a: "Panel pengelolaan konten dapat disertakan jika menjadi bagian dari lingkup pekerjaan yang disepakati." },
+  { q: "Berapa lama dukungan setelah rilis?", a: "Masa dukungan, jenis perbaikan, dan pemeliharaan dibahas dalam kesepakatan pekerjaan." },
 ];
 
 export default async function ServicesPage() {
-  const [services, settings] = await Promise.all([getServices(), getSettings()]);
+  const settings = await getSettings();
+  if (!settings.sections.services) notFound();
+  const services = await getServices();
   const { features } = settings;
 
   return (
@@ -85,7 +88,7 @@ export default async function ServicesPage() {
             <SectionHeading
               eyebrow="FAQ"
               title="Pertanyaan yang sering muncul"
-              description="Tidak menemukan jawabannya? Kirim pesan, saya balas dalam 1x24 jam."
+              description="Hubungi saya jika Anda memerlukan informasi lebih lanjut mengenai lingkup pekerjaan."
             />
             <div className="space-y-3">
               {FAQ.map(({ q, a }, i) => (

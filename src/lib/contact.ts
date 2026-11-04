@@ -104,7 +104,7 @@ export async function submitContact(
   return {
     ok: true,
     message:
-      "Terima kasih! Pesan Anda sudah masuk. Saya akan membalas dalam 1x24 jam.",
+      "Pesan Anda telah diterima. Saya akan menindaklanjutinya melalui email yang Anda cantumkan.",
     rateLimit,
   };
 }

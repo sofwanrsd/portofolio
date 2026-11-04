@@ -10,15 +10,16 @@ import { cn } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Project",
-  description: "Kumpulan project yang saya kerjakan, lengkap dengan studi kasus dan hasilnya.",
+  title: "Proyek",
+  description: "Portofolio proyek jaringan komputer, aplikasi web, dan pemrograman.",
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
-  web: "Web App",
+  web: "Aplikasi web",
   ui: "UI/UX",
-  automation: "Automation",
-  mobile: "Mobile",
+  automation: "Otomasi",
+  mobile: "Aplikasi seluler",
+  desktop: "Aplikasi desktop",
   ai: "AI",
   other: "Lainnya",
 };
@@ -59,13 +60,13 @@ export default async function ProjectsPage({ searchParams }: Props) {
   return (
     <>
       <PageHeader
-        eyebrow="Portfolio"
-        title="Karya yang saya"
-        accent="banggakan."
-        description="Setiap project di sini punya cerita: masalah apa yang diselesaikan, keputusan teknis apa yang diambil, dan hasil apa yang didapat."
+        eyebrow="Portofolio"
+        title="Proyek dan"
+        accent="implementasi"
+        description="Proyek jaringan komputer, aplikasi web, dan pemrograman. Setiap proyek memuat ringkasan, teknologi yang digunakan, serta tautan yang tersedia."
         stats={[
-          { label: "Project", value: projects.length },
-          { label: "Klien", value: clients },
+          { label: "Proyek", value: projects.length },
+          ...(clients > 0 ? [{ label: "Klien", value: clients }] : []),
           { label: "Kategori", value: categories.length },
           { label: "Teknologi", value: techCount },
         ]}
@@ -75,8 +76,8 @@ export default async function ProjectsPage({ searchParams }: Props) {
         <Container>
           {projects.length === 0 ? (
             <EmptyState
-              title="Belum ada project"
-              description="Tambahkan project pertama Anda lewat panel admin."
+              title="Proyek belum tersedia"
+              description="Proyek akan ditampilkan setelah dipublikasikan."
             />
           ) : (
             <>
@@ -93,7 +94,7 @@ export default async function ProjectsPage({ searchParams }: Props) {
               </nav>
 
               <p className="sr-only" aria-live="polite">
-                Menampilkan {shown.length} project
+                Menampilkan {shown.length} proyek
               </p>
 
               <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">

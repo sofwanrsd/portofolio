@@ -10,7 +10,7 @@ type Params = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
-  if (!project) return { title: "Project tidak ditemukan" };
+  if (!project) return { title: "Proyek tidak ditemukan" };
 
   return {
     title: project.title,

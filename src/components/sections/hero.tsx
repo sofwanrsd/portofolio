@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, Sparkles } from "lucide-react";
+import { MapPin, FolderCode } from "lucide-react";
 import { Button, Container, SplitWords } from "@/components/ui";
 import { MarqueeToggle } from "@/components/marquee-toggle";
 import type { AppSettings } from "@/lib/types";
@@ -32,7 +32,7 @@ export function Hero({
           {site.showAvailability && site.availability && (
             <div className="rise d1 mb-8 inline-flex items-center gap-2.5 rounded-full border border-[var(--border)] bg-[var(--glass)] py-1.5 pl-2.5 pr-3.5 text-[12.5px] text-[var(--muted)] backdrop-blur-sm">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
               </span>
               {site.availability}
@@ -79,7 +79,7 @@ export function Hero({
               </span>
             )}
             <span className="inline-flex items-center gap-1.5">
-              <Sparkles size={13} /> {projectsCount}+ project selesai
+              <FolderCode size={13} aria-hidden /> {`${projectsCount} proyek`}
             </span>
             {site.email && (
               <Link
@@ -94,8 +94,8 @@ export function Hero({
 
           {/* Panel visual kanan: foto bila ada, jika tidak kartu editorial. */}
           <div className="fade d3 relative hidden lg:block">
-            <div className="float-slow relative">
-              <div className="sheen border-spin is-live relative overflow-hidden rounded-[28px] border border-[var(--border)] bg-[var(--card)] shadow-[0_50px_120px_-60px_color-mix(in_oklab,var(--accent)_70%,transparent)]">
+            <div className="relative">
+              <div className="relative overflow-hidden rounded-[28px] border border-[var(--border)] bg-[var(--card)] shadow-[0_50px_120px_-60px_color-mix(in_oklab,var(--accent)_70%,transparent)]">
                 {site.heroImage ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -136,10 +136,10 @@ export function Hero({
                       <div className="hairline-fade mb-4" />
                       <dl className="grid grid-cols-3 gap-4 text-[12px]">
                         <div>
-                          <dt className="text-[var(--muted)]">Project</dt>
+                          <dt className="text-[var(--muted)]">Proyek</dt>
                           <dd className="mt-1 text-[15px] font-semibold tabular-nums text-[var(--fg)]">
-                            <span data-count={projectsCount} data-suffix="+">
-                              {projectsCount}+
+                            <span data-count={projectsCount}>
+                              {projectsCount}
                             </span>
                           </dd>
                         </div>
@@ -153,7 +153,7 @@ export function Hero({
                           <dt className="text-[var(--muted)]">Status</dt>
                           <dd className="mt-1 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[var(--fg)]">
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                            Open
+                            {site.showAvailability ? "Terbuka" : "Portofolio"}
                           </dd>
                         </div>
                       </dl>
@@ -188,7 +188,7 @@ export function TechMarquee({ items }: { items: string[] }) {
   );
   return (
     <section
-      aria-label="Teknologi yang saya pakai"
+      aria-label="Keterampilan teknis"
       data-marquee=""
       className="relative flex items-center gap-3 border-y border-[var(--border)] bg-[var(--card)]/40 py-5 pr-4"
     >

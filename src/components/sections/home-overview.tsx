@@ -22,14 +22,14 @@ export function HomeOverview({ site, experiences, showAbout, showExperience }: {
         <div className={`grid gap-8 lg:gap-12 ${showAbout && hasHistory ? "lg:grid-cols-[0.9fr_1.1fr]" : ""}`}>
           {showAbout && (
             <div data-reveal="left" className="self-center">
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">Di balik karya</span>
+              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">Profil singkat</span>
               <h2 className="mt-5 max-w-lg text-balance text-[clamp(2rem,4.5vw,3.4rem)] font-semibold leading-[1.08] tracking-[-0.04em]">
-                Terus belajar.<br />Terus <span className="font-display text-[1.1em] text-[var(--accent)]">membangun.</span>
+                Jaringan, aplikasi,<br />dan <span className="font-display text-[1.1em] text-[var(--accent)]">pengalaman.</span>
               </h2>
               <p className="mt-6 text-[17px] font-medium">{site.name}</p>
               <p className="mt-1 text-[13px] text-[var(--accent)]">{site.tagline}</p>
               <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[var(--muted)]">
-                Bagi saya, keterampilan tumbuh lewat praktik, rasa ingin tahu, dan kerja sama. Kenali perjalanan dan cara saya bekerja lebih dekat.
+                Pengalaman teknis di bidang jaringan komputer dan pengembangan aplikasi, didukung pendidikan, kegiatan laboratorium, serta keterlibatan dalam organisasi.
               </p>
               <Button href="/about" variant="outline" className="mt-7">Kenali saya</Button>
             </div>

@@ -20,7 +20,7 @@ function SubmitButton() {
         </>
       ) : (
         <>
-          <Send size={15} /> Kirim Pesan
+          <Send size={15} /> Kirim pesan
         </>
       )}
     </button>
@@ -80,7 +80,7 @@ export function ContactForm({
         <Field
           name="subject"
           label="Subjek"
-          placeholder="Contoh: Company website"
+          placeholder="Contoh: Kolaborasi atau peluang kerja"
           defaultValue={defaultSubject}
           error={result?.errors?.subject}
         />
@@ -89,7 +89,7 @@ export function ContactForm({
             htmlFor="budget"
             className="mb-1.5 block text-[13px] font-medium"
           >
-            Estimasi budget
+            Estimasi anggaran
           </label>
           <select
             id="budget"
@@ -97,7 +97,7 @@ export function ContactForm({
             defaultValue={defaultBudget}
             className="h-10 w-full rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 text-sm outline-none transition-colors focus:border-[var(--accent)]"
           >
-            <option value="">Pilih range (opsional)</option>
+            <option value="">Pilih anggaran (opsional)</option>
             {BUDGET_OPTIONS.map((option) => (
               <option key={option} value={option}>
                 {option}
@@ -118,7 +118,7 @@ export function ContactForm({
           required
           aria-invalid={result?.errors?.message ? true : undefined}
           aria-describedby={result?.errors?.message ? "message-error" : undefined}
-          placeholder="Ceritakan singkat kebutuhan project Anda…"
+          placeholder="Jelaskan kebutuhan atau peluang yang ingin Anda diskusikan."
           className="w-full resize-y rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-2.5 text-sm outline-none transition-colors focus:border-[var(--accent)]"
         />
         {result?.errors?.message && (

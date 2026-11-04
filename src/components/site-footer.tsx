@@ -64,7 +64,7 @@ export function SiteFooter({ settings }: { settings: AppSettings }) {
               <ul className="space-y-2">
                 <li>
                   <Link href="/projects" className="text-[var(--muted)] hover:text-[var(--fg)]">
-                    Project
+                    Proyek
                   </Link>
                 </li>
                 {settings.sections.services && (
@@ -105,8 +105,8 @@ export function SiteFooter({ settings }: { settings: AppSettings }) {
                 Kontak
               </h3>
               <ul className="space-y-2 text-[var(--muted)]">
-                {site.email && <li>{site.email}</li>}
-                {site.phone && <li>{site.phone}</li>}
+                {site.email && <li><a href={`mailto:${site.email}`} className="break-all hover:text-[var(--fg)]">{site.email}</a></li>}
+                {site.phone && <li><a href={`tel:${site.phone.replace(/\s/g, "")}`} className="hover:text-[var(--fg)]">{site.phone}</a></li>}
                 {site.location && <li>{site.location}</li>}
               </ul>
             </div>

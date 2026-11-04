@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CheckCircle2, Clock, Mail, MapPin, Phone } from "lucide-react";
+import { CheckCircle2, Mail, MapPin, Phone } from "lucide-react";
 import { getSettings } from "@/lib/settings";
 import { getServices } from "@/lib/data";
 import { formatPrice } from "@/lib/format";
@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Kontak",
-  description: "Hubungi saya untuk mendiskusikan project Anda.",
+  description: "Hubungi Sofwan Rosidi untuk kebutuhan teknis, kolaborasi, atau peluang profesional.",
 };
 
 type Props = { searchParams: Promise<{ paket?: string; package?: string }> };
@@ -27,23 +27,22 @@ export default async function ContactPage({ searchParams }: Props) {
 
   const channels = [
     site.email && { icon: Mail, label: "Email", value: site.email, href: `mailto:${site.email}` },
-    site.phone && { icon: Phone, label: "Telepon / WhatsApp", value: site.phone, href: `tel:${site.phone.replace(/\s/g, "")}` },
+    site.phone && { icon: Phone, label: "Telepon", value: site.phone, href: `tel:${site.phone.replace(/\s/g, "")}` },
     site.location && { icon: MapPin, label: "Lokasi", value: site.location, href: "" },
-    { icon: Clock, label: "Waktu balas", value: "Maksimal 1x24 jam kerja", href: "" },
   ].filter(Boolean) as { icon: typeof Mail; label: string; value: string; href: string }[];
 
   return (
     <>
       <PageHeader
         eyebrow="Kontak"
-        title={features.hireMeTitle || "Punya ide project?"}
-        accent="Ayo ngobrol."
+        title={features.hireMeTitle || "Mari terhubung"}
+        accent="untuk kolaborasi."
         description={features.hireMeText}
       >
-        {site.availability && (
+        {site.showAvailability && site.availability && (
           <p className="rise d5 mt-8 inline-flex items-center gap-2.5 rounded-full border border-[var(--border)] bg-[var(--glass)] py-1.5 pl-3 pr-4 text-[13px] text-[var(--fg)]">
             <span className="relative flex h-2 w-2" aria-hidden>
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
             </span>
             {site.availability}
@@ -84,7 +83,7 @@ export default async function ContactPage({ searchParams }: Props) {
                 })}
               </ul>
 
-              {services.length > 0 && (
+              {settings.sections.services && features.showPricing && services.length > 0 && (
                 <Card data-reveal="left" style={reveal(channels.length)} className="p-5">
                   <h2 className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--muted)]">
                     Harga mulai dari
@@ -103,12 +102,12 @@ export default async function ContactPage({ searchParams }: Props) {
               )}
             </div>
 
-            <Card id="form" data-reveal="right" className="border-spin scroll-mt-28 p-6 md:p-8">
+            <Card id="form" data-reveal="right" className="scroll-mt-28 p-6 md:p-8">
               <h2 className="text-[clamp(1.4rem,2.4vw,1.8rem)] font-semibold tracking-[-0.03em]">
                 Kirim <span className="font-display text-[var(--accent)]">pesan</span>
               </h2>
               <p className="mt-2 text-[14px] text-[var(--muted)]">
-                Ceritakan sedikit tentang project Anda. Semakin jelas briefnya, semakin akurat estimasinya.
+                Sampaikan kebutuhan, lingkup pekerjaan, atau peluang yang ingin dibahas. Sertakan informasi yang relevan agar saya dapat menindaklanjuti pesan Anda.
               </p>
               {chosen && (
                 <div

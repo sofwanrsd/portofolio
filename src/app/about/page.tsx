@@ -16,29 +16,29 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Tentang",
-  description: "Profil, cara kerja, pengalaman, dan skill saya.",
+  description: "Profil, pengalaman kerja, pendidikan, organisasi, dan sertifikasi Sofwan Rosidi.",
 };
 
 const PRINCIPLES = [
   {
     icon: Compass,
-    title: "Pahami masalahnya dulu",
-    text: "Setiap pekerjaan dimulai dari memahami kebutuhan dan kondisi yang ada, baru kemudian memilih solusi yang paling tepat.",
+    title: "Analisis kebutuhan",
+    text: "Memahami kebutuhan pengguna dan kondisi teknis sebelum menentukan pendekatan pengerjaan.",
   },
   {
     icon: Gauge,
-    title: "Andal dan terukur",
-    text: "Konfigurasi dan aplikasi diuji dulu sebelum dipakai, supaya hasilnya stabil, mudah dipantau, dan mudah diperbaiki.",
+    title: "Pengujian teknis",
+    text: "Menguji konfigurasi dan fungsi aplikasi untuk memastikan hasil sesuai dengan kebutuhan.",
   },
   {
     icon: ShieldCheck,
-    title: "Aman sejak awal",
-    text: "Keamanan dasar seperti firewall, pembatasan akses, dan validasi input diterapkan dari awal, bukan ditambal belakangan.",
+    title: "Keamanan dasar",
+    text: "Memperhatikan pengaturan akses, firewall, dan validasi input sesuai lingkup pekerjaan.",
   },
   {
     icon: MessagesSquare,
     title: "Komunikasi yang jelas",
-    text: "Progres disampaikan rutin dengan bahasa yang mudah dipahami, termasuk saat ada kendala.",
+    text: "Menyampaikan progres, kebutuhan, dan kendala teknis dengan informasi yang jelas.",
   },
 ];
 
@@ -73,8 +73,8 @@ export default async function AboutPage() {
         stats={[
           { label: "Pengalaman kerja", value: workCount },
           { label: "Organisasi", value: orgCount },
-          { label: "Project", value: projects.length },
-          { label: "Teknologi", value: skills.length },
+          { label: "Proyek", value: projects.length },
+          { label: "Keterampilan", value: skills.length },
         ]}
       >
         <dl className="rise d6 mt-8 flex flex-wrap gap-x-8 gap-y-4">
@@ -108,14 +108,14 @@ export default async function AboutPage() {
         <Container>
           <SectionHeading
             eyebrow="Cara kerja"
-            title="Empat hal yang selalu saya pegang"
-            description="Prinsip sederhana yang saya pakai dalam setiap pekerjaan, baik jaringan maupun aplikasi."
+            title="Pendekatan kerja"
+            description="Pendekatan yang saya gunakan dalam praktik jaringan dan pengembangan aplikasi."
           />
           <div className="grid gap-4 sm:grid-cols-2">
             {PRINCIPLES.map(({ icon: Icon, title, text }, i) => (
               <Card key={title} data-reveal="" style={reveal(i)} className="group p-7 hover:-translate-y-1">
                 <div className="flex items-start gap-5">
-                  <span aria-hidden className="ghost-num text-6xl">
+                  <span aria-hidden className="font-mono pt-1 text-[13px] text-[var(--muted)]">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>

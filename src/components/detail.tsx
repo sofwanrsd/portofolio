@@ -22,7 +22,7 @@ export function ProjectDetail({
           href="/projects"
           className="link-grow rise inline-flex items-center gap-1.5 text-[13px] text-[var(--muted)] hover:text-[var(--fg)]"
         >
-          Kembali ke Project
+          Kembali ke proyek
         </Link>
 
         <div className="mt-6 max-w-3xl">
@@ -44,12 +44,12 @@ export function ProjectDetail({
           <div className="rise d5 mt-6 flex flex-wrap items-center gap-3">
             {project.live_url && (
               <Button href={project.live_url} size="sm">
-                <Globe size={14} /> Buka Website
+                <Globe size={14} /> Buka situs
               </Button>
             )}
             {project.repo_url && (
               <Button href={project.repo_url} variant="outline" size="sm">
-                <Github size={14} /> Lihat Kode
+                <Github size={14} /> Lihat kode
               </Button>
             )}
           </div>
@@ -59,7 +59,7 @@ export function ProjectDetail({
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={project.cover_image}
-            alt={`Tampilan ${project.title}`}
+            alt={`Ilustrasi proyek ${project.title}`}
             className="pop d5 mt-12 w-full rounded-[28px] border border-[var(--border)] object-cover shadow-[0_60px_140px_-70px_color-mix(in_oklab,var(--accent)_75%,transparent)]"
           />
         ) : (
@@ -93,7 +93,7 @@ export function ProjectDetail({
           <aside data-reveal="right" className="space-y-6 md:sticky md:top-24 md:self-start">
             <Card className="p-5">
               <h2 className="text-[12px] font-semibold uppercase tracking-wider text-[var(--muted)]">
-                Tech Stack
+                Teknologi
               </h2>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {project.stack.length ? (
@@ -151,13 +151,13 @@ export function ProjectDetail({
           <Container>
             <div className="mb-8 flex items-center justify-between">
               <h2 data-reveal="blur" className="text-[clamp(1.6rem,3vw,2.2rem)] font-semibold tracking-[-0.03em]">
-                Project <span className="font-display text-[var(--accent)]">lainnya</span>
+                Proyek <span className="font-display text-[var(--accent)]">lainnya</span>
               </h2>
               <Link
                 href="/projects"
                 className="inline-flex items-center gap-1.5 text-[13px] text-[var(--muted)] transition-colors hover:text-[var(--fg)]"
               >
-                Semua Project
+                Semua proyek
               </Link>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
