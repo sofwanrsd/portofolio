@@ -2,6 +2,7 @@
 
 import { Star } from "lucide-react";
 import { formatPrice } from "@/lib/format";
+import { KIND_LABEL, formatPeriod } from "@/lib/history";
 import type { FieldSchema, RowData } from "./field-schema";
 import { Pill } from "./admin-ui";
 
@@ -44,6 +45,21 @@ export function renderCell(column: ColumnSchema, row: RowData) {
         {items.length > 3 && <span className="text-[11px] text-[var(--muted)]">+{items.length - 3}</span>}
       </span>
     );
+  }
+
+  if (column.name === "kind") {
+    const kind = (String(value || "work")) as keyof typeof KIND_LABEL;
+    const tone = kind === "education" ? "accent" : kind === "work" ? "success" : undefined;
+    return <Pill tone={tone}>{KIND_LABEL[kind] ?? String(value)}</Pill>;
+  }
+
+  if (column.name === "period") {
+    const text = formatPeriod({
+      period: String(row.period ?? ""),
+      start_date: String(row.start_date ?? ""),
+      end_date: String(row.end_date ?? ""),
+    });
+    return text ? <span className="text-[13px] tabular-nums">{text}</span> : <span className="text-[var(--muted)]">-</span>;
   }
 
   if (value === null || value === undefined || value === "") {

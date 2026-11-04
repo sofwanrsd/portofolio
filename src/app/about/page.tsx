@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 import { Compass, Gauge, MessagesSquare, ShieldCheck } from "lucide-react";
 import { getSettings } from "@/lib/settings";
-import { getExperiences, getProjects, getSkills, getTestimonials } from "@/lib/data";
+import { getExperiences, getProjects, getSkills } from "@/lib/data";
 import { Card, Container, PageHeader, Section, SectionHeading, reveal } from "@/components/ui";
-import { ExperienceSection, SkillsSection } from "@/components/sections/collections";
+import {
+  CertificationSection,
+  EducationSection,
+  ExperienceSection,
+  OrganizationSection,
+  SkillsSection,
+} from "@/components/sections/collections";
 import { CtaSection } from "@/components/sections/content";
 
 export const dynamic = "force-dynamic";
@@ -39,19 +45,16 @@ const PRINCIPLES = [
 export default async function AboutPage() {
   const settings = await getSettings();
   const { site, features } = settings;
-  const [skills, experiences, projects, testimonials] = await Promise.all([
+  const [skills, experiences, projects] = await Promise.all([
     getSkills(),
     getExperiences(),
     getProjects(),
-    getTestimonials(),
   ]);
 
-  const startYears = experiences
-    .map((e) => Number(e.period.match(/\d{4}/)?.[0]))
-    .filter(Number.isFinite);
-  const yearsActive = startYears.length
-    ? new Date().getFullYear() - Math.min(...startYears)
-    : 0;
+  // Angka diambil langsung dari data, bukan perkiraan "tahun pengalaman"
+  // (yang akan ikut menghitung masa sekolah).
+  const workCount = experiences.filter((e) => e.kind === "work").length;
+  const orgCount = experiences.filter((e) => e.kind === "organization").length;
 
   const details = [
     ["Nama", site.name],
@@ -68,10 +71,10 @@ export default async function AboutPage() {
         accent="yang peduli detail."
         description={site.description}
         stats={[
-          { label: "Tahun pengalaman", value: yearsActive, suffix: "+" },
-          { label: "Project selesai", value: projects.length, suffix: "+" },
+          { label: "Pengalaman kerja", value: workCount },
+          { label: "Organisasi", value: orgCount },
+          { label: "Project", value: projects.length },
           { label: "Teknologi", value: skills.length },
-          { label: "Testimoni klien", value: testimonials.length },
         ]}
       >
         <dl className="rise d6 mt-8 flex flex-wrap gap-x-8 gap-y-4">
@@ -114,6 +117,9 @@ export default async function AboutPage() {
 
       <SkillsSection skills={skills} />
       <ExperienceSection experiences={experiences} />
+      <EducationSection experiences={experiences} />
+      <OrganizationSection experiences={experiences} />
+      <CertificationSection experiences={experiences} />
       {features.hireMeEnabled && <CtaSection features={features} />}
     </>
   );

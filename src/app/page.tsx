@@ -10,7 +10,10 @@ import {
 import { Hero, TechMarquee } from "@/components/sections/hero";
 import { AboutSection, ProjectsSection } from "@/components/sections/projects";
 import {
+  CertificationSection,
+  EducationSection,
   ExperienceSection,
+  OrganizationSection,
   PricingSection,
   ServicesSection,
   SkillsSection,
@@ -63,7 +66,12 @@ export default async function HomePage() {
       {sections.skills && <SkillsSection skills={skills} />}
 
       {sections.experience && (
-        <ExperienceSection experiences={experiences} />
+        <>
+          <ExperienceSection experiences={experiences} />
+          <EducationSection experiences={experiences} />
+          <OrganizationSection experiences={experiences} />
+          <CertificationSection experiences={experiences} />
+        </>
       )}
 
       {sections.testimonials && (

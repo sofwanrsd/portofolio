@@ -318,11 +318,13 @@ INSERT INTO services (slug, title, description, price_label, price_value, curren
   ('custom-app', 'Custom Web App', 'Aplikasi kustom: dashboard, auth, pembayaran, atau integrasi API.', 'mulai dari', '25.000.000', 'IDR', '["Analisis kebutuhan","Arsitektur & ERD","Auth & role management","Integrasi API pihak ketiga","Dokumentasi serah terima"]', 'code', false, true, 3)
 ON CONFLICT (slug) DO NOTHING;
 
-INSERT INTO experiences (company, role, period, description, url, sort_order) VALUES
-  ('Freelance', 'Full-Stack Developer', '2023 sampai sekarang', 'Membangun web app, toko online, dan sistem internal untuk startup, klinik, serta UMKM. Menangani proyek dari brief sampai serah terima, termasuk desain antarmuka, database, dan deployment.', '', 1),
-  ('Product Studio', 'Senior Frontend Engineer', '2022 sampai 2023', 'Memimpin pembangunan design system yang dipakai 4 tim produk. Menurunkan waktu pengembangan halaman baru sekitar 40 persen dan memastikan seluruh komponen lolos audit WCAG AA.', '', 2),
-  ('Product Studio', 'Frontend Engineer', '2021 sampai 2022', 'Membangun dashboard analitik dan alat internal. Memindahkan agregasi data ke server sehingga waktu muat turun dari hitungan detik menjadi ratusan milidetik.', '', 3),
-  ('Agen Digital', 'Web Developer', '2019 sampai 2021', 'Mengerjakan lebih dari 30 landing page dan company profile untuk klien ritel dan F&B. Bertanggung jawab atas performa, SEO teknis, dan integrasi analytics.', '', 4)
+INSERT INTO experiences (company, role, kind, start_date, end_date, period, description, highlights, url, sort_order) VALUES
+  ('Freelance', 'Full-Stack Developer', 'work', '2023-01-01', '', '', 'Membangun web app, toko online, dan sistem internal untuk startup, klinik, serta UMKM.', '["Menangani project dari brief sampai serah terima.", "Merancang antarmuka, database, dan deployment.", "Menjaga komunikasi progres mingguan dengan klien."]'::jsonb, '', 1),
+  ('Product Studio', 'Senior Frontend Engineer', 'work', '2022-01-01', '2023-01-01', '', '', '["Memimpin pembangunan design system untuk 4 tim produk.", "Memastikan seluruh komponen lolos audit WCAG AA."]'::jsonb, '', 2),
+  ('Agen Digital', 'Web Developer', 'work', '2019-01-01', '2021-12-01', '', '', '["Mengerjakan lebih dari 30 landing page dan company profile.", "Bertanggung jawab atas performa dan SEO teknis."]'::jsonb, '', 3),
+  ('Universitas Contoh', 'S1 Teknik Informatika', 'education', '2015-08-01', '2019-08-01', '', 'Lulus dengan tugas akhir sistem informasi berbasis web.', '["Menyelesaikan tugas akhir sistem pemesanan berbasis web.", "Asisten laboratorium pemrograman web."]'::jsonb, '', 4),
+  ('Himpunan Mahasiswa Informatika', 'Kepala Divisi Teknologi', 'organization', '2017-03-01', '2018-03-01', '', '', '["Mengelola website dan sistem pendaftaran acara himpunan."]'::jsonb, '', 5),
+  ('Dicoding', 'Belajar Membuat Aplikasi Back-End', 'certification', '2018-06-01', '2018-06-01', '', 'Sertifikat kelulusan kelas online.', '[]'::jsonb, '', 6)
 ON CONFLICT DO NOTHING;
 
 INSERT INTO skills (name, category, level, sort_order) VALUES

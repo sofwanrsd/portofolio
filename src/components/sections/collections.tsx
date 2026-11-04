@@ -1,6 +1,9 @@
 import Link from "next/link";
 import {
+  Award,
   Braces,
+  CheckCircle2,
+  GraduationCap,
   Briefcase,
   Code,
   Database,
@@ -16,6 +19,7 @@ import {
 import { Card, Container, Section, SectionHeading, reveal } from "@/components/ui";
 import { formatPrice } from "@/lib/utils";
 import type { Experience, Service, Skill } from "@/lib/types";
+import { certificateMeta, formatPeriod, isOngoing, splitHistory } from "@/lib/history";
 
 const SKILL_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
   Languages: Braces,
@@ -268,20 +272,56 @@ export function SkillsSection({ skills }: { skills: Skill[] }) {
   );
 }
 
-export function ExperienceSection({
-  experiences,
-}: {
-  experiences: Experience[];
-}) {
-  if (experiences.length === 0) return null;
+function Highlights({ items, small = false }: { items: string[]; small?: boolean }) {
+  if (items.length === 0) return null;
+  return (
+    <ul className={small ? "mt-2.5 space-y-1.5" : "mt-4 space-y-2"}>
+      {items.map((item) => (
+        <li
+          key={item}
+          className={`flex items-start gap-2.5 leading-relaxed text-[var(--muted)] ${small ? "text-[13px]" : "text-[14px]"}`}
+        >
+          <CheckCircle2 size={small ? 14 : 15} aria-hidden className="mt-[3px] shrink-0 text-[var(--accent)]" />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function OngoingBadge({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="rounded-full bg-[color-mix(in_oklab,#10b981_16%,transparent)] px-2 py-0.5 text-[10.5px] font-medium text-[color-mix(in_oklab,#10b981_70%,var(--fg))]">
+      {children}
+    </span>
+  );
+}
+
+function Prose({ text }: { text: string }) {
+  if (!text) return null;
+  return <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-[var(--muted)]">{text}</p>;
+}
+
+function CardIcon({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-[var(--border)] bg-[var(--glass)] text-[var(--accent)] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
+      {children}
+    </span>
+  );
+}
+
+/** Pengalaman kerja: timeline vertikal dengan ringkasan dan poin tanggung jawab. */
+export function ExperienceSection({ experiences }: { experiences: Experience[] }) {
+  const { work } = splitHistory(experiences);
+  if (work.length === 0) return null;
 
   return (
     <Section id="experience" className="border-y border-[var(--border)] bg-[var(--card)]/40">
       <Container>
         <SectionHeading
           eyebrow="Pengalaman"
-          title="Perjalanan saya"
-          description="Pengalaman yang membentuk cara saya mengerjakan project."
+          title="Pengalaman kerja"
+          description="Peran profesional yang pernah saya jalani, dari pekerjaan lepas sampai tim produk. Setiap entri memuat lingkup kerja dan hal yang saya tangani."
         />
         <div className="relative">
           <div aria-hidden className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px bg-[var(--border)]" />
@@ -291,27 +331,179 @@ export function ExperienceSection({
             className="grow-y absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px bg-gradient-to-b from-[var(--accent)] via-[var(--accent-2)] to-transparent"
           />
           <ol className="space-y-10">
-            {experiences.map((exp, i) => (
+            {work.map((exp, i) => (
               <li key={exp.id} data-reveal="right" style={reveal(i)} className="group relative pl-10">
                 <span aria-hidden className="absolute left-0 top-1.5 grid h-[15px] w-[15px] place-items-center rounded-full border-2 border-[var(--accent)] bg-[var(--bg)] transition-transform duration-300 group-hover:scale-125">
                   <span className="h-1 w-1 rounded-full bg-[var(--accent)]" />
                 </span>
-                <p className="text-[11.5px] uppercase tracking-wider text-[var(--muted)]">
-                  {exp.period}
-                </p>
-                <h3 className="mt-1 text-[15px] font-semibold tracking-tight">
-                  {exp.role}
-                  <span className="text-[var(--muted)]"> · {exp.company}</span>
-                </h3>
-                {exp.description && (
-                  <p className="mt-2 max-w-2xl text-[13.5px] leading-relaxed text-[var(--muted)]">
-                    {exp.description}
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-mono text-[11.5px] uppercase tracking-wider text-[var(--muted)]">
+                    {formatPeriod(exp)}
                   </p>
-                )}
+                  {isOngoing(exp) && <OngoingBadge>Saat ini</OngoingBadge>}
+                </div>
+                <h3 className="mt-1.5 text-[16px] font-semibold tracking-tight">{exp.role}</h3>
+                <p className="text-[13.5px] text-[var(--muted)]">{exp.company}</p>
+                <Prose text={exp.description} />
+                <div className="max-w-2xl">
+                  <Highlights items={exp.highlights} />
+                </div>
               </li>
             ))}
           </ol>
         </div>
+      </Container>
+    </Section>
+  );
+}
+
+/** Perjalanan pendidikan: satu kartu per jenjang, tanpa kegiatan yang menempel. */
+export function EducationSection({ experiences }: { experiences: Experience[] }) {
+  const { education } = splitHistory(experiences);
+  if (education.length === 0) return null;
+
+  return (
+    <Section id="education">
+      <Container>
+        <SectionHeading
+          eyebrow="Pendidikan"
+          title="Perjalanan pendidikan"
+          description="Jenjang formal yang saya tempuh, beserta fokus studi dan hal yang saya kerjakan selama menempuhnya."
+        />
+        <ol className="space-y-5">
+          {education.map((edu, i) => (
+            <li key={edu.id}>
+              <Card data-reveal="" style={reveal(i)} className="group overflow-hidden hover:-translate-y-1">
+                <div className="grid gap-6 p-6 md:grid-cols-[13rem_1fr] md:gap-10 md:p-8">
+                  <div>
+                    <CardIcon>
+                      <GraduationCap size={19} aria-hidden />
+                    </CardIcon>
+                    <p className="mt-4 font-mono text-[11.5px] uppercase tracking-wider text-[var(--muted)]">
+                      {formatPeriod(edu)}
+                    </p>
+                    {isOngoing(edu) && (
+                      <span className="mt-2 inline-block">
+                        <OngoingBadge>Sedang ditempuh</OngoingBadge>
+                      </span>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="text-[clamp(1.2rem,2.2vw,1.45rem)] font-semibold tracking-[-0.02em]">
+                      {edu.role}
+                    </h3>
+                    <p className="mt-0.5 text-[14px] text-[var(--muted)]">{edu.company}</p>
+                    <Prose text={edu.description} />
+                    {edu.highlights.length > 0 && (
+                      <>
+                        <p className="mt-5 font-mono text-[10.5px] uppercase tracking-[0.16em] text-[var(--accent)]">
+                          Yang saya lakukan
+                        </p>
+                        <Highlights items={edu.highlights} small />
+                      </>
+                    )}
+                  </div>
+                </div>
+              </Card>
+            </li>
+          ))}
+        </ol>
+      </Container>
+    </Section>
+  );
+}
+
+/** Organisasi & kegiatan: kartu mandiri, tidak lagi menempel pada jenjang studi. */
+export function OrganizationSection({ experiences }: { experiences: Experience[] }) {
+  const { organization } = splitHistory(experiences);
+  if (organization.length === 0) return null;
+
+  return (
+    <Section id="organization" className="border-y border-[var(--border)] bg-[var(--card)]/40">
+      <Container>
+        <SectionHeading
+          eyebrow="Organisasi"
+          title="Organisasi & kegiatan"
+          description="Peran di himpunan, komunitas, dan kepanitiaan, baik di dalam maupun di luar kampus."
+        />
+        <ul className="grid gap-4 md:grid-cols-2">
+          {organization.map((act, i) => (
+            <li key={act.id}>
+              <Card data-reveal="" style={reveal(i)} className="group h-full p-6 hover:-translate-y-1">
+                <div className="flex items-start gap-4">
+                  <CardIcon>
+                    <Users size={17} aria-hidden />
+                  </CardIcon>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-[15.5px] font-semibold leading-snug tracking-tight">{act.role}</h3>
+                    <p className="mt-0.5 text-[13px] text-[var(--muted)]">{act.company}</p>
+                    <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                      <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--muted)]">
+                        {formatPeriod(act)}
+                      </p>
+                      {isOngoing(act) && <OngoingBadge>Aktif</OngoingBadge>}
+                    </div>
+                  </div>
+                </div>
+                <Prose text={act.description} />
+                <Highlights items={act.highlights} small />
+              </Card>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </Section>
+  );
+}
+
+/** Sertifikasi: tahun terbit dan nomor sertifikat bila datanya tersedia. */
+export function CertificationSection({ experiences }: { experiences: Experience[] }) {
+  const { certification } = splitHistory(experiences);
+  if (certification.length === 0) return null;
+
+  return (
+    <Section id="certification">
+      <Container>
+        <SectionHeading
+          eyebrow="Sertifikasi"
+          title="Sertifikasi & pelatihan"
+          description="Sertifikat kompetensi dan kelas yang sudah saya selesaikan, lengkap dengan penerbit dan tahun terbitnya."
+        />
+        <ul className="grid gap-4 md:grid-cols-2">
+          {certification.map((cert, i) => {
+            const meta = certificateMeta(cert);
+            const period = formatPeriod(cert);
+            const headline = meta.year || period;
+            return (
+              <li key={cert.id}>
+                <Card data-reveal="" style={reveal(i)} className="group h-full p-6 hover:-translate-y-1">
+                  <div className="flex items-start gap-4">
+                    <CardIcon>
+                      <Award size={17} aria-hidden />
+                    </CardIcon>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-[15.5px] font-semibold leading-snug tracking-tight">{cert.role}</h3>
+                      <p className="mt-0.5 text-[13px] text-[var(--muted)]">{cert.company}</p>
+                      {(headline || meta.number) && (
+                        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] text-[var(--muted)]">
+                          {headline && <span>{headline}</span>}
+                          {headline && meta.number && (
+                            <span aria-hidden className="h-3 w-px bg-[var(--border)]" />
+                          )}
+                          {meta.number && (
+                            <span className="[overflow-wrap:anywhere]">No. {meta.number}</span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <Prose text={meta.description} />
+                  <Highlights items={cert.highlights} small />
+                </Card>
+              </li>
+            );
+          })}
+        </ul>
       </Container>
     </Section>
   );

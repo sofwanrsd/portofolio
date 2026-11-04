@@ -50,12 +50,21 @@ export interface Service {
   updated_at: string;
 }
 
+export type ExperienceKind = "work" | "education" | "organization" | "certification";
+
 export interface Experience {
   id: string;
+  kind: ExperienceKind;
   company: string;
   role: string;
+  /** YYYY-MM atau YYYY-MM-DD, kosong bila tidak diisi. */
+  start_date: string;
+  /** Kosong = masih berlangsung. */
+  end_date: string;
+  /** Teks periode manual; bila kosong dibentuk dari start_date/end_date. */
   period: string;
   description: string;
+  highlights: string[];
   url: string;
   sort_order: number;
 }

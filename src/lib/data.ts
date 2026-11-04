@@ -96,10 +96,17 @@ export async function getAllServices(): Promise<Service[]> {
 }
 
 export async function getExperiences(): Promise<Experience[]> {
-  const rows = await query<Experience>(
-    "SELECT * FROM experiences ORDER BY sort_order ASC"
+  const rows = await query<Record<string, unknown>>(
+    `SELECT * FROM experiences
+      ORDER BY (start_date = '') ASC, start_date DESC, sort_order ASC`
   );
-  return rows;
+  return rows.map((row) => ({
+    ...(row as unknown as Experience),
+    kind: (row.kind as Experience["kind"]) || "work",
+    start_date: String(row.start_date ?? ""),
+    end_date: String(row.end_date ?? ""),
+    highlights: toStringArray(row.highlights),
+  }));
 }
 
 export async function getSkills(): Promise<Skill[]> {

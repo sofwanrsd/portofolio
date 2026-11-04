@@ -86,10 +86,22 @@ CREATE TABLE IF NOT EXISTS experiences (
   period      TEXT NOT NULL DEFAULT '',
   description TEXT NOT NULL DEFAULT '',
   url         TEXT NOT NULL DEFAULT '',
+  kind        TEXT NOT NULL DEFAULT 'work',
+  start_date  TEXT NOT NULL DEFAULT '',
+  end_date    TEXT NOT NULL DEFAULT '',
+  highlights  JSONB NOT NULL DEFAULT '[]'::jsonb,
   sort_order  INTEGER NOT NULL DEFAULT 0,
   created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Migrasi riwayat: jenis entri (work | education | organization | certification),
+-- tanggal mulai/selesai (YYYY-MM atau YYYY-MM-DD, kosong = masih berlangsung),
+-- dan daftar poin kegiatan. Aman dijalankan berulang.
+ALTER TABLE experiences ADD COLUMN IF NOT EXISTS kind TEXT NOT NULL DEFAULT 'work';
+ALTER TABLE experiences ADD COLUMN IF NOT EXISTS start_date TEXT NOT NULL DEFAULT '';
+ALTER TABLE experiences ADD COLUMN IF NOT EXISTS end_date TEXT NOT NULL DEFAULT '';
+ALTER TABLE experiences ADD COLUMN IF NOT EXISTS highlights JSONB NOT NULL DEFAULT '[]'::jsonb;
 
 -- ---------- Skills ----------
 CREATE TABLE IF NOT EXISTS skills (

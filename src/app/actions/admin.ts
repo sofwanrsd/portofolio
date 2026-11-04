@@ -36,7 +36,7 @@ export type ActionResult = {
  *  Validation & coercion
  * ------------------------------------------------------------------ */
 
-const JSONB_FIELDS = new Set(["gallery", "stack", "tags", "features"]);
+const JSONB_FIELDS = new Set(["gallery", "stack", "tags", "features", "highlights"]);
 
 function coerceValue(field: FieldSchema, raw: string | undefined): unknown {
   const value = (raw ?? "").trim();

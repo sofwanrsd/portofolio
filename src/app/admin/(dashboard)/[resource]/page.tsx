@@ -12,7 +12,7 @@ const DESCRIPTIONS: Record<string, string> = {
   projects: "Karya yang tampil di halaman Project dan beranda.",
   posts: "Artikel blog. Ditulis dengan format Markdown sederhana.",
   services: "Paket harga yang tampil di halaman Layanan.",
-  experience: "Riwayat kerja di halaman Tentang.",
+  experience: "Pengalaman kerja, pendidikan, organisasi, dan sertifikasi. Keempatnya tampil sebagai bagian terpisah di beranda dan halaman Tentang, jadi tiap entri cukup diisi apa adanya.",
   skills: "Teknologi beserta level penguasaannya.",
   testimonials: "Ulasan klien yang bergulir di beranda.",
 };

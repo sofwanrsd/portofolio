@@ -39,7 +39,7 @@ const GROUPS: { label: string; items: NavItem[] }[] = [
   {
     label: "Profil",
     items: [
-      { href: "/admin/experience", label: "Pengalaman", icon: User },
+      { href: "/admin/experience", label: "Riwayat", icon: User },
       { href: "/admin/skills", label: "Skill", icon: Wrench },
     ],
   },
