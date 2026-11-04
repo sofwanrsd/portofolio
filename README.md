@@ -134,6 +134,7 @@ Buka http://localhost:3000 — admin tersedia di http://localhost:3000/admin/log
 | `npm run db:reset` | Hapus tabel, lalu setup ulang (**hapus data**) |
 | `npm test` | Unit test Vitest (60 tes, sekali jalan) |
 | `npm run test:watch` | Unit test mode watch |
+| `NEXT_DIST_DIR=.next-preview npm run build` | Build produksi terpisah, aman dijalankan berdampingan dengan `npm run dev` |
 
 ---
 

@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   // workspace root bila ada lockfile lain di direktori induk (mis. C:\Users\user),
   // yang membuat output standalone/deploy memuat berkas di luar proyek.
   outputFileTracingRoot: path.join(__dirname),
+  // `next dev` dan `next start` berbagi folder .next dan saling menimpa.
+  // Set NEXT_DIST_DIR=.next-preview saat build untuk mencoba versi produksi
+  // tanpa menghentikan dev server.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   // Jangan bocorkan versi framework lewat header X-Powered-By.
   poweredByHeader: false,
   images: {
