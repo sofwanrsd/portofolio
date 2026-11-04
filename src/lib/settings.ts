@@ -6,7 +6,7 @@ export const defaultSettings: AppSettings = {
     name: "Nama Kamu",
     tagline: "Full-Stack Developer & Designer",
     description:
-      "Portfolio pribadi saya — saya bangun produk web yang cepat, rapi, dan layak dipuji.",
+      "Portfolio pribadi saya. Saya bangun produk web yang cepat, rapi, dan layak dipamerkan.",
     logoText: "NK",
     email: "hello@domainmu.com",
     phone: "+62 812-3456-7890",
@@ -52,7 +52,7 @@ export const defaultSettings: AppSettings = {
     whatsapp: "",
   },
   seo: {
-    metaTitle: "Portfolio — Nama Kamu",
+    metaTitle: "Portfolio Nama Kamu",
     metaDescription:
       "Portfolio pribadi developer: project, blog, dan layanan freelance.",
     ogImage: "",
@@ -62,7 +62,7 @@ export const defaultSettings: AppSettings = {
     hireMeEnabled: true,
     hireMeTitle: "Punya ide project?",
     hireMeText:
-      "Ceritakan kebutuhan Anda — saya balas dalam 1x24 jam dengan estimasi harga dan timeline.",
+      "Ceritakan kebutuhan Anda. Saya balas dalam 1x24 jam dengan estimasi harga dan timeline.",
     hireMeButtonText: "Mulai Diskusi",
     hireMeButtonLink: "/contact",
     showPricing: true,
@@ -70,7 +70,7 @@ export const defaultSettings: AppSettings = {
     pricingSubtitle: "Harga transparan, tanpa biaya tersembunyi.",
     ctaTitle: "Mari kerjakan project Anda",
     ctaText:
-      "Punya sesuatu yang ingin dibahas? Langsung saja — konsultasi gratis untuk project pertama.",
+      "Punya sesuatu yang ingin dibahas? Langsung saja, konsultasi gratis untuk project pertama.",
     ctaButtonText: "Kontak Sekarang",
   },
   footer: {

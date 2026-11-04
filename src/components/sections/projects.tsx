@@ -15,7 +15,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
         <SectionHeading
           eyebrow="Selected Work"
           title="Project pilihan saya"
-          description="Beberapa karya terbaru — dari landing page sampai aplikasi internal yang dipakai harian."
+          description="Beberapa karya terbaru, dari landing page sampai aplikasi internal yang dipakai harian."
           action={
             <Button href="/projects" variant="outline" size="sm">
               Lihat semua <ArrowRight size={14} />
@@ -73,7 +73,7 @@ export function AboutSection({
               <p className="text-[13.5px] leading-relaxed text-[var(--muted)]">
                 Saya percaya website yang bagus itu cepat, enak dibaca, dan jelas
                 tujuannya. Karena itu setiap project saya mulai dari pertanyaan
-                &ldquo;ini solusinya apa&rdquo; — baru soal visual.
+                &ldquo;ini solusinya apa&rdquo;. Baru soal visual.
               </p>
               <div className="mt-4 flex items-center gap-3">
                 <span className="accent-gradient grid h-9 w-9 place-items-center rounded-lg text-[13px] font-bold text-white">

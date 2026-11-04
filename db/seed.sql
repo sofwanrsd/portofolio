@@ -1,12 +1,12 @@
 -- Seed data (dijalankan otomatis oleh `npm run db:setup` jika tabel kosong)
 
 INSERT INTO settings (key, value) VALUES
-  ('site', '{"name":"Nama Kamu","tagline":"Full-Stack Developer & Designer","description":"Portfolio pribadi saya — saya bangun produk web yang cepat, rapi, dan layak dipamerkan.","logoText":"NK","email":"hello@domainmu.com","phone":"+62 812-3456-7890","location":"Jakarta, Indonesia","availability":"Tersedia untuk project baru","showAvailability":true,"heroTitle":"Saya bikin website yang enak dipakai dan enak dilihat.","heroSubtitle":"Full-stack developer dengan fokus pada performa, aksesibilitas, dan desain yang bersih.","heroCtaText":"Lihat Project","heroCtaLink":"/projects","heroSecondaryText":"Hubungi Saya","heroSecondaryLink":"/contact"}'),
+  ('site', '{"name":"Nama Kamu","tagline":"Full-Stack Developer & Designer","description":"Portfolio pribadi saya. Saya bangun produk web yang cepat, rapi, dan layak dipamerkan.","logoText":"NK","email":"hello@domainmu.com","phone":"+62 812-3456-7890","location":"Jakarta, Indonesia","availability":"Tersedia untuk project baru","showAvailability":true,"heroTitle":"Saya bikin website yang enak dipakai dan enak dilihat.","heroSubtitle":"Full-stack developer dengan fokus pada performa, aksesibilitas, dan desain yang bersih.","heroCtaText":"Lihat Project","heroCtaLink":"/projects","heroSecondaryText":"Hubungi Saya","heroSecondaryLink":"/contact"}'),
   ('theme', '{"accent":"#6366f1","accentSecondary":"#22d3ee","mode":"dark","font":"Geist","radius":"soft","showGrid":true}'),
   ('sections', '{"hero":true,"services":true,"projects":true,"about":true,"skills":true,"experience":true,"testimonials":true,"pricing":true,"blog":true,"cta":true,"contact":true}'),
   ('socials', '{"github":"https://github.com/namakamu","linkedin":"https://linkedin.com/in/namakamu","twitter":"https://x.com/namakamu","instagram":"https://instagram.com/namakamu","youtube":"https://youtube.com/@namakamu","whatsapp":"https://wa.me/6281234567890"}'),
-  ('seo', '{"metaTitle":"Portfolio — Nama Kamu","metaDescription":"Portfolio pribadi developer: project, blog, dan layanan freelance.","ogImage":"/opengraph-image","keywords":"portfolio, web developer, freelance"}'),
-  ('features', '{"hireMeEnabled":true,"hireMeTitle":"Punya ide project?","hireMeText":"Ceritakan kebutuhan Anda — saya balas dalam 1x24 jam dengan estimasi harga dan timeline.","hireMeButtonText":"Mulai Diskusi","hireMeButtonLink":"/contact","showPricing":true,"pricingTitle":"Paket Layanan","pricingSubtitle":"Harga transparan, tanpa biaya tersembunyi.","ctaTitle":"Mari kerjakan project Anda","ctaText":"Punya sesuatu yang ingin dibahas? Langsung saja — konsultasi gratis untuk project pertama.","ctaButtonText":"Kontak Sekarang"}'),
+  ('seo', '{"metaTitle":"Portfolio Nama Kamu","metaDescription":"Portfolio pribadi developer: project, blog, dan layanan freelance.","ogImage":"/opengraph-image","keywords":"portfolio, web developer, freelance"}'),
+  ('features', '{"hireMeEnabled":true,"hireMeTitle":"Punya ide project?","hireMeText":"Ceritakan kebutuhan Anda. Saya balas dalam 1x24 jam dengan estimasi harga dan timeline.","hireMeButtonText":"Mulai Diskusi","hireMeButtonLink":"/contact","showPricing":true,"pricingTitle":"Paket Layanan","pricingSubtitle":"Harga transparan, tanpa biaya tersembunyi.","ctaTitle":"Mari kerjakan project Anda","ctaText":"Punya sesuatu yang ingin dibahas? Langsung saja, konsultasi gratis untuk project pertama.","ctaButtonText":"Kontak Sekarang"}'),
   ('footer', '{"tagline":"","showCopyright":true,"copyrightText":"© 2026 Nama Kamu. All rights reserved."}')
 ON CONFLICT (key) DO NOTHING;
 
@@ -29,22 +29,32 @@ INSERT INTO services (slug, title, description, price_label, price_value, curren
 ON CONFLICT (slug) DO NOTHING;
 
 INSERT INTO experiences (company, role, period, description, url, sort_order) VALUES
-  ('Freelance', 'Full-Stack Developer', '2023 — sekarang', 'Membangun web app & situs untuk startup dan UMKM. Fokus Next.js, PostgreSQL, dan UI system.', '', 1),
-  ('Product Studio', 'Frontend Engineer', '2021 — 2023', 'Membangun dashboard analytics dan design system untuk 4 tim produk.', '', 2),
-  ('Agen Digital', 'Web Developer', '2019 — 2021', 'Landing page dan website company profile untuk klien ritel.', '', 3)
+  ('Freelance', 'Full-Stack Developer', '2023 sampai sekarang', 'Membangun web app & situs untuk startup dan UMKM. Fokus Next.js, PostgreSQL, dan UI system.', '', 1),
+  ('Product Studio', 'Frontend Engineer', '2021 sampai 2023', 'Membangun dashboard analytics dan design system untuk 4 tim produk.', '', 2),
+  ('Agen Digital', 'Web Developer', '2019 sampai 2021', 'Landing page dan website company profile untuk klien ritel.', '', 3)
 ON CONFLICT DO NOTHING;
 
 INSERT INTO skills (name, category, level, sort_order) VALUES
-  ('TypeScript','Languages',95,1),
-  ('JavaScript','Languages',95,2),
-  ('SQL','Languages',88,3),
-  ('Next.js','Frameworks',95,4),
-  ('React','Frameworks',93,5),
-  ('Node.js','Frameworks',90,6),
-  ('PostgreSQL','Database',88,7),
-  ('Tailwind CSS','Styling',92,8),
-  ('Figma','Design',85,9),
-  ('Git','Tools',90,10)
+  ('TypeScript','Languages',96,1),
+  ('JavaScript','Languages',94,2),
+  ('SQL','Languages',90,3),
+  ('Python','Languages',78,4),
+  ('Next.js','Frameworks',96,5),
+  ('React','Frameworks',95,6),
+  ('Node.js','Frameworks',92,7),
+  ('Bun','Frameworks',80,8),
+  ('PostgreSQL','Database',92,9),
+  ('Neon','Database',88,10),
+  ('Redis','Database',78,11),
+  ('Tailwind CSS','Styling',94,12),
+  ('Radix UI','Styling',84,13),
+  ('Framer Motion','Styling',82,14),
+  ('Git','Tools',92,15),
+  ('Docker','Tools',84,16),
+  ('Vercel','Tools',90,17),
+  ('Turborepo','Tools',76,18),
+  ('AI SDK','AI',80,19),
+  ('OpenAI API','AI',78,20)
 ON CONFLICT DO NOTHING;
 
 INSERT INTO testimonials (name, role, company, content, rating, published, sort_order) VALUES

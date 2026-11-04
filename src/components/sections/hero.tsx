@@ -94,7 +94,7 @@ export function Hero({
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={site.heroImage}
-                  alt={`${site.name} — ${site.tagline}`}
+                  alt={`${site.name}, ${site.tagline}`}
                   className="aspect-[4/3] h-full w-full object-cover"
                 />
               ) : (

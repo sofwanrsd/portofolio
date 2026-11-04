@@ -1,8 +1,29 @@
 import Link from "next/link";
-import { ArrowRight, Briefcase, Code, Globe, Rocket } from "lucide-react";
-import { Badge, Card, Container, Section, SectionHeading } from "@/components/ui";
+import {
+  ArrowRight,
+  Braces,
+  Briefcase,
+  Code,
+  Database,
+  Globe,
+  Layers,
+  Palette,
+  Rocket,
+  Sparkles,
+  Wrench,
+} from "lucide-react";
+import { Card, Container, Section, SectionHeading } from "@/components/ui";
 import { formatPrice } from "@/lib/utils";
 import type { Experience, Service, Skill } from "@/lib/types";
+
+const SKILL_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
+  Languages: Braces,
+  Frameworks: Layers,
+  Database: Database,
+  Styling: Palette,
+  Tools: Wrench,
+  AI: Sparkles,
+};
 
 const SERVICE_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
   rocket: Rocket,
@@ -168,23 +189,50 @@ export function SkillsSection({ skills }: { skills: Skill[] }) {
         <SectionHeading
           eyebrow="Skills"
           title="Teknologi yang saya pakai"
-          description="Stack yang saya kuasai dan pakai sehari-hari untuk membangun produk yang production-ready."
+          description="Stack modern yang saya pakai sehari-hari untuk membangun produk yang cepat, aman, dan siap produksi."
         />
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {Object.entries(grouped).map(([category, items]) => (
-            <div key={category}>
-              <h3 className="mb-3 text-[12px] font-semibold uppercase tracking-wider text-[var(--muted)]">
-                {category}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {items.map((skill) => (
-                  <Badge key={skill.id} variant="outline" className="text-[12.5px]">
-                    {skill.name}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          ))}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {Object.entries(grouped).map(([category, items]) => {
+            const Icon = SKILL_ICONS[category] ?? Code;
+            return (
+              <Card
+                key={category}
+                className="overflow-hidden transition-colors hover:border-[var(--accent)]/50"
+              >
+                <div className="flex items-center gap-2.5 border-b border-[var(--border)] px-5 py-3.5">
+                  <span className="grid h-8 w-8 place-items-center rounded-lg border border-[var(--border)] bg-[var(--border)]/30">
+                    <Icon size={15} />
+                  </span>
+                  <h3 className="text-[13px] font-semibold tracking-tight">
+                    {category}
+                  </h3>
+                  <span className="ml-auto text-[11px] uppercase tracking-wider text-[var(--muted)]">
+                    {items.length}
+                  </span>
+                </div>
+                <ul className="space-y-3 p-5">
+                  {items.map((skill) => (
+                    <li key={skill.id}>
+                      <div className="flex items-baseline justify-between gap-3">
+                        <span className="text-[13px] font-medium">{skill.name}</span>
+                        <span className="text-[11px] tabular-nums text-[var(--muted)]">
+                          {skill.level}%
+                        </span>
+                      </div>
+                      <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-[var(--border)]">
+                        <div
+                          className="accent-gradient h-full rounded-full"
+                          style={{
+                            width: `${Math.min(100, Math.max(4, skill.level))}%`,
+                          }}
+                        />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            );
+          })}
         </div>
       </Container>
     </Section>
