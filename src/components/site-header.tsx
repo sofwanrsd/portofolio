@@ -14,7 +14,6 @@ const NAV = [
   { href: "/services", label: "Layanan" },
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "Tentang" },
-  { href: "/contact", label: "Kontak" },
 ];
 
 export function SiteHeader({ settings }: { settings: AppSettings }) {
@@ -78,7 +77,11 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
           <ThemeToggle />
           <Link
             href="/contact"
-            className="accent-gradient ml-2 rounded-full px-4 py-2 text-[13.5px] font-semibold text-[var(--on-accent)] transition-transform hover:-translate-y-0.5"
+            aria-current={pathname.startsWith("/contact") ? "page" : undefined}
+            className={cn(
+              "accent-gradient ml-2 rounded-full px-4 py-2 text-[13.5px] font-semibold text-[var(--on-accent)] transition-transform hover:-translate-y-0.5",
+              pathname.startsWith("/contact") && "ring-2 ring-[var(--accent)]/40 ring-offset-2 ring-offset-[var(--bg)]"
+            )}
           >
             Hire Me
           </Link>
@@ -112,6 +115,7 @@ export function SiteHeader({ settings }: { settings: AppSettings }) {
             ))}
             <Link
               href="/contact"
+              aria-current={pathname.startsWith("/contact") ? "page" : undefined}
               className="accent-gradient mt-1 rounded-2xl px-3 py-2.5 text-center text-sm font-semibold text-[var(--on-accent)]"
             >
               Hire Me
