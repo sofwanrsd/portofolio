@@ -102,11 +102,11 @@ type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
 
 const BUTTON_STYLES: Record<ButtonVariant, string> = {
   primary:
-    "accent-gradient text-[var(--on-accent)] font-semibold shadow-[0_10px_30px_-12px_color-mix(in_oklab,var(--accent)_90%,transparent)] hover:brightness-110",
+    "accent-gradient text-[var(--on-accent)] font-semibold [filter:drop-shadow(0_10px_22px_color-mix(in_oklab,var(--accent)_32%,transparent))] hover:-translate-y-px hover:[filter:drop-shadow(0_14px_28px_color-mix(in_oklab,var(--accent)_45%,transparent))]",
   secondary:
-    "bg-[var(--fg)] text-[var(--bg)] hover:opacity-90 shadow-sm",
+    "bg-[var(--fg)] text-[var(--bg)] hover:opacity-90",
   outline:
-    "border border-[var(--border)] bg-[var(--glass)] text-[var(--fg)] backdrop-blur-sm hover:border-[var(--accent)]/60 hover:bg-[var(--border)]/40",
+    "border border-[var(--border)] bg-[var(--glass)] text-[var(--fg)] backdrop-blur-sm hover:border-[color-mix(in_oklab,var(--accent)_45%,var(--border))] hover:text-[var(--fg)]",
   ghost: "text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--border)]/40",
 };
 
