@@ -73,7 +73,7 @@ export function AboutSection({
               <p className="text-[13.5px] leading-relaxed text-[var(--muted)]">
                 Saya percaya website yang bagus itu cepat, enak dibaca, dan jelas
                 tujuannya. Karena itu setiap project saya mulai dari pertanyaan
-                &ldquo;ini sollennya apa yang terjadi&rdquo; — baru soal visual.
+                &ldquo;ini solusinya apa&rdquo; — baru soal visual.
               </p>
               <div className="mt-4 flex items-center gap-3">
                 <span className="accent-gradient grid h-9 w-9 place-items-center rounded-lg text-[13px] font-bold text-white">
